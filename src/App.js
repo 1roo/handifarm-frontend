@@ -1,9 +1,25 @@
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Header from './components/layout/Header';
+import Footer from './components/layout/Footer';
+import Home from './components/Home';
+import Login from './components/user/Login';
+import Join from './components/user/Join';
+
 
 function App() {
   return (
-    <h1>핸디팜 메인</h1>
+    <Router>
+      <Header />
+
+        <Routes>
+          <Route exact path="/" component={Home} />
+          <Route path="/login" component={Login} />
+          <Route path="/join" component={Join} />
+        </Routes>
+
+      <Footer />  
+    </Router>
   );
 }
 
