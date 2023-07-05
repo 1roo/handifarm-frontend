@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import Home from './components/Home';
@@ -13,9 +13,9 @@ function App() {
       <Header />
 
         <Routes>
-          <Route exact path="/" component={Home} />
-          <Route path="/login" component={Login} />
-          <Route path="/join" component={Join} />
+          <Route exact path="/" element={ <Home /> } />
+          <Route path="/login" element={ <Login /> } />
+          <Route path="/join" element={ <Join /> } />
         </Routes>
 
       <Footer />  
