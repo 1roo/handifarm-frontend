@@ -1,0 +1,170 @@
+
+$main-green: #53A069;
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+};
+@mixin title-font { /* 타이틀 문구 미리 지정 */
+    font-size: 22px;
+    font-weight: 700;
+}
+
+
+//기본 설정 (index.css로 옮기면 좋음.)
+*{
+    padding: 0;
+    margin: 0;
+}
+a{
+    all: unset;
+    cursor: pointer;
+}
+h1, h2, h3, h4, h5, h6{
+    all: unset;
+}
+//기본 설정 END
+
+
+.container.home{
+    display: block;
+    min-width: 1280px;
+}
+
+
+
+// 제주 날씨 채우기
+section.wether-box{
+    margin-top: -50px; //임시 설정. 나중에 수정하기!
+
+    width: 1280px;
+    display: flex;
+    background-color: rgb(241, 241, 241);
+    justify-content: space-evenly;
+    padding: 17px 0;
+
+    .title{
+        flex-grow: 2;
+        @include flex-center;
+        @include title-font()
+    }
+
+    .wether{
+        flex-grow: 3;
+        border-left: 1px solid darkgray;
+        @include flex-center;
+
+        .day{
+            h3{
+                font-size: 22px;
+                font-weight: 600;
+                display: inline;
+            }
+            span{
+                margin-left: 8px;
+                color: gray;
+            }
+        } 
+
+        .icon{
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            i{
+                scale: 1.4; 
+                margin: 0 18px 0 10px;
+            }
+        }
+
+        .temp{
+            margin-left: 15px;
+            border-radius: 10px;
+            border: 1px solid darkgray;
+            padding: 8px 13px;
+            font-size: 18px;
+
+            span:first-child{ color: blue; }
+            span:last-child{ color: red; }
+            hr{ margin: 4px 0; }
+        }
+
+    }
+} // wether-box END
+
+
+section.button-box{
+
+    margin-top: 50px;
+
+    @include flex-center();
+    text-align: center;
+    font-size: 21px;
+    color: white;
+    font-weight: 700;
+
+    div{
+        background-color: $main-green;
+        width: 120px; 
+        height: fit-content;
+        border-radius: 8px;
+        
+        padding: 10px 5px;
+        margin: 0 12px;
+        
+        cursor: pointer;
+    }
+}
+
+
+section.small-board{
+
+    margin-top: 30px;
+
+    h2{ margin-left: 60px; @include title-font() }
+}
+
+
+section.small-snsBoard{
+
+    margin: 30px auto 0;
+
+
+    h2{ margin-left: 60px; @include title-font() }
+    .img-list{
+        
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        article{
+            margin: 0 20px;
+            flex-flow: 5;
+            width: 240px; height: 240px;
+            background-color: orange;
+            &:first-of-type{ width: 220px; height: 220px; }
+            &:last-of-type{ width: 220px; height: 220px; }
+        }
+        .arrow{
+            margin: 0 20px;
+            flex-flow: 1;
+            scale: 2.5;
+            cursor: pointer;
+            color: orange;
+            &:first-child{ rotate: -90deg; }
+            &:last-child{ rotate: 90deg; }
+
+        }
+    }    
+}
+
+
+section.small-market{
+
+    margin-top: 30px;
+
+    h2{ margin-left: 60px; @include title-font() }
+
+
+}
