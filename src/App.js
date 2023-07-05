@@ -13,10 +13,11 @@ function App() {
       <Header />
 
         <Routes>
-          <Route exact path="/" component={Home} />
-          <Route path="/login" component={Login} />
-          <Route path="/join" component={Join} />
+          <Route exact path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/join" element={<Join />} />
         </Routes>
+        
 
       <Footer />  
     </Router>
