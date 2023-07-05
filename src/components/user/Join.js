@@ -3,16 +3,51 @@ import React, {useState, useEffect} from 'react';
 
 import './Join.scss';
 import KakaoAddress from '../util/KakaoAddress';
-import DaumPostcode from 'react-daum-postcode';
 
 const Join = () => {
-    const [userId, setUserId] = useState('');
-    const [userPw, setUserPw] = useState('');
-    const [userName, setUserName] = useState('');
-    const [userNick, setUserNick] = useState('');
-    const [userEmail, setUserEmail] = useState('');
-    const [userPhone, setUserPhone] = useState('');
+  
+    //회원가입 입력값 관리용 상태변수
+    const [userValue, setUserValue] = useState({
+        userId: '',
+        userPw: '',
+        userName: '',
+        userNick: '',
+        userEmail: '',
+        userPhone: '',
+        userAddr: '',
+        userDetailAddr: '',
+        userZip: ''
+    });
 
+    //검증메세지 상태변수
+    const [msg, setMsg] = useState({
+        userId: '',
+        userPw: '',
+        pwCheck: '',
+        userName: '',
+        userNick: '',
+        userEmail: '',
+        userPhone: '',
+        userAddr: '',
+        userDetailAddr: '',
+        userZip: ''
+    });
+
+    //검증완료 상태변수
+    const [correct, setCorrect] = useState({
+        userId: false,
+        userPw: false,
+        pwCheck: false,
+        userName: false,
+        userNick: false,
+        userEmail: false,
+        userPhone: false,
+        userAddr: false,
+        userDetailAddr: false,
+        userZip: false
+    });
+
+    //주소검색 입력 변수
     const [enroll_company, setEnroll_company] = useState({
         address:'',
     });
@@ -30,6 +65,7 @@ const Join = () => {
         setPopup(!popup);
     }
 
+    
    
     return (
     
