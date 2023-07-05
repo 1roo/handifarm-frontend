@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../image/logo.png';
 import logoSmall from '../../image/logo-small.png';
-import './header.css';
+import './Header.css';
 
 const Header = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);

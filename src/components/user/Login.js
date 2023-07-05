@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import './login.css';
+import './Login.css';
 import kakaoImg from '../../image/kakao.png';
 import naverImg from '../../image/naver.png';
 
 const Login = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [userId, setUserId] = useState('');
+  const [userPw, setUserPw] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [selectedSns, setSelectedSns] = useState('');
 
@@ -31,8 +31,8 @@ const Login = () => {
           <form>
             <div className='login-box'>
               <div className='login-input'>
-                <input type="text" id="username" value={username} placeholder='ID를 입력하세요' />
-                <input type="password" id="password" value={password} placeholder='비밀번호를 입력하세요'/>
+                <input type="text" id="userId" value={userId} placeholder='ID를 입력하세요' />
+                <input type="password" id="userPw" value={userPw} placeholder='비밀번호를 입력하세요'/>
               </div>
               <button className="login-btn" type="submit">로그인</button>
             </div>
@@ -64,8 +64,8 @@ const Login = () => {
         <div className="modal-container">
           <div className="modal">
             <h3>카카오로그인</h3>
-            <p>아이디: {username}</p>
-            <p>비밀번호: {password}</p>
+            <p>아이디: {userId}</p>
+            <p>비밀번호: {userPw}</p>
             <button onClick={closeModal}>닫기</button>
           </div>
         </div>
@@ -75,8 +75,8 @@ const Login = () => {
         <div className="modal-container">
           <div className="modal">
             <h3>네이버로그인</h3>
-            <p>아이디: {username}</p>
-            <p>비밀번호: {password}</p>
+            <p>아이디: {userId}</p>
+            <p>비밀번호: {userPw}</p>
             <button onClick={closeModal}>닫기</button>
           </div>
         </div>
