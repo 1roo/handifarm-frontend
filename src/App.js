@@ -9,18 +9,18 @@ import Join from './components/user/Join';
 
 function App() {
   return (
-    <Router>
-      <Header />
+      <Router>
+        <Header />
 
-        <Routes>
-          <Route exact path="/" element={ <Home /> } />
-          <Route path="/login" element={ <Login /> } />
-          <Route path="/join" element={ <Join /> } />
-        </Routes>
-        
+          <Routes>
+            <Route exact path="/" element={ <Home /> } />
+            <Route path="/login" element={ <Login /> } />
+            <Route path="/join" element={ <Join /> } />
+          </Routes>
+          
 
-      <Footer />  
-    </Router>
+        <Footer />  
+      </Router>
   );
 }
 
