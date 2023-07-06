@@ -10,11 +10,11 @@ const Home = () => {
   return (
     <>
       <div className='container home'>
-          <section className='wether-box'>
+          <section className='weather-box'>
 
               <div className='title'><h2>제주<br/>날씨</h2></div>
 
-              <div className='wether D0'>
+              <div className='weather D0'>
                 <div>
                   <div className='day'><h3>오늘</h3><span>7/5</span></div>
                   <div className='icon'>
@@ -25,9 +25,9 @@ const Home = () => {
                 <div className='temp'>
                   <span>25℃</span> <hr/> <span>28℃</span>
                 </div>
-              </div> {/* wether D-0 END */}
+              </div> {/* weather D-0 END */}
               
-              <div className='wether D1'>
+              <div className='weather D1'>
                 <div>
                   <div className='day'><h3>내일</h3><span>7/6</span></div>
                   <div className='icon'>
@@ -38,9 +38,9 @@ const Home = () => {
                 <div className='temp'>
                   <span>25℃</span> <hr/> <span>28℃</span>
                 </div>
-              </div> {/* wether D+1 END */}
+              </div> {/* weather D+1 END */}
 
-              <div className='wether D2'>
+              <div className='weather D2'>
                 <div>
                   <div className='day'><h3>모레</h3><span>7/7</span></div>
                   <div className='icon'>
@@ -51,7 +51,7 @@ const Home = () => {
                 <div className='temp'>
                   <span>25℃</span> <hr/> <span>28℃</span>
                 </div>
-              </div> {/* wether D+2 END */}
+              </div> {/* weather D+2 END */}
 
           </section>
 
