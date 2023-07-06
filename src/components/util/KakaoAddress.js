@@ -23,6 +23,9 @@ const KakaoAddress = (props) => {
             ...props.company,
             address:fullAddress,
         })
+
+        props.setPopup(false);
+
     }
 
     return (
