@@ -1,3 +1,4 @@
+// @import '~bootstrap/scss/bootstrap';
 
 $main-green: #53A069;
 @mixin flex-center {
@@ -11,24 +12,12 @@ $main-green: #53A069;
 }
 
 
-//기본 설정 (index.css로 옮기면 좋음.)
-*{
-    padding: 0;
-    margin: 0;
+.container.home{
+    display: block;
 }
 a{
     all: unset;
     cursor: pointer;
-}
-h1, h2, h3, h4, h5, h6{
-    all: unset;
-}
-//기본 설정 END
-
-
-.container.home{
-    display: block;
-    min-width: 1280px;
 }
 
 
@@ -99,29 +88,30 @@ section.button-box{
 
     @include flex-center();
     text-align: center;
-    font-size: 21px;
     color: white;
     font-weight: 700;
 
-    div{
+    *{
+        font-size: 20px;
         background-color: $main-green;
-        width: 120px; 
+        width: 125px; 
         height: fit-content;
         border-radius: 8px;
         
-        padding: 10px 5px;
-        margin: 0 12px;
-        
-        cursor: pointer;
+        padding: 11px 4px 10px;
+        margin: 0 14px;
     }
 }
 
 
 section.small-board{
 
-    margin-top: 30px;
-
+    margin-top: 100px;
     h2{ margin-left: 60px; @include title-font() }
+    *{
+        color: #53A069;
+    }
+
 }
 
 
@@ -141,10 +131,10 @@ section.small-snsBoard{
         article{
             margin: 0 20px;
             flex-flow: 5;
-            width: 240px; height: 240px;
+            width: 220px; height: 220px;
             background-color: orange;
-            &:first-of-type{ width: 220px; height: 220px; }
-            &:last-of-type{ width: 220px; height: 220px; }
+            // &:first-of-type{ width: 220px; height: 220px; }
+            // &:last-of-type{ width: 220px; height: 220px; }
         }
         .arrow{
             margin: 0 20px;
