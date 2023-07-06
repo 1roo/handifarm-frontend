@@ -25,6 +25,7 @@ const KakaoAddress = (props) => {
         })
 
         props.setPopup(false);
+        props.setAddrDetail('');
 
     }
 
