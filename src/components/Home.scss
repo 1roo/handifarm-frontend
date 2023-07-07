@@ -82,6 +82,7 @@ section.weather-box{
 } // weather-box END
 
 
+
 section.button-box{
 
     margin-top: 50px;
@@ -89,10 +90,11 @@ section.button-box{
     @include flex-center();
     text-align: center;
     color: white;
-    font-weight: 700;
-
+    
     *{
         font-size: 20px;
+        font-weight: 600;
+        letter-spacing: 0.07em;
         background-color: $main-green;
         width: 125px; 
         height: fit-content;
@@ -107,17 +109,40 @@ section.button-box{
 section.small-board{
 
     margin-top: 100px;
-    h2{ margin-left: 60px; @include title-font() }
-    *{
-        color: #53A069;
+    
+    .mini-table{
+        width: 950px;
+        margin: 0 auto;
     }
 
+    //게시판 타이틀
+    h2{ margin-left: 60px; @include title-font() } 
+
+    tr{ line-height: 20px; } //게시판 높이 조정
+    th{ 
+        border-bottom: 1px solid rgb(61, 61, 61);
+        font-size: 1.2em;
+        font-weight: 700;         
+        text-align: center;
+    }
+    td {
+        border-bottom: 0.5px solid $main-green;
+        &:nth-child(n+3), &:nth-child(1){ text-align: center; }
+    }
+
+    .notice{ //공지의 경우
+        td{ background-color: rgb(238, 238, 238); }
+        td:nth-child(-n+2){
+            color: red;
+            font-weight: 700;
+        }
+    } 
 }
 
 
 section.small-snsBoard{
 
-    margin: 30px auto 0;
+    margin: 100px auto 0;
 
 
     h2{ margin-left: 60px; @include title-font() }
@@ -129,22 +154,21 @@ section.small-snsBoard{
         justify-content: center;
 
         article{
-            margin: 0 20px;
+            margin: 0 30px;
             flex-flow: 5;
-            width: 220px; height: 220px;
+            width: 240px; height: 240px;
             background-color: orange;
             // &:first-of-type{ width: 220px; height: 220px; }
             // &:last-of-type{ width: 220px; height: 220px; }
         }
         .arrow{
-            margin: 0 20px;
+            margin: 0 35px;
             flex-flow: 1;
             scale: 2.5;
             cursor: pointer;
             color: orange;
             &:first-child{ rotate: -90deg; }
             &:last-child{ rotate: 90deg; }
-
         }
     }    
 }
@@ -152,9 +176,23 @@ section.small-snsBoard{
 
 section.small-market{
 
-    margin-top: 30px;
+    margin: 100px auto 0;
 
     h2{ margin-left: 60px; @include title-font() }
+
+    .market-group{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        .market-img{
+            margin: 0 10px 20px;
+            width: 240px; height: 180px;
+            background-color: yellowgreen;
+            // &:first-of-type{ width: 220px; height: 220px; }
+            // &:last-of-type{ width: 220px; height: 220px; }
+        }
+    }
 
 
 }

@@ -7,7 +7,9 @@ import Footer from './components/layout/Footer';
 import Home from './components/Home';
 import Login from './components/user/Login';
 import Join from './components/user/Join';
+
 import { Reset } from 'styled-reset'; 
+import BoardList from './components/board/BoardList';
 
 
 function App() {
@@ -20,9 +22,9 @@ function App() {
           <Route exact path="/" element={ <Home /> } />
           <Route path="/login" element={ <Login /> } />
           <Route path="/join" element={ <Join /> } />
+          <Route path="/board" element={ <BoardList /> } />
         </Routes>
         
-
       <Footer />  
     </Router>
   );

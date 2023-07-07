@@ -10,23 +10,40 @@ import HomeTbody from './HomeTbody';
 const Home = () => {
 
 
-
-  const BoardList = [{
-    category : '자유',
-    title: '님들 제가 키우는 강아지 시고르자브종 보고 가실래요?ㅎㅎㅎㅎ',
-    userName: '왈왈이',
-    createDate: '2023.07.02',
-    views: '3'
-  }, {
-    category : '정보',
-    title: 'Hello World!',
-    userName: 'json',
-    createDate: '2023.06.28',
-    views: '15'
-  }
-
+  //임시 데이터※※※※※※※※
+  const boardList = [{
+      category : '공지',
+      title: '[필독] 게시판 이용 수칙을 꼭 읽어주세요.',
+      userName: '관리자',
+      createDate: '2023.06.28',
+      views: '458'
+    }, {
+      category : '공지',
+      title: '[필독] ㅇ0ㅇ.',
+      userName: '관리자',
+      createDate: '2023.04.28',
+      views: '2410'
+    }, {
+      category : '자유',
+      title: '님들 제가 키우는 강아지 시고르자브종 보고 가실래요?ㅎㅎㅎㅎ',
+      userName: '왈왈이',
+      createDate: '2023.07.02',
+      views: '3'
+    }, {
+      category : '정보',
+      title: 'Hello World!',
+      userName: 'json',
+      createDate: '2023.06.28',
+      views: '15'
+    }, {
+      category : '정보',
+      title: 'Hello World!',
+      userName: 'json',
+      createDate: '2023.06.28',
+      views: '15'
+    }
   ]
-
+  //임시 데이터※ ※ ※※※※※※
 
 
 
@@ -89,7 +106,7 @@ const Home = () => {
 
           <section className='small-board'>
             <h2>게시판</h2>
-            <Table bordered hover size='500' border={1}>
+            <Table bordered hover border={1} className='mini-table' >
               <thead>
                 <tr>
                   <th>말머리</th>
@@ -99,15 +116,8 @@ const Home = () => {
                   <th >조회</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>공지</td>
-                  <td>[필독] 게시판 이용 수칙을 꼭 읽어주세요.</td>
-                  <td>관리자</td>
-                  <td>2023.06.28</td>
-                  <td>10</td>
-                </tr>
-               { BoardList.map(board => <HomeTbody item={board}/>) }
+              <tbody> {/* 본문 내용 */}
+                { boardList.map(bo => <HomeTbody board={bo}/>) }
               </tbody>
             </Table>
 
@@ -120,13 +130,24 @@ const Home = () => {
               <article><img src="#" alt="농작물 사진" /></article>
               <article><img src="#" alt="농작물 사진" /></article>
               <article><img src="#" alt="농작물 사진" /></article>
-              <article><img src="#" alt="농작물 사진" /></article>
               <div className='arrow'><ArrowCircleUpIcon /></div>
             </div>
           </section>
 
           <section className='small-market'>
             <h2>거래장터</h2>
+            <div className='market-group'>
+              
+              <div className='market-img'>
+                <img src="#" alt="거래장터 사진"/>
+                <div className="product">주말농장 토마토<strong>판매자: 누구누구</strong></div>
+                <div>5000원</div>
+              </div>
+              
+
+            </div>
+
+
           </section>
 
           

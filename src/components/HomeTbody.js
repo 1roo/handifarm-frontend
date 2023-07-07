@@ -1,11 +1,13 @@
 import React from 'react'
+import cn from 'classnames'
 
-const HomeTbody = ({category, title, userName, createDate, views}) => {
+const HomeTbody = (board) => {
 
+  const {category, title, userName, createDate, views} = board.board;
 
   return (
     <>
-         <tr>
+         <tr className={ cn('', {notice: category == '공지'}) }>
             <td>[{category}]</td>
             <td>{title}</td>
             <td>{userName}</td>
