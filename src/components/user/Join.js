@@ -1,33 +1,39 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import './Join.scss';
-import KakaoAddress from '../util/KakaoAddress';
 
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+import { Avatar, Select, SelectChangeEvent, MenuItem, Button, FormControl, CssBaseline, FormHelperText, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography, Container, createTheme, ThemeProvider } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+
 
 
 const Join = () => {
     
     const [isUserIdAvailable, setIsUserIdAvailable] = useState(false);
     const [email1, setEmail1] = useState('');
+    const [email2, setEmail2] = useState('');
     const [selectedEmail, setselectedEmail] = useState('');
     const [phone1, setPhone1] = useState('');
     const [phone2, setPhone2] = useState('');
     const [phone3, setPhone3] = useState('');
+    const [addrBasic, setAddrBasic] = useState('');
     const [addrDetail, setAddrDetail] = useState('');
+    const [Postcode, setPostcode] = useState('');
     
+    useEffect(() => {
+        window.daum = window.daum || {}; // daum 객체 전역 범위에 선언
+
+        const script = document.createElement('script');
+        script.src = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
+        script.async = true;
+        document.body.appendChild(script);
+        return () => {
+            document.body.removeChild(script);
+        };
+    }, []);
+
+
+
     //회원가입 입력값 관리용 상태변수
     const [userValue, setUserValue] = useState({
         userId: '',
@@ -166,29 +172,26 @@ const Join = () => {
 
     //이메일 입력 이벤트 핸들러
     const email1Handler = e => {
-        const inputValue = e.target.value;
-        setEmail1(inputValue);
-        selectedEmailHandler();
+        setEmail1(e.target.value);
+        // selectedEmailHandler();
     }
 
-    const email2Handler = e => {
-        const inputValue = e.target.value;
-        setselectedEmail(inputValue);
-        selectedEmailHandler();
-    }
-        
+    const email2Handler = (e) => {
+        setEmail2(e.target.value);
+        // selectedEmailHandler();
+    };
+
+    
     const selectedEmailHandler = () => {
-        const $email1 = document.getElementById('email1').value;
-        const $selectedEmail =document.getElementById('selectEmail').value;
-        let fullEmail = $email1 + '@' + $selectedEmail;
- 
+        let fullEmail = document.getElementById('email1').value + '@' + email2;
+
         setUserValue({
             ...userValue,
             email: fullEmail
         });
         console.log(fullEmail);
     };
-
+    
 
     //비밀번호 입력 이벤트 핸들러
     const pwHandler = e => {
@@ -270,34 +273,33 @@ const Join = () => {
 
 
     //주소검색 입력 변수
-    const [enroll_company, setEnroll_company] = useState({
-        address:'',
-    });
-    
-    const [popup, setPopup] = useState(false);
-    
-    const handleInput = (e) => {
-        setEnroll_company({
-            ...enroll_company,
-            [e.target.name]:e.target.value,
-        })
-    }
-    
-    const handleComplete = (data) => {
-        setPopup(!popup);
-    }
+    const handlePostcode = () => {
+        new window.daum.Postcode({
+            oncomplete: function (data) {
+                const { zonecode, roadAddress, buildingName, apartment } = data;
+                let extraRoadAddr = '';
+
+                if (data.buildingName !== '' && data.apartment === 'Y') {
+                    extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+
+                setPostcode(zonecode);
+                setAddrBasic(roadAddress);
+                setAddrDetail('');
+            },
+        }).open();
+    };
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         console.log({
-          email: data.get('email'),
-          password: data.get('password'),
+            email: data.get('email'),
+            password: data.get('password'),
         });
-      };
-    
+    };
 
-    const defaultTheme = createTheme();
+    const defaultTheme = createTheme(); //
 
 
     return (
@@ -313,7 +315,7 @@ const Join = () => {
             }}
         >
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-            <Grid container spacing={2}>
+            <Grid container spacing={1}>
                 <Grid item xs={8} sm={8}>
                 <TextField
                     autoComplete="ID"
@@ -409,17 +411,19 @@ const Join = () => {
                         onChange={email1Handler}
                     />
                 </Grid>
-                <Grid item xs={2} sm={2}>
+                <Grid item xs={2} sm={1}>
                     <span>@</span>
                 </Grid>
-                <Grid item xs={10} sm={5}>
-                    <select className='selectEmail' name='selectEmail' id='selectEmail' fullWidth onChange={email2Handler}>
-                        <option value='gmail.com'>gmail.com</option>
-                        <option value='naver.com'>naver.com</option>
-                        <option value='hanmail.net'>hanmail.net</option>
-                        <option value='daum.net'>nate.com</option>
-                        <option value='nate.com'>daum.net</option>
-                    </select>
+                <Grid item xs={12} sm={6}>
+                    <FormControl fullWidth>
+                        <Select id='email2' value={email2} onChange={email2Handler} fullWidth displayEmpty>
+                        <MenuItem value='gmail.com'>gmail.com</MenuItem>
+                        <MenuItem value='naver.com'>naver.com</MenuItem>
+                        <MenuItem value='hanmail.net'>hanmail.net</MenuItem>
+                        <MenuItem value='daum.net'>daum.net</MenuItem>
+                        <MenuItem value='nate.com'>nate.com</MenuItem>
+                        </Select>
+                    </FormControl>
                 </Grid>
                 <Grid item xs={3} sm={2}>
                     <TextField
@@ -488,35 +492,44 @@ const Join = () => {
                     인증하기
                     </Button>
                 </Grid>
-                <Grid item xs={8} sm={8}>
-                    <TextField
-                        autoComplete="addrBasic"
-                        name="addrBasic"
-                        required
-                        fullWidth
-                        id="addrBasic"
-                        label="주소1"
-                        autoFocus
-                        onChange={handleInput} value={enroll_company.address}
-                    />
+                
+                <Grid item xs={12} sm={8}>
+                <TextField
+                    type="text"
+                    id="sample4_postcode"
+                    name="Postcode"
+                    placeholder="우편번호"
+                    value={Postcode}
+                    fullWidth
+                    disabled
+                />
                 </Grid>
-                <Grid item xs={4} sm={4}> 
-                    <button type='button' onClick={handleComplete} id='searchBtn' fullWidth className='searchBtn'>
-                        주소검색
-                    </button>
-                    {popup && <KakaoAddress company={enroll_company} setcompany={setEnroll_company} setAddrDetail={setAddrDetail} setPopup={setPopup}></KakaoAddress>}
+                <Grid item xs={12} sm={4}>
+                <Button variant="contained" fullWidth onClick={handlePostcode}>
+                    우편번호 찾기
+                </Button>
                 </Grid>
-                <Grid item xs={12} sm={12}>
+                <Grid item xs={12}>
                     <TextField
-                        autoComplete="addrDetail"
-                        name="addrDetail"
-                        required
+                        type="text"
+                        id="sample4_roadAddress"
+                        name="roadAddress"
+                        placeholder="도로명주소"
+                        value={addrBasic}
                         fullWidth
-                        id="addrDetial"
-                        label="상세주소"
-                        autoFocus
+                        disabled
+                        />
+                </Grid>
+                <Grid item xs={12}>
+                    <TextField
+                        type="text"
+                        id="sample4_detailAddress"
+                        name="detailAddress"
+                        placeholder="상세주소"
+                        value={addrDetail}
+                        onChange={(e) => setAddrDetail(e.target.value)}
+                        fullWidth
                     />
-                    
                 </Grid>
 
 
@@ -524,7 +537,7 @@ const Join = () => {
 
                 <Grid item xs={12}>
                 <FormControlLabel
-                    control={<Checkbox value="allowExtraEmails" color="primary" />}
+                    control={<Checkbox value="allow" color="primary" />}
                     label="개인정보 수집 및 이용에 동의합니다."
                 />
                 </Grid>
@@ -551,11 +564,7 @@ const Join = () => {
                 </Button>
             </Grid>
         </Grid>
-            <Grid container justifyContent="flex-end">
-                <Grid item>
-                
-                </Grid>
-            </Grid>
+            
             </Box>
         </Box>
         </Container>
