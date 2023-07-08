@@ -35,8 +35,7 @@ h1, h2, h3, h4, h5, h6{
 
 // 제주 날씨 채우기
 section.weather-box{
-    margin-top: -50px; //임시 설정. 나중에 수정하기!
-
+    margin: 50px auto 0;
     width: 1280px;
     display: flex;
     background-color: rgb(241, 241, 241);

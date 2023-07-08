@@ -1,0 +1,65 @@
+$main-green: #53A069;
+
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+};
+
+
+@mixin green-btn {
+    background-color: $main-green !important;
+    height: 56px;
+    font-size: 1rem !important;
+}
+
+.menu-title {
+    display: block;
+    font-weight: 700;
+    font-size: 25px;
+    text-align: center;
+    padding-top: 50px;
+}
+
+.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    width: 500px !important;
+
+}
+.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+}
+
+.css-1869usk-MuiFormControl-root {
+    margin: 0 3px !important;
+}
+
+.css-wjh20t-MuiPagination-ul {
+    margin-top: 50px !important;
+    justify-content: center !important;
+}
+
+.searchBtn {
+    @include green-btn;
+    height: 43px;
+}
+
+.notice-box {
+    border-radius: 10px;
+    border: 1px solid red;
+    width: 70px;
+    text-align: center;
+    background-color: rgba(255, 0, 0, 0.13);
+    margin: 0 auto;
+}
+
+table {
+    text-align: center;
+
+    .td-title {
+        text-align: left;
+    }
+
+}

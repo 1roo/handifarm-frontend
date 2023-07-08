@@ -2,9 +2,7 @@ import {useState, useEffect} from 'react';
 import './Join.scss';
 
 import * as React from 'react';
-import { Avatar, Select, SelectChangeEvent, MenuItem, Button, FormControl, CssBaseline, FormHelperText, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography, Container, createTheme, ThemeProvider } from '@mui/material';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-
+import { Select, MenuItem, Button, FormControl, CssBaseline, TextField, FormControlLabel, Checkbox, Grid, Box, Container, createTheme, ThemeProvider } from '@mui/material';
 
 
 const Join = () => {
@@ -12,8 +10,6 @@ const Join = () => {
     const [isUserIdAvailable, setIsUserIdAvailable] = useState(false);
     const [email1, setEmail1] = useState('');
     const [email2, setEmail2] = useState('');
-    const [selectedEmail, setselectedEmail] = useState('');
-    const [phone1, setPhone1] = useState('');
     const [phone2, setPhone2] = useState('');
     const [phone3, setPhone3] = useState('');
     const [addrBasic, setAddrBasic] = useState('');
@@ -242,11 +238,6 @@ const Join = () => {
     }
 
     //휴대폰번호 입력 이벤트 핸들러
-    const phone1Handler = e => {
-        const inputValue = e.target.value;
-        setPhone1(inputValue);
-        phoneHandler();
-    }
     const phone2Handler = e => {
         const inputValue = e.target.value;
         setPhone2(inputValue);
@@ -259,10 +250,9 @@ const Join = () => {
     }
 
     const phoneHandler = () => {
-        const $phone1 = document.getElementById('phone1').value;
         const $phone2 = document.getElementById('phone2').value;
         const $phone3 = document.getElementById('phone3').value;
-        let fullPhoneNum = $phone1+$phone2+$phone3;
+        let fullPhoneNum = '010'+$phone2+$phone3;
        
         setUserValue({
             ...userValue,
@@ -303,9 +293,12 @@ const Join = () => {
 
 
     return (
+    <>
+    <h2 className='menu-title'>회원가입</h2>
     <ThemeProvider theme={defaultTheme}>
         <Container component="main" maxWidth="sm">
         <CssBaseline />
+        
         <Box
             sx={{
             marginTop: 8,
@@ -317,44 +310,42 @@ const Join = () => {
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={1}>
                 <Grid item xs={8} sm={8}>
-                <TextField
-                    autoComplete="ID"
-                    name="userId"
-                    required
-                    fullWidth
-                    id="userId"
-                    label="아이디"
-                    autoFocus
-                    onChange={idHandler}
-                />
-                <span style={
-                                correct.userId
-                                ? {color : 'black'}
-                                : {color : 'red'}
-                            }>{message.userId}</span>
+                    <TextField
+                        autoComplete="ID"
+                        name="userId"
+                        required
+                        fullWidth
+                        id="userId"
+                        label="아이디"
+                        onChange={idHandler}
+                    />
+                    <span style={
+                                    correct.userId
+                                    ? {color : 'black'}
+                                    : {color : 'red'}
+                                }>{message.userId}</span>
                 </Grid>
                 <Grid item xs={4} sm={4}>
-                    <Button type="button" fullWidth variant="contained">
+                    <Button className='green-btn' type="button" fullWidth variant="contained">
                     중복체크
                     </Button>
                 </Grid>
                 <Grid item xs={12} sm={12}>
-                <TextField
-                    autoComplete="PASSWORD"
-                    name="userPw"
-                    required
-                    fullWidth
-                    id="userPw"
-                    type="password"
-                    label="비밀번호"
-                    autoFocus
-                    onChange={pwHandler}
-                />
-                <span style={
-                                correct.userId
-                                ? {color : 'black'}
-                                : {color : 'red'}
-                            }>{message.userPw}</span>
+                    <TextField
+                        autoComplete="PASSWORD"
+                        name="userPw"
+                        required
+                        fullWidth
+                        id="userPw"
+                        type="password"
+                        label="비밀번호"
+                        onChange={pwHandler}
+                    />
+                    <span style={
+                                    correct.userId
+                                    ? {color : 'black'}
+                                    : {color : 'red'}
+                                }>{message.userPw}</span>
                 </Grid>
                 
                 <Grid item xs={12} sm={12}>
@@ -366,7 +357,6 @@ const Join = () => {
                         fullWidth
                         id="pwCheck"
                         label="비밀번호 확인"
-                        autoFocus
                         onChange={pwCheckHandler}
                     />
                     <span id='pwCheck' style={
@@ -383,7 +373,6 @@ const Join = () => {
                         fullWidth
                         id="userName"
                         label="이름"
-                        autoFocus
                         onClick={nameHandler}
                     />
                 </Grid>
@@ -391,11 +380,9 @@ const Join = () => {
                     <TextField
                         autoComplete="NICKNAME"
                         name="userNick"
-                        required
                         fullWidth
                         id="userNick"
                         label="닉네임"
-                        autoFocus
                         onClick={nickHandler}
                     />
                 </Grid>
@@ -407,12 +394,11 @@ const Join = () => {
                         fullWidth
                         id="email1"
                         label="이메일"
-                        autoFocus
                         onChange={email1Handler}
                     />
                 </Grid>
                 <Grid item xs={2} sm={1}>
-                    <span>@</span>
+                    <span className='at'>@</span>
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <FormControl fullWidth>
@@ -429,19 +415,14 @@ const Join = () => {
                     <TextField
                         autoComplete="PHONE1"
                         name="phone1"
-                        required
                         fullWidth
                         id="phone1"
-                        label=""
-                        autoFocus
+                        label="010"
+                        disabled
                         inputProps={{ maxLength: 3 }}
-                        onChange={phone1Handler}
                     />
                 </Grid>
-                <Grid item xs={1} sm={1}>
-                    <span>-</span>
-                </Grid>
-                <Grid item xs={3} sm={2}>
+                <Grid item xs={3} sm={3}>
                     <TextField
                         autoComplete="PHONE2"
                         name="phone2"
@@ -449,15 +430,12 @@ const Join = () => {
                         fullWidth
                         id="phone2"
                         label=""
-                        autoFocus
                         inputProps={{ maxLength: 4 }}
                         onChange={phone2Handler}
                     />
                 </Grid>
-                <Grid item xs={1} sm={1}>
-                    <span>-</span>
-                </Grid>
-                <Grid item xs={3} sm={2}>
+                
+                <Grid item xs={3} sm={3}>
                     <TextField
                         autoComplete="PHONE3"
                         name="phone3"
@@ -465,13 +443,12 @@ const Join = () => {
                         fullWidth
                         id="phone3"
                         label=""
-                        autoFocus
                         inputProps={{ maxLength: 4 }}
                         onChange={phone3Handler}
                     />
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                    <Button id='phoneCheckBtn' type="button" fullWidth variant="contained">
+                    <Button className='green-btn' id='phoneCheckBtn' type="button" fullWidth variant="contained">
                     인증번호전송
                     </Button>
                 </Grid>
@@ -483,12 +460,11 @@ const Join = () => {
                         fullWidth
                         id="phoneCheckNum"
                         label="인증번호 4자리"
-                        autoFocus
                         inputProps={{ maxLength: 4 }}
                     />
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                    <Button id='phoneCheckBtn' type="button" fullWidth variant="contained">
+                    <Button className='green-btn' id='phoneCheckBtn' type="button" fullWidth variant="contained">
                     인증하기
                     </Button>
                 </Grid>
@@ -505,7 +481,7 @@ const Join = () => {
                 />
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                <Button variant="contained" fullWidth onClick={handlePostcode}>
+                <Button className='green-btn' variant="contained" fullWidth onClick={handlePostcode}>
                     우편번호 찾기
                 </Button>
                 </Grid>
@@ -545,6 +521,7 @@ const Join = () => {
         <Grid container spacing={2}>
             <Grid item xs={6} sm={6}>
                 <Button
+                    className='green-btn'
                     type="submit"
                     fullWidth
                     variant="contained"
@@ -555,6 +532,7 @@ const Join = () => {
                 </Grid>
                 <Grid item xs={6} sm={6}>
                 <Button
+                    id='exitBtn'
                     type="button"
                     fullWidth
                     variant="contained"
@@ -569,6 +547,7 @@ const Join = () => {
         </Box>
         </Container>
     </ThemeProvider>
+    </>
     );
         
 }
