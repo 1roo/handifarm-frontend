@@ -4,17 +4,26 @@ import './Join.scss';
 import * as React from 'react';
 import { Select, MenuItem, Button, FormControl, CssBaseline, TextField, FormControlLabel, Checkbox, Grid, Box, Container, createTheme, ThemeProvider } from '@mui/material';
 
+import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL as BASE, USER } from '../../config/host-config';
 
 const Join = () => {
+
+    //리다이렉트 사용하기
+    const redirection = useNavigate();
     
-    const [isUserIdAvailable, setIsUserIdAvailable] = useState(false);
+    const API_BASE_URL = 'http://localhost:8181/api/user';
+
+
+    
+    // const [isUserIdAvailable, setIsUserIdAvailable] = useState(false);
+    const [phoneCheckNum, setPhoneCheckNum] = useState('');
     const [email1, setEmail1] = useState('');
     const [email2, setEmail2] = useState('');
     const [phone2, setPhone2] = useState('');
     const [phone3, setPhone3] = useState('');
-    const [addrBasic, setAddrBasic] = useState('');
-    const [addrDetail, setAddrDetail] = useState('');
-    const [Postcode, setPostcode] = useState('');
+    const [userAddrBasic, setUserAddrBasic] = useState('');
+    const [userPostcode, setUserPostcode] = useState('');
     
     useEffect(() => {
         window.daum = window.daum || {}; // daum 객체 전역 범위에 선언
@@ -40,6 +49,8 @@ const Join = () => {
         userPhone: '',
         userAddrBasic: '',
         userAddrDetail: '',
+        userPostcode: '',
+        phoneCheckNum: '',
     });
 
     //검증 메세지 상태변수 관리
@@ -48,11 +59,11 @@ const Join = () => {
         userPw: '',
         pwCheck: '',
         userName: '',
-        userNick: '',
         userEmail: '',
         userPhone: '',
         userAddrBasic: '',
         userAddrDetail: '',
+        phoneCheckNum: '',
     });
 
     //검증완료 상태변수 관리
@@ -62,11 +73,12 @@ const Join = () => {
         userPw: false,
         pwCheck: false,
         userName: false,
-        userNick: false,
         userEmail: false,
         userPhone: false,
         userAddrBasic: false,
         userAddrDetail: false,
+        userPostcode: false,
+        phoneCheckNum: false,
     });
 
     
@@ -102,6 +114,7 @@ const Join = () => {
             msg = '6~15글자 사이의 영문 및 숫자로 작성하세요.';
         } else if(inputValue){
             flag = true;
+            
         }
         saveInputState({
             key: 'userId',
@@ -109,29 +122,38 @@ const Join = () => {
             msg,
             flag
         });
+        
     };
 
-    const idCheck = e => {
-        fetch(`/api/checkUserId?userId=${userValue.userId}`)
-            .then(reponse => Response.json())
-            .then(data => {
-                const isAvailable = data.isAvailable;
-                setIsUserIdAvailable(isAvailable);
-                
+    //아이디 중복체크
+    const idCheck = () => {
+        const userId = document.getElementById('userId').value;
+        let msg = '', flag = false;
+        fetch(`${API_BASE_URL}/idCheck?userId=${userId}`)
+            .then(res => {
+                if(res.status === 200) {
+                    return res.json();
+                }
+            })
+            .then(json => {
+                console.log(json);
+                if(json) {
+                    msg='중복된 id입니다.';
+                } else {
+                    msg='사용 가능한 아이디입니다.';
+                    flag = true;
+                }
+                saveInputState({
+                    key: 'idCheck',
+                    inputValue: 'pass',
+                    msg,
+                    flag
+                });
+
             })
             .catch(error => {
-                console.error('중복 검사 요청 에러:', error);
+                console.log('서버 통신이 원활하지 않습니다.');
             });
-
-        if(isUserIdAvailable) {
-            saveInputState({
-                key: 'idCheck',
-                inputValue: 'pass'
-            })
-            console.log('아이디 제출됨, userId');
-        } else {
-            console.log('중복검사 통과X');
-        }
     };
 
     //이름 입력 이벤트 핸들러
@@ -142,9 +164,7 @@ const Join = () => {
         
         let msg, flag = false; 
 
-        if(!inputValue) {
-            msg = '유저 이름은 필수입니다.';
-        } else if(!nameRegex.test(inputValue)) {
+        if(!nameRegex.test(inputValue)) {
             msg = '2~5글자 사이의 한글로 작성하세요!';
         } else {
             flag = true;
@@ -155,6 +175,8 @@ const Join = () => {
             msg,
             flag
         });
+        
+        
     };
 
     //닉네임 입력 이벤트 핸들러
@@ -169,21 +191,27 @@ const Join = () => {
     //이메일 입력 이벤트 핸들러
     const email1Handler = e => {
         setEmail1(e.target.value);
-        // selectedEmailHandler();
+        selectedEmailHandler();
     }
 
     const email2Handler = (e) => {
         setEmail2(e.target.value);
-        // selectedEmailHandler();
+        selectedEmailHandler();
     };
 
     
     const selectedEmailHandler = () => {
         let fullEmail = document.getElementById('email1').value + '@' + email2;
-
-        setUserValue({
-            ...userValue,
-            email: fullEmail
+        
+        let flag = false;
+        if(email1 && email2) {
+            flag = true;
+        }
+      
+        saveInputState({
+            key: 'userEmail',
+            inputValue: fullEmail,
+            flag
         });
         console.log(fullEmail);
     };
@@ -211,13 +239,14 @@ const Join = () => {
         } else if(inputValue) {
             flag = true;
         }
-
         saveInputState({
             key: 'userPw',
             inputValue,
             msg,
             flag
-        });       
+        });  
+
+             
     };
 
     const pwCheckHandler = e => {
@@ -234,6 +263,7 @@ const Join = () => {
             msg,
             flag
         });
+        
 
     }
 
@@ -241,29 +271,75 @@ const Join = () => {
     const phone2Handler = e => {
         const inputValue = e.target.value;
         setPhone2(inputValue);
-        phoneHandler();
+ 
     }
     const phone3Handler = e => {
         const inputValue = e.target.value;
         setPhone3(inputValue);
-        phoneHandler();
+    
     }
 
+ 
     const phoneHandler = () => {
         const $phone2 = document.getElementById('phone2').value;
         const $phone3 = document.getElementById('phone3').value;
         let fullPhoneNum = '010'+$phone2+$phone3;
-       
+        let flag = true;
+        const phoneData = {
+            'sendTo': fullPhoneNum
+        };
+
         setUserValue({
             ...userValue,
-            userPhone: fullPhoneNum
+            userPhone: fullPhoneNum,
+            flag
         });
+
+        //인증번호 요청
+        const phoneCheckNum = '';
+        fetch(`${API_BASE_URL}/phoneNumAuthenticate`, {
+            method : 'POST',
+            headers : { 'content-type' : 'application/json' },
+            body : JSON.stringify(phoneData)
+        })
+        .then(res => {
+            return res.text();
+        })
+        .then(data => {
+            setUserValue({...userValue, userPhone: data.fullPhoneNum});
+            console.log(data);
+            setPhoneCheckNum(data);    
+        })
+
+        
+        
         console.log(fullPhoneNum);
     };
+
+    //인증번호가 입력값과 일치하는지 검증
+    const phoneCheckNumHanlder = (e) => {
+        let msg, flag = false;
+        const inputValue = document.getElementById('inputPhoneCheckNum').value;
+        if(inputValue === phoneCheckNum) {
+            flag = true;
+            alert('인증되었습니다.');
+        } else {
+            alert('인증번호가 일치하지 않습니다.');
+        }
+        setUserValue({
+            ...userValue,
+            key: 'phoneCheckNum',
+            flag,
+            msg
+        });
+    
+        
+    }
 
 
     //주소검색 입력 변수
     const handlePostcode = () => {
+        let flag = true;
         new window.daum.Postcode({
             oncomplete: function (data) {
                 const { zonecode, roadAddress, buildingName, apartment } = data;
@@ -272,24 +348,88 @@ const Join = () => {
                 if (data.buildingName !== '' && data.apartment === 'Y') {
                     extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
                 }
-
-                setPostcode(zonecode);
-                setAddrBasic(roadAddress);
-                setAddrDetail('');
+                if(zonecode) {
+                    flag = true;
+                    setUserPostcode(zonecode);
+                    setUserAddrBasic(roadAddress);
+                }
+                
             },
         }).open();
+        setUserValue({
+            ...userValue,
+            userPostcode,
+            userAddrBasic,
+            flag
+        });
     };
+
+    //상세주소 입력 변수
+    const addrDetailHandler = e => {
+        const inputValue = e.target.value;
+        let flag = false;
+        if(inputValue) {
+            flag = true;
+        }
+        setUserValue({
+            ...userValue,
+            inputValue,
+            flag
+        });
+    }
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         console.log({
-            email: data.get('email'),
-            password: data.get('password'),
+            userId: data.get('userId'),
+            userPw: data.get('userPw'),
         });
     };
 
     const defaultTheme = createTheme(); //
+
+    // 필수 입력칸이 모두 검증에 통과했는지 여부를 검사
+    const isValid = () => {
+
+        for(const key in correct) {
+            const flag = correct[key];
+            if(!flag) return false;
+        }
+        return true;
+    }
+
+    //회원 가입 처리 서버 요청
+    const fetchJoinPost = () => {
+        fetch(API_BASE_URL, {
+            method: 'POST',
+            headers: {'content-type' : 'application/json'},
+            body: JSON.stringify(userValue)
+        })
+        .then(res => {
+            if(res.status === 200) {
+                alert('회원가입에 성공했습니다!');
+                redirection('/login');
+            } else {
+                alert('서버와의 통신이 원활하지 않습니다.');
+            }
+        })
+    }
+
+
+
+    const joinButtonClickHandler = e => {
+        e.preventDefault();
+        //회원 가입 서버 요청
+        if(isValid()) {
+            fetchJoinPost();
+        } else {
+            alert('입력란을 다시 확인해 주세요!');
+            console.log(JSON.stringify(correct));
+            
+
+        }
+    }
 
 
     return (
@@ -326,7 +466,7 @@ const Join = () => {
                                 }>{message.userId}</span>
                 </Grid>
                 <Grid item xs={4} sm={4}>
-                    <Button className='green-btn' type="button" fullWidth variant="contained">
+                    <Button className='green-btn' type="button" fullWidth variant="contained" onClick={idCheck}>
                     중복체크
                     </Button>
                 </Grid>
@@ -343,8 +483,8 @@ const Join = () => {
                     />
                     <span style={
                                     correct.userId
-                                    ? {color : 'black'}
-                                    : {color : 'red'}
+                                    ? {color : 'red'}
+                                    : {color : 'black'}
                                 }>{message.userPw}</span>
                 </Grid>
                 
@@ -361,8 +501,8 @@ const Join = () => {
                     />
                     <span id='pwCheck' style={
                                 correct.userId
-                                ? {color : 'black'}
-                                : {color : 'red'}
+                                ? {color : 'red'}
+                                : {color : 'black'}
                             }>{message.pwCheck}</span>
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -373,7 +513,7 @@ const Join = () => {
                         fullWidth
                         id="userName"
                         label="이름"
-                        onClick={nameHandler}
+                        onChange={nameHandler}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -448,7 +588,7 @@ const Join = () => {
                     />
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                    <Button className='green-btn' id='phoneCheckBtn' type="button" fullWidth variant="contained">
+                    <Button className='green-btn' id='phoneCheckBtn' type="button" fullWidth variant="contained" onClick={phoneHandler}>
                     인증번호전송
                     </Button>
                 </Grid>
@@ -458,13 +598,18 @@ const Join = () => {
                         name="phoneCheck"
                         required
                         fullWidth
-                        id="phoneCheckNum"
+                        id="inputPhoneCheckNum"
                         label="인증번호 4자리"
                         inputProps={{ maxLength: 4 }}
                     />
+                    <span style={
+                                    correct.phoneCheckNum
+                                    ? {color : 'black'}
+                                    : {color : 'red'}
+                                }>{message.phoneCheckNum}</span>
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                    <Button className='green-btn' id='phoneCheckBtn' type="button" fullWidth variant="contained">
+                    <Button className='green-btn' id='CheckBtn' type="button" fullWidth variant="contained" onClick={phoneCheckNumHanlder}>
                     인증하기
                     </Button>
                 </Grid>
@@ -475,7 +620,7 @@ const Join = () => {
                     id="sample4_postcode"
                     name="Postcode"
                     placeholder="우편번호"
-                    value={Postcode}
+                    value={userValue.userPostcode}
                     fullWidth
                     disabled
                 />
@@ -491,7 +636,7 @@ const Join = () => {
                         id="sample4_roadAddress"
                         name="roadAddress"
                         placeholder="도로명주소"
-                        value={addrBasic}
+                        value={userValue.userAddrBasic}
                         fullWidth
                         disabled
                         />
@@ -502,8 +647,7 @@ const Join = () => {
                         id="sample4_detailAddress"
                         name="detailAddress"
                         placeholder="상세주소"
-                        value={addrDetail}
-                        onChange={(e) => setAddrDetail(e.target.value)}
+                        onChange={addrDetailHandler}
                         fullWidth
                     />
                 </Grid>
@@ -526,6 +670,7 @@ const Join = () => {
                     fullWidth
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
+                    onClick={joinButtonClickHandler}
                 >
                     회원가입
                 </Button>

@@ -22,8 +22,8 @@ $main-green: #53A069;
 }
 
 .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
-    padding-top: 10px !important;
-    padding-bottom: 10px !important;
+    padding-top: 10px ;
+    padding-bottom: 10px ;
     width: 500px !important;
 
 }
@@ -62,4 +62,40 @@ table {
         text-align: left;
     }
 
+}
+
+textArea {
+    border: 1px solid lightgray;
+    width: 650px;
+    height: 350px;
+    resize: none;
+
+    
+        input {
+            height: 350px;
+            width: inherit !important;
+            justify-content: start;
+            align-content: start;
+            vertical-align: top;
+            width: 650px;
+            font-size: 1rem;
+            font-weight: 200;
+            line-height: 1.5;
+            padding: 12px;
+            border: none;
+        }
+    
+        @media (min-width: 770px) {
+            width: 655px;
+        }
+    
+    
+  }
+
+textArea:hover {
+    outline : white;
+  }
+
+textArea:focus {
+    outline: white;
 }

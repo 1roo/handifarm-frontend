@@ -1,27 +1,63 @@
 import './Board.scss';
 
 import { React, useState } from 'react';
+import { MenuItem, Grid, FormControl, Select, Container, TextField, Button } from '@mui/material';
+import { styled } from '@mui/system';
 
 function BoardRegist() {
+
+    const [selectedTopic, setSelectedTopic] = useState('all'); // 기본값으로 'all'을 선택
+    const handleTopicChange = (event) => {
+    setSelectedTopic(event.target.value);
+    };
 
     return (
         <>
             <p className='menu-title'>게시글 작성</p>
-            <div className='topic-wrap'>
-                <select name='topicCondition' className='topicContidion' id='topicCondition'>
-                    <option value='' className='topic'>말머리</option>
-                    <option value='notice' className='notice'>공지</option>
-                    <option value='information' className='information'>정보</option>
-                    <option value='free' className='free'>자유</option>
-                </select>
-            </div>
-            <input type='text' name='title' className='title' id='title' placeholder='제목' />
-            <br/><hr/>
+            <Container maxWidth="ml">
+                <Grid container spacing={0} 
+                    sx={{
+                        marginTop: 8,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    }}>
+                    <Grid>
+                        <FormControl sx={{ m: 1, minWidth: 120 }}>
+                            <Select
+                            id="topic"
+                            value={selectedTopic}
+                            onChange={handleTopicChange}
+                            >
+                            <MenuItem value={'all'}>
+                                <em>말머리</em>
+                            </MenuItem>
+                            <MenuItem value={'notice'}>공지</MenuItem>
+                            <MenuItem value={'information'}>정보</MenuItem>
+                            <MenuItem value={'free'}>자유</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid>
+                        <TextField placeholder='제목' variant="outlined" />
+                    </Grid>
+                </Grid> 
+                <br/><hr/>
 
-            <textarea class="form-control" rows="7" name="content" id="content" type='text'	maxlength='300' />
-
-            <button type="submit" className="registBtn" id="registBtn">등록</button>
-            <button type="text" className="exitBtn" id="exitBtn">취소</button>
+                <Grid container spacing={0} 
+                    sx={{
+                        marginTop: 5,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    }}>
+                    <Grid>
+                        <FormControl sx={{ m: 1, minWidth: 120 }}>
+                            <textarea maxRows={13} placeholder="내용을 입력하세요" />
+                        </FormControl>
+                    </Grid>
+                </Grid>
+            </Container>     
         </>
 
 

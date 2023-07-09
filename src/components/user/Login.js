@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './Login.scss';
 import kakaoImg from '../../image/kakao.png';
-import naverImg from '../../image/naver.png';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -10,13 +9,87 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL as BASE, USER } from '../../config/host-config';
+import AuthContext from '../util/AuthContext';
 
 const Login = () => {
-  const [userId, setUserId] = useState('');
-  const [userPw, setUserPw] = useState('');
-  const [showModal, setShowModal] = useState(false);
-  const [selectedSns, setSelectedSns] = useState('');
+  const redirection = useNavigate();
 
+  console.log('bring onLogin in AuthContext!');
+  // AuthContext에서 onLogin 함수를 가져옵니다.
+  const { onLogin, isLoggedIn } = useContext(AuthContext);
+  console.log('isLoggedIn: ', isLoggedIn);
+
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+      console.log('Login useEffect Called!');
+      if (localStorage.getItem('ACCESS_TOKEN')) {
+          console.log('isLoggedIn True!');
+          setOpen(true);
+          setTimeout(() => {
+              redirection('/');
+          }, 3000);
+      }
+  }, []);
+
+  
+
+  const REQUEST_URL = BASE + USER + '/login';
+  
+//서버에 비동기 로그인 요청
+    //함수 앞에 async를 붙이면 해당 함수는 프로미스 객체를 바로 리턴합니다.
+    const fetchLogin = async() => {
+
+      //사용자가 입력한 아이디, 비밀번호 입력 태그 얻어오기
+      const $userId = document.getElementById('userId');
+      const $userPw = document.getElementById('userPw');
+
+      //await는 async로 선언된 함수에서만 사용이 가능합니다.
+      //await는 프로미스 객체가 처리될 때까지 기다립니다. 
+      //프로미스 객체의 반환값을 바로 활용할 수 있게 도와줍니다.
+      //then()을 활용하는 것보다 가독성이 좋고 쓰기도 쉽습니다.
+      const res = await fetch(REQUEST_URL, {
+          method: 'POST',
+          headers: { 'content-type' : 'application/json' },
+          body: JSON.stringify({
+              userId: $userId.value,
+              userPw: $userPw.value
+           })
+      });
+      console.log('login fetch complete!');
+
+      if (res.status === 400) {
+          const text = await res.text();
+          alert(text);
+          return;
+      }
+
+      const { token } = await res.json();
+    
+
+      console.log('setting login data in Context!');
+      // Context API를 사용하여 로그인 상태를 업데이트합니다.
+      onLogin(token);
+
+      console.log('로그인 성공 제발!');
+
+      //홈으로 리다이렉트
+      redirection('/');
+    }
+
+
+      //로그인 요청 핸들러
+      const loginHandler = e => {
+        e.preventDefault();
+        
+          // 서버에 로그인 요청 전송
+          fetchLogin();
+          
+      }
+
+      
  
 
   const defaultTheme = createTheme();
@@ -24,11 +97,12 @@ const Login = () => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
-      id: data.get('userId'),
-      password: data.get('userPw'),
+      userId: data.get('userId'),
+      userPw: data.get('userPw'),
     });
   }
   
+
 
   //Kakao Login
   const Rest_api_key='38942666792fea4c80c24cdac16be341' //REST API KEY
@@ -68,8 +142,13 @@ const Login = () => {
         window.close();
       }
     });
+
+
   };
 
+  const redirect = (e) => {
+    redirection('/');
+  }
   
 
   return (
@@ -115,6 +194,7 @@ const Login = () => {
                     fullWidth
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
+                    onClick={loginHandler}
                 >
                     로그인
                 </Button>
@@ -126,6 +206,7 @@ const Login = () => {
                     fullWidth
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
+                    onClick={redirect}
                 >
                     취소
                 </Button>

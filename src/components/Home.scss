@@ -17,8 +17,10 @@ $main-green: #53A069;
     margin: 0;
 }
 a{
-    all: unset;
-    cursor: pointer;
+    all: unset !important;
+    cursor: pointer !important;
+    text-decoration: none !important;
+    
 }
 h1, h2, h3, h4, h5, h6{
     all: unset;
