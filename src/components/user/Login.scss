@@ -1,0 +1,55 @@
+$main-green: #53A069;
+
+.css-164r41r {
+    max-width: 350px;
+}
+
+.loginBtn {
+        background-color: $main-green !important;
+    }
+
+
+.loginExitBtn {
+    border: 1px solid $main-green !important;
+    background-color: white !important;
+    color: $main-green !important;
+}
+
+.loginBtns button:hover {
+    background-color: $main-green;
+}
+
+/*SNS 로그인 구역*/
+.sns-box {
+    margin-top: 50px;
+    padding: 20px 0 30px;
+    border: 1px solid $main-green;
+    border-radius: 10px;
+    p {
+        font-size: 20px;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .sns-list {
+        display: flex;
+        margin: 0 auto;
+        justify-content: center;
+        
+        img {
+            width: 50px;
+            height: 50px;
+            margin: 0 20px;
+            border-radius: 50%;
+        }
+        img:hover {
+            cursor: pointer;
+        }
+    }
+}
+
+
+
+
+
+

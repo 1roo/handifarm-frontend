@@ -7,7 +7,9 @@ import Home from './components/Home';
 import Login from './components/user/Login';
 import Join from './components/user/Join';
 import BoardList from './components/board/BoardList';
-
+import BoardRegist from './components/board/BoardRegist';
+import BoardDetail from './components/board/BoardDetail';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 function App() {
@@ -21,6 +23,8 @@ function App() {
             <Route path="/login" element={ <Login /> } />
             <Route path="/join" element={ <Join /> } />
             <Route path="/board" element={ <BoardList /> } />
+            <Route path="/boardRegist" element={ <BoardRegist /> } />
+            <Route path="/boardDetail" element={ <BoardDetail /> } />
           </Routes>
           
 
