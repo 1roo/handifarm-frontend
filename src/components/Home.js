@@ -7,11 +7,12 @@ import WbCloudyIcon from '@mui/icons-material/WbCloudy';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import HomeTableBody from './HomeTableBody';
 import HomeMarketBody from './HomeMarketBody';
+import SnsBoardCarousel from './SnsBoardCarousel'
 
 
 const Home = () => {
 
-
+  
   //임시 데이터※※※※※※※※
   const boardList = [{
       category : '공지',
@@ -78,7 +79,6 @@ const Home = () => {
     imgSrc: 'https://cdn.mkhealth.co.kr/news/photo/202212/61768_65496_2151.jpg' //이미지 링크
   }
 ]
-
   //임시 데이터※ ※ ※※※※※※
 
 
@@ -163,6 +163,7 @@ const Home = () => {
             <h2>농사일기</h2>
             <div className='img-list'>
               <div className='arrow'><ArrowCircleUpIcon /></div> {/* 아이콘 바꾸고 싶다 */}
+              <figure><SnsBoardCarousel /></figure>
               <figure><img src="https://qi-o.qoo10cdn.com/goods_image_big/7/6/3/4/7297927634_l.jpg" alt="농작물 사진" /></figure>
               <figure><img src="https://qi-o.qoo10cdn.com/goods_image_big/7/6/3/4/7297927634_l.jpg" alt="농작물 사진" /></figure>
               <figure><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2g4cD2YDqeomQJ4Jg0hSv9B8aX9jq2aooOZPIMyWQDS7CHrdQ9vHfEZaEqGwhDIAol1c&usqp=CAU" alt="농작물 사진" /></figure>
@@ -176,9 +177,6 @@ const Home = () => {
               { MarketList.map(ma => <HomeMarketBody market={ma}/>) }
             </div> {/* market-group END */}
           </section>
-
-
-                
 
       </div>
 
