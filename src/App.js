@@ -11,10 +11,6 @@ import Join from './components/user/Join';
 import BoardList from './components/board/BoardList';
 import BoardRegist from './components/board/BoardRegist';
 import BoardDetail from './components/board/BoardDetail';
-import 'bootstrap/dist/css/bootstrap.min.css';
-
-import { Reset } from 'styled-reset'; 
-import BoardList from './components/board/BoardList';
 
 
 function App() {

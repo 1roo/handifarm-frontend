@@ -190,8 +190,33 @@ section.small-market{
             margin: 0 10px 20px;
             width: 240px; height: 180px;
             background-color: yellowgreen;
-            // &:first-of-type{ width: 220px; height: 220px; }
-            // &:last-of-type{ width: 220px; height: 220px; }
+
+            @include flex-center();
+            overflow: hidden;
+            flex-direction: column;
+
+            img{
+                margin: 0 auto;
+                height: 100%; 
+
+            }
+            .product{
+                display: flex;
+                justify-content: space-between;
+                p{
+                    strong{
+                        font-size: 1.4em;
+                        font-weight: 700;
+                    }
+                }
+                .price{
+
+                }
+
+            }
+        
+        
+        
         }
     }
 
