@@ -1,3 +1,4 @@
+// @import '~bootstrap/scss/bootstrap';
 
 $main-green: #53A069;
 @mixin flex-center {
@@ -11,26 +12,14 @@ $main-green: #53A069;
 }
 
 
-//기본 설정 (index.css로 옮기면 좋음.)
-*{
-    padding: 0;
-    margin: 0;
+.container.home{
+    display: block;
 }
 a{
     all: unset !important;
     cursor: pointer !important;
     text-decoration: none !important;
     
-}
-h1, h2, h3, h4, h5, h6{
-    all: unset;
-}
-//기본 설정 END
-
-
-.container.home{
-    display: block;
-    min-width: 1280px;
 }
 
 
@@ -94,41 +83,67 @@ section.weather-box{
 } // weather-box END
 
 
+
 section.button-box{
 
     margin-top: 50px;
 
     @include flex-center();
     text-align: center;
-    font-size: 21px;
     color: white;
-    font-weight: 700;
-
-    div{
+    
+    *{
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: 0.07em;
         background-color: $main-green;
-        width: 120px; 
+        width: 125px; 
         height: fit-content;
         border-radius: 8px;
         
-        padding: 10px 5px;
-        margin: 0 12px;
-        
-        cursor: pointer;
+        padding: 11px 4px 10px;
+        margin: 0 14px;
     }
 }
 
 
 section.small-board{
 
-    margin-top: 30px;
+    margin-top: 100px;
+    
+    .mini-table{
+        width: 950px;
+        margin: 0 auto;
+    }
 
-    h2{ margin-left: 60px; @include title-font() }
+    //게시판 타이틀
+    h2{ margin-left: 60px; @include title-font() } 
+
+    tr{ line-height: 20px; } //게시판 높이 조정
+    th{ 
+        border-bottom: 1px solid rgb(61, 61, 61);
+        font-size: 1.2em;
+        font-weight: 700;         
+        text-align: center;
+    }
+    td {
+        border-bottom: 0.5px solid $main-green;
+        &:nth-child(n+3), &:nth-child(1){ text-align: center; }
+    }
+
+    .notice{ //공지의 경우
+        td{ background-color: rgb(238, 238, 238); }
+        td:nth-child(-n+2){
+            color: red;
+            font-weight: 700;
+        }
+    } 
 }
 
 
 section.small-snsBoard{
 
-    margin: 30px auto 0;
+    margin: 100px auto 0;
 
 
     h2{ margin-left: 60px; @include title-font() }
@@ -140,22 +155,21 @@ section.small-snsBoard{
         justify-content: center;
 
         article{
-            margin: 0 20px;
+            margin: 0 30px;
             flex-flow: 5;
             width: 240px; height: 240px;
             background-color: orange;
-            &:first-of-type{ width: 220px; height: 220px; }
-            &:last-of-type{ width: 220px; height: 220px; }
+            // &:first-of-type{ width: 220px; height: 220px; }
+            // &:last-of-type{ width: 220px; height: 220px; }
         }
         .arrow{
-            margin: 0 20px;
+            margin: 0 35px;
             flex-flow: 1;
             scale: 2.5;
             cursor: pointer;
             color: orange;
             &:first-child{ rotate: -90deg; }
             &:last-child{ rotate: 90deg; }
-
         }
     }    
 }
@@ -163,9 +177,23 @@ section.small-snsBoard{
 
 section.small-market{
 
-    margin-top: 30px;
+    margin: 100px auto 0;
 
     h2{ margin-left: 60px; @include title-font() }
+
+    .market-group{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        .market-img{
+            margin: 0 10px 20px;
+            width: 240px; height: 180px;
+            background-color: yellowgreen;
+            // &:first-of-type{ width: 220px; height: 220px; }
+            // &:last-of-type{ width: 220px; height: 220px; }
+        }
+    }
 
 
 }
