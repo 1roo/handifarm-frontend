@@ -98,10 +98,10 @@ const Home = () => {
           {/* 날씨 박스 끝  */}
 
           <section className='button-box'>
-            <Button as="a" variant="success">오늘의 정보</Button>
-            <Button as="a" variant="success">게시판</Button>
-            <Button as="a" variant="success">농사일기</Button>
-            <Button as="a" variant="success">거래장터</Button>
+            <Button variant="success">오늘의 정보</Button>
+            <Button variant="success">게시판</Button>
+            <Button variant="success">농사일기</Button>
+            <Button variant="success">거래장터</Button>
           </section>
 
           <section className='small-board'>
