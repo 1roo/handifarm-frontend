@@ -162,10 +162,10 @@ const Home = () => {
           <section className='small-snsBoard'>
             <h2>농사일기</h2>
             <div className='img-list'>
-              <div className='arrow'><ArrowCircleUpIcon /></div>
-              <article><img src="#" alt="농작물 사진" /></article>
-              <article><img src="#" alt="농작물 사진" /></article>
-              <article><img src="#" alt="농작물 사진" /></article>
+              <div className='arrow'><ArrowCircleUpIcon /></div> {/* 아이콘 바꾸고 싶다 */}
+              <figure><img src="https://qi-o.qoo10cdn.com/goods_image_big/7/6/3/4/7297927634_l.jpg" alt="농작물 사진" /></figure>
+              <figure><img src="https://qi-o.qoo10cdn.com/goods_image_big/7/6/3/4/7297927634_l.jpg" alt="농작물 사진" /></figure>
+              <figure><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2g4cD2YDqeomQJ4Jg0hSv9B8aX9jq2aooOZPIMyWQDS7CHrdQ9vHfEZaEqGwhDIAol1c&usqp=CAU" alt="농작물 사진" /></figure>
               <div className='arrow'><ArrowCircleUpIcon /></div>
             </div>
           </section>

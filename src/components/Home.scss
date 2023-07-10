@@ -27,7 +27,7 @@ a{
 // 날씨 알림창 (weather-box)
 section.weather-box{
     margin: 50px auto 0;
-    width: 1280px;
+    width: 1120px;
     display: flex;
     background-color: rgb(241, 241, 241);
     justify-content: space-evenly;
@@ -40,7 +40,7 @@ section.weather-box{
     }
 
     .weather{
-        flex-grow: 3;
+        flex-grow: 2;
         border-left: 1px solid darkgray;
         @include flex-center;
 
@@ -84,11 +84,10 @@ section.weather-box{
 section.button-box{
 
     margin-top: 50px;
-
     @include flex-center();
     text-align: center;
     color: white;
-    
+
     *{
         font-size: 20px;
         font-weight: 600;
@@ -109,7 +108,6 @@ section.small-board{
     margin-top: 100px;
 
     h2{ margin: 0 0 20px 180px; @include title-font() } 
-
 
     .mini-table{
         width: 1040px;
@@ -153,13 +151,20 @@ section.small-snsBoard{
         align-items: center;
         justify-content: center;
 
-        article{
+        figure{
             margin: 0 25px;
+            height: 100%;
+            display: flex;
             flex-flow: 5;
             width: 250px; height: 250px;
-            background-color: orange;
+            overflow: hidden;
+
             // &:first-of-type{ width: 220px; height: 220px; }
             // &:last-of-type{ width: 220px; height: 220px; }
+            img{
+                margin: 0 auto;
+                height: 100%; 
+            }
         }
         .arrow{
             margin: 0 35px;
@@ -205,7 +210,6 @@ section.small-market{
                     margin: 0 auto;
                     height: 100%; 
                 }
-
             }
             .product{
                 margin-top: 15px;
