@@ -1,7 +1,7 @@
 import React from 'react'
 import cn from 'classnames'
 
-const HomeTbody = (board) => {
+const HomeTableBody = (board) => {
 
   const {category, title, userName, createDate, views} = board.board;
 
@@ -18,4 +18,4 @@ const HomeTbody = (board) => {
   )
 }
 
-export default HomeTbody
+export default HomeTableBody

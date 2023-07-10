@@ -107,34 +107,36 @@ section.button-box{
 section.small-board{
 
     margin-top: 100px;
-    
+
+    h2{ margin: 0 0 20px 180px; @include title-font() } 
+
+
     .mini-table{
-        width: 950px;
+        width: 1040px;
         margin: 0 auto;
-    }
+        font-size: 17px;
 
-    //게시판 타이틀
-    h2{ margin-left: 60px; @include title-font() } 
-
-    tr{ line-height: 20px; } //게시판 높이 조정
-    th{ 
-        border-bottom: 1px solid rgb(61, 61, 61);
-        font-size: 1.2em;
-        font-weight: 700;         
-        text-align: center;
-    }
-    td {
-        border-bottom: 0.5px solid $main-green;
-        &:nth-child(n+3), &:nth-child(1){ text-align: center; }
-    }
-
-    .notice{ //공지의 경우
-        td{ background-color: rgb(238, 238, 238); }
-        td:nth-child(-n+2){
-            color: red;
-            font-weight: 700;
+        tr{ line-height: 20px; } //게시판 높이 조정
+        th{ 
+            border-bottom: 1px solid rgb(61, 61, 61);
+            font-size: 1.2em;
+            font-weight: 700;         
+            text-align: center;
         }
-    } 
+        td {
+            border-bottom: 0.5px solid $main-green;
+            // &:nth-child(n+3), &:nth-child(1){ text-align: center; }
+            &:nth-child(2){ text-align: left; text-indent: 5px;}
+        }
+    
+        .notice{ //공지의 경우
+            td{ background-color: rgb(238, 238, 238); }
+            td:nth-child(-n+2){
+                color: red;
+                font-weight: 700;
+            }
+        } 
+    }
 }
 
 
@@ -143,7 +145,7 @@ section.small-snsBoard{
     margin: 100px auto 0;
 
 
-    h2{ margin-left: 60px; @include title-font() }
+    h2{ margin: 0 0 50px 180px; @include title-font() }
     .img-list{
         
         margin-top: 20px;
@@ -152,9 +154,9 @@ section.small-snsBoard{
         justify-content: center;
 
         article{
-            margin: 0 30px;
+            margin: 0 25px;
             flex-flow: 5;
-            width: 240px; height: 240px;
+            width: 250px; height: 250px;
             background-color: orange;
             // &:first-of-type{ width: 220px; height: 220px; }
             // &:last-of-type{ width: 220px; height: 220px; }
@@ -176,38 +178,58 @@ section.small-market{
 
     margin: 100px auto 0;
 
-    h2{ margin-left: 60px; @include title-font() }
+    h2{ margin: 0 0 50px 180px; @include title-font() }
 
     .market-group{
+        margin: 0 auto;
+        width: 1040px; // 이미지 하나당 240 + 마진 20 = 260*4 = 1040px
         display: flex;
         flex-wrap: wrap;
-        justify-content: center;
+        justify-content: flex-start;
 
         .market-img{
             margin: 0 10px 20px;
-            width: 240px; height: 180px;
-            background-color: yellowgreen;
 
-            @include flex-center();
+            width: 240px; height: 240px;
+            
+            display: flex;
+            align-items: center;
             overflow: hidden;
             flex-direction: column;
 
-            img{
-                margin: 0 auto;
-                height: 100%; 
+            figure{
+                height: 160px;
+                border-radius: 10px;
+                overflow: hidden;
+                img{
+                    margin: 0 auto;
+                    height: 100%; 
+                }
 
             }
             .product{
+                margin-top: 15px;
+                width: 100%;
+
                 display: flex;
                 justify-content: space-between;
+                align-items: center;
+                padding: 0 3px;
+
                 p{
+                    height: fit-content;
+                    color: gray;
+
                     strong{
                         font-size: 1.4em;
                         font-weight: 700;
+                        color: black;
+                        margin-bottom: 8px;
+                        display: inline-block;
                     }
                 }
                 .price{
-
+                    font-size: 1.1em;
                 }
 
             }
