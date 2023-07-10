@@ -196,6 +196,8 @@ const Home = () => {
 
           </section>
 
+          <a href="./board/BoardList.js">게시판가는길</a>
+
           
 
 
