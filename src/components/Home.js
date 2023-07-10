@@ -139,9 +139,55 @@ const Home = () => {
             <div className='market-group'>
               
               <div className='market-img'>
+                <img src="https://static6.depositphotos.com/1046511/631/i/600/depositphotos_6310141-stock-photo-bountiful-harvest.jpg" alt="거래장터 사진"/>
+                <div className="product">
+                  <div className='name'>
+                    <strong>주말농장 토마토</strong> <br/>
+                    <em>판매자: 누구누구</em>
+                  </div>
+                  <div className='price'>5000원</div>
+                </div>
+              </div>
+              <div className='market-img'>
+                <img src="https://www.nongmin.com/-/raw/srv-nongmin/data2/content/image/2022/06/16/.cache/512/20220616196317.jpg" alt="거래장터 사진"/>
+                <div className="product">
+                  <div className='name'>
+                    <strong>주말농장 토마토</strong> <br/>
+                    <em>판매자: 누구누구</em>
+                  </div>
+                  <div className='price'>5000원</div>
+                </div>
+                
+              </div>
+              <div className='market-img'>
                 <img src="#" alt="거래장터 사진"/>
-                <div className="product">주말농장 토마토<strong>판매자: 누구누구</strong></div>
-                <div>5000원</div>
+                <div className="product">
+                  <div className='name'>
+                    <strong>주말농장 토마토</strong> <br/>
+                    <em>판매자: 누구누구</em>
+                  </div>
+                  <div className='price'>5000원</div>
+                </div>
+              </div>
+              <div className='market-img'>
+                <img src="#" alt="거래장터 사진"/>
+                <div className="product">
+                  <div className='name'>
+                    <strong>주말농장 토마토</strong> <br/>
+                    <em>판매자: 누구누구</em>
+                  </div>
+                  <div className='price'>5000원</div>
+                </div>
+              </div>
+              <div className='market-img'>
+                <img src="#" alt="거래장터 사진"/>
+                <div className="product">
+                  <p>
+                    <strong>주말농장 토마토</strong> <br/>
+                    판매자: 누구누구
+                  </p>
+                  <div className='price'>5000원</div>
+                </div>
               </div>
               
 
