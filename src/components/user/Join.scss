@@ -1,8 +1,49 @@
-.postmodal{
-    background : rgba(0,0,0,0.25);
-    position : fixed;
-    left:0;
-    top:0;
-    height:100%;
-    width:100%;
+$main-green: #53A069;
+
+@mixin green-btn {
+    background-color: $main-green !important;
+    height: 56px;
+    font-size: 1rem !important;
 }
+
+.menu-title {
+    display: block;
+    font-weight: 700;
+    font-size: 25px;
+    text-align: center;
+    padding-top: 50px;
+}
+
+.css-binzgt {
+    margin-top: 14px !important;
+}
+
+
+.postmodal{
+    background : rgb(255, 255, 255);
+    position : fixed;
+    left:10px;
+    top:10px;
+    height:300px;
+    width:300px;
+}
+
+button#exitBtn {
+    background-color: white !important;
+    border: 1px solid $main-green;
+    color: $main-green;
+    height: 56px;
+    font-size: 1rem !important;
+}
+
+.green-btn {
+    @include green-btn;
+}
+
+.at {
+    line-height: 56px;
+    margin-left: 12px;
+    margin-right: -13px;
+}
+
+
