@@ -7,6 +7,7 @@ import { Select, MenuItem, Button, FormControl, CssBaseline, TextField, FormCont
 import { useNavigate } from 'react-router-dom';
 import { API_BASE_URL as BASE, USER } from '../../config/host-config';
 
+
 const Join = () => {
 
     //리다이렉트 사용하기
@@ -14,9 +15,9 @@ const Join = () => {
     
     const API_BASE_URL = 'http://localhost:8181/api/user';
 
-
+    const [agreeChecked, setAgreeChecked] = useState(false);
     
-    // const [isUserIdAvailable, setIsUserIdAvailable] = useState(false);
+
     const [phoneCheckNum, setPhoneCheckNum] = useState('');
     const [email1, setEmail1] = useState('');
     const [email2, setEmail2] = useState('');
@@ -306,7 +307,9 @@ const Join = () => {
         })
         .then(data => {
             setPhoneCheckNum(data);
+            console.log(data);
         })
+        
         
         
 
@@ -392,6 +395,13 @@ const Join = () => {
         return true;
     }
 
+
+    // 체크박스 변경 이벤트 핸들러
+    const handleAgreeChange = (event) => {
+        setAgreeChecked(event.target.checked);
+    };
+
+
     //회원 가입 처리 서버 요청
     const fetchJoinPost = () => {
         console.log(userValue.userPhone);
@@ -425,19 +435,21 @@ const Join = () => {
 
 
 
-    const joinButtonClickHandler = e => {
+    // 회원 가입 버튼 클릭 핸들러
+    const joinButtonClickHandler = (e) => {
         e.preventDefault();
-        //회원 가입 서버 요청
-        if(isValid()) {
+        if (isValid()) {
+        if (agreeChecked) {
+            // fetchJoinPost 함수 호출
             fetchJoinPost();
         } else {
-            alert('입력란을 다시 확인해 주세요!');
-            console.log(JSON.stringify(correct));
-            
-
+            alert('개인정보 수집 및 이용에 동의해야 합니다.');
         }
-    }
-
+        } else {
+        alert('입력란을 다시 확인해 주세요!');
+        console.log(JSON.stringify(correct));
+        }
+    };
     
 
 
@@ -671,10 +683,17 @@ const Join = () => {
 
 
                 <Grid item xs={12}>
-                <FormControlLabel
-                    control={<Checkbox value="allow" color="primary" />}
-                    label="개인정보 수집 및 이용에 동의합니다."
-                />
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                            value="allow"
+                            color="primary"
+                            checked={agreeChecked} // 체크 여부를 상태 변수와 연결
+                            onChange={handleAgreeChange} // 체크박스 변경 이벤트 핸들러 설정
+                            />
+                        }
+                        label="개인정보 수집 및 이용에 동의합니다."
+                    />
                 </Grid>
             </Grid>
         <Grid container spacing={2}>
