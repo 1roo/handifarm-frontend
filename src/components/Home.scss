@@ -14,13 +14,11 @@ $main-green: #53A069;
 
 .container.home{
     display: block;
-    background-color: gray;
 }
 a{
     all: unset !important;
     cursor: pointer !important;
     text-decoration: none !important;
-    
 }
 
 
@@ -152,7 +150,7 @@ section.small-snsBoard{
         justify-content: center;
 
         figure{
-            margin: 0 25px;
+            margin: 0 20px;
             height: 100%;
             display: flex;
             flex-flow: 5;
@@ -161,24 +159,13 @@ section.small-snsBoard{
 
             // &:first-of-type{ width: 220px; height: 220px; }
             // &:last-of-type{ width: 220px; height: 220px; }
-            img{
-                margin: 0 auto;
-                height: 100%; 
+
+            .carousel-img{
+                height: 250px; width: 100%;
+                background-color: aqua;
             }
-            .carousel > .carousel-inner > .carousel-item{
-                margin: 0 auto;
-                height: 100%; 
-            }
-            .carousel-control-prev-icon{
-                z-index: 999;
-                position: absolute;
-                left: 10px;
-            }
-            .carousel-control-next-icon{
-                z-index: 999;
-                position: absolute;
-                right: 10px;
-            }
+
+            
         }
         .arrow{
             margin: 0 35px;
@@ -191,6 +178,8 @@ section.small-snsBoard{
         }
     }    
 }
+
+
 
 
 section.small-market{
