@@ -139,8 +139,8 @@ const Join = () => {
                 console.log(json);
                 if(json) {
                     msg='중복된 id입니다.';
-                } else {
-                    msg='사용 가능한 아이디입니다.';
+                } else if(userId){
+                    alert('사용 가능한 아이디입니다.');
                     flag = true;
                 }
                 saveInputState({
@@ -202,15 +202,15 @@ const Join = () => {
     
     const selectedEmailHandler = () => {
         let fullEmail = document.getElementById('email1').value + '@' + email2;
-        
+        let inputValue = fullEmail;
         let flag = false;
-        if(email1 && email2) {
+        if(userValue.email1 && userValue.email2) {
             flag = true;
         }
       
         saveInputState({
             key: 'userEmail',
-            inputValue: fullEmail,
+            inputValue,
             flag
         });
         console.log(fullEmail);
@@ -285,13 +285,14 @@ const Join = () => {
         const $phone3 = document.getElementById('phone3').value;
         let fullPhoneNum = '010'+$phone2+$phone3;
         let flag = true;
+        let userPhone = fullPhoneNum;
         const phoneData = {
             'sendTo': fullPhoneNum
         };
 
-        setUserValue({
+        saveInputState({
             ...userValue,
-            userPhone: fullPhoneNum,
+            key:'userPhone',
             flag
         });
 
@@ -321,17 +322,17 @@ const Join = () => {
         let msg, flag = false;
         const inputValue = document.getElementById('inputPhoneCheckNum').value;
         if(inputValue === phoneCheckNum) {
-            flag = true;
             alert('인증되었습니다.');
+            saveInputState({
+                ...userValue,
+                key: 'phoneCheckNum',
+                flag
+            });
+            flag = true;
         } else {
             alert('인증번호가 일치하지 않습니다.');
         }
-        setUserValue({
-            ...userValue,
-            key: 'phoneCheckNum',
-            flag,
-            msg
-        });
+        
     
         
     }
@@ -344,24 +345,25 @@ const Join = () => {
             oncomplete: function (data) {
                 const { zonecode, roadAddress, buildingName, apartment } = data;
                 let extraRoadAddr = '';
+                console.log('zonecode: ', zonecode);
 
                 if (data.buildingName !== '' && data.apartment === 'Y') {
                     extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
                 }
                 if(zonecode) {
-                    flag = true;
-                    setUserPostcode(zonecode);
-                    setUserAddrBasic(roadAddress);
+                    // flag = true;
+                    setUserValue({...userValue, 'userPostcode': zonecode, 'userAddrBasic': roadAddress});
+                    setCorrect({...correct, 'userPostcode': !correct.userPostcode, 'userAddrBasic' : !correct.userAddrBasic});
                 }
                 
             },
         }).open();
-        setUserValue({
-            ...userValue,
-            userPostcode,
-            userAddrBasic,
-            flag
-        });
+        // saveInputState({
+            //     zonecode,
+            //     userPostcode,
+            //     flag
+            // });
+          
     };
 
     //상세주소 입력 변수
@@ -373,9 +375,9 @@ const Join = () => {
         }
         setUserValue({
             ...userValue,
-            inputValue,
-            flag
+            'userAddrDetail': inputValue,
         });
+        setCorrect({...correct, 'userAddrDetail' : !correct.userAddrDetail})
     }
 
     const handleSubmit = (event) => {
@@ -431,6 +433,9 @@ const Join = () => {
         }
     }
 
+    console.log(correct);
+
+
 
     return (
     <>
@@ -451,7 +456,7 @@ const Join = () => {
             <Grid container spacing={1}>
                 <Grid item xs={8} sm={8}>
                     <TextField
-                        autoComplete="ID"
+                        autoComplete="off"
                         name="userId"
                         required
                         fullWidth
@@ -472,7 +477,7 @@ const Join = () => {
                 </Grid>
                 <Grid item xs={12} sm={12}>
                     <TextField
-                        autoComplete="PASSWORD"
+                        autoComplete="off"
                         name="userPw"
                         required
                         fullWidth
@@ -490,7 +495,7 @@ const Join = () => {
                 
                 <Grid item xs={12} sm={12}>
                     <TextField
-                        autoComplete="PASSWORD"
+                        autoComplete="off"
                         name="pwCheck"
                         required
                         type="password"
@@ -507,7 +512,7 @@ const Join = () => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <TextField
-                        autoComplete="NAME"
+                        autoComplete="off"
                         name="userName"
                         required
                         fullWidth
@@ -515,26 +520,31 @@ const Join = () => {
                         label="이름"
                         onChange={nameHandler}
                     />
+                    <span style={
+                                    correct.userName
+                                    ? {color : 'black'}
+                                    : {color : 'red'}
+                                }>{message.userName}</span>
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <TextField
-                        autoComplete="NICKNAME"
+                        autoComplete="off"
                         name="userNick"
                         fullWidth
                         id="userNick"
                         label="닉네임"
-                        onClick={nickHandler}
+                        onChange={nickHandler}
                     />
                 </Grid>
                 <Grid item xs={12} sm={5}>
                     <TextField
-                        autoComplete="EMAIL1"
+                        autoComplete="off"
                         name="email1"
                         required
                         fullWidth
                         id="email1"
                         label="이메일"
-                        onChange={email1Handler}
+
                     />
                 </Grid>
                 <Grid item xs={2} sm={1}>
@@ -542,7 +552,7 @@ const Join = () => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <FormControl fullWidth>
-                        <Select id='email2' value={email2} onChange={email2Handler} fullWidth displayEmpty>
+                        <Select id='email2' value={email2} fullWidth displayEmpty>
                         <MenuItem value='gmail.com'>gmail.com</MenuItem>
                         <MenuItem value='naver.com'>naver.com</MenuItem>
                         <MenuItem value='hanmail.net'>hanmail.net</MenuItem>
@@ -553,7 +563,7 @@ const Join = () => {
                 </Grid>
                 <Grid item xs={3} sm={2}>
                     <TextField
-                        autoComplete="PHONE1"
+                        autoComplete="off"
                         name="phone1"
                         fullWidth
                         id="phone1"
@@ -564,7 +574,7 @@ const Join = () => {
                 </Grid>
                 <Grid item xs={3} sm={3}>
                     <TextField
-                        autoComplete="PHONE2"
+                        autoComplete="off"
                         name="phone2"
                         required
                         fullWidth
@@ -577,7 +587,7 @@ const Join = () => {
                 
                 <Grid item xs={3} sm={3}>
                     <TextField
-                        autoComplete="PHONE3"
+                        autoComplete="off"
                         name="phone3"
                         required
                         fullWidth
@@ -594,7 +604,7 @@ const Join = () => {
                 </Grid>
                 <Grid item xs={12} sm={8}>
                     <TextField
-                        autoComplete="PHONECHECK"
+                        autoComplete="off"
                         name="phoneCheck"
                         required
                         fullWidth
@@ -647,7 +657,7 @@ const Join = () => {
                         id="sample4_detailAddress"
                         name="detailAddress"
                         placeholder="상세주소"
-                        onChange={addrDetailHandler}
+                        onBlur={addrDetailHandler}
                         fullWidth
                     />
                 </Grid>
