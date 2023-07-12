@@ -106,7 +106,6 @@ h1{
     .write{
         @include flex-center();
         width: 100%;
-        background-color: azure;
         
         .MuiButton-root{ display: block;}
         .write-image{
@@ -129,13 +128,33 @@ h1{
             flex-direction: column;
             width: 75%;
 
-            input{ margin-top: 5px; }
+            .answer-content{ //div
+                @include flex-center();
+                font-size: 20px;
+                margin-bottom: 20px;
+                width: 500px;
 
+                &:nth-child(2) .MuiInput-input{  width: 380px; }
 
-        }
-
-
-
+                span{
+                    margin-right: 25px;
+                    margin-top: 3px;
+                    width: 55px;
+                    text-align: end;
+                    font-weight: 700;
+                }
+                .MuiInput-input{
+                    // background-color: tomato;
+                    font-family: 'SUITE-Regular';
+                    text-indent: 5px;
+                    width: 400px;
+                }
+            } //div   
+        } // .write-content END
+    }
+    
+    #regist-btn{ 
+        margin: 30px auto 0;
     }
 
 }

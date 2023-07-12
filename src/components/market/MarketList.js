@@ -2,7 +2,7 @@ import React from 'react'
 import './Market.scss';
 import '../.././Custom.scss';
 import HomeMarketBody from '../HomeMarketBody';
-import { Link } from '@mui/material';
+import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 
 const MarketList = () => {
@@ -48,8 +48,6 @@ const MarketList = () => {
               { MarketList.map(ma => <HomeMarketBody market={ma}/>) }
             </div> {/* market-group END */}
 
-            {/* 왜 이동이 안되지 */}
-            <Link to="/"><Button variant="success">메인 페이지</Button></Link>
             <Link to="/marketRegist"><Button variant="success">작성 페이지</Button></Link>
             <Link to='/marketDetail'><Button variant="success">상세보기 페이지</Button></Link>
 
