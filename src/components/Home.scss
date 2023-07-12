@@ -19,7 +19,6 @@ a{
     all: unset !important;
     cursor: pointer !important;
     text-decoration: none !important;
-    
 }
 
 
@@ -82,7 +81,6 @@ section.weather-box{
 
 
 section.button-box{
-
     margin-top: 50px;
     @include flex-center();
     text-align: center;
@@ -142,7 +140,6 @@ section.small-snsBoard{
 
     margin: 100px auto 0;
 
-
     h2{ margin: 0 0 50px 180px; @include title-font() }
     .img-list{
         
@@ -152,7 +149,7 @@ section.small-snsBoard{
         justify-content: center;
 
         figure{
-            margin: 0 25px;
+            margin: 0 20px;
             height: 100%;
             display: flex;
             flex-flow: 5;
@@ -161,10 +158,13 @@ section.small-snsBoard{
 
             // &:first-of-type{ width: 220px; height: 220px; }
             // &:last-of-type{ width: 220px; height: 220px; }
-            img{
-                margin: 0 auto;
-                height: 100%; 
+
+            .carousel-img{
+                height: 250px; width: 100%;
+                background-color: aqua;
             }
+
+            
         }
         .arrow{
             margin: 0 35px;
@@ -179,6 +179,7 @@ section.small-snsBoard{
 }
 
 
+//거래장터
 section.small-market{
 
     margin: 100px auto 0;
@@ -192,7 +193,7 @@ section.small-market{
         flex-wrap: wrap;
         justify-content: flex-start;
 
-        .market-img{
+        .market-img{ //사진+상품설명 전체 한 칸
             margin: 0 10px 20px;
 
             width: 240px; height: 240px;
@@ -202,7 +203,7 @@ section.small-market{
             overflow: hidden;
             flex-direction: column;
 
-            figure{
+            figure{ //사진 영역
                 height: 160px;
                 border-radius: 10px;
                 overflow: hidden;
@@ -211,7 +212,7 @@ section.small-market{
                     height: 100%; 
                 }
             }
-            .product{
+            .product{ //상품 설명 영역
                 margin-top: 15px;
                 width: 100%;
 
@@ -220,22 +221,20 @@ section.small-market{
                 align-items: center;
                 padding: 0 3px;
 
-                p{
+                p{ // 상품 판매자
                     height: fit-content;
                     color: gray;
 
-                    strong{
+                    strong{ //상품명 강조
                         font-size: 1.4em;
                         font-weight: 700;
                         color: black;
                         margin-bottom: 8px;
                         display: inline-block;
                     }
+                    svg{ margin: 0 2px 5px; font-size: 1.4em;}
                 }
-                .price{
-                    font-size: 1.1em;
-                }
-
+                .price{ font-size: 1.2em; }  //가격 폰트크기
             }
         
         
