@@ -11,11 +11,12 @@ import Join from './components/user/Join';
 import BoardList from './components/board/BoardList';
 import BoardRegist from './components/board/BoardRegist';
 import BoardDetail from './components/board/BoardDetail';
+import AuthContext, { AuthContextProvider } from './components/util/AuthContext';
 
 
 function App() {
   return (
-
+    <AuthContextProvider>
       <Router>
         <Reset />
         <Header />
@@ -28,10 +29,10 @@ function App() {
             <Route path="/boardRegist" element={ <BoardRegist /> } />
             <Route path="/boardDetail" element={ <BoardDetail /> } />
           </Routes>
-          
-
+        
         <Footer />  
       </Router>
+    </AuthContextProvider>
   );
 }
 
