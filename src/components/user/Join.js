@@ -7,6 +7,7 @@ import { Select, MenuItem, Button, FormControl, CssBaseline, TextField, FormCont
 import { useNavigate } from 'react-router-dom';
 import { API_BASE_URL as BASE, USER } from '../../config/host-config';
 
+
 const Join = () => {
 
     //리다이렉트 사용하기
@@ -14,9 +15,9 @@ const Join = () => {
     
     const API_BASE_URL = 'http://localhost:8181/api/user';
 
-
+    const [agreeChecked, setAgreeChecked] = useState(false);
     
-    // const [isUserIdAvailable, setIsUserIdAvailable] = useState(false);
+
     const [phoneCheckNum, setPhoneCheckNum] = useState('');
     const [email1, setEmail1] = useState('');
     const [email2, setEmail2] = useState('');
@@ -50,7 +51,6 @@ const Join = () => {
         userAddrBasic: '',
         userAddrDetail: '',
         userPostcode: '',
-        phoneCheckNum: '',
     });
 
     //검증 메세지 상태변수 관리
@@ -74,6 +74,7 @@ const Join = () => {
         pwCheck: false,
         userName: false,
         userEmail: false,
+        userNick: true,
         userPhone: false,
         userAddrBasic: false,
         userAddrDetail: false,
@@ -182,37 +183,30 @@ const Join = () => {
     //닉네임 입력 이벤트 핸들러
     const nickHandler = e => {
         const inputValue = e.target.value;
+        let flag = true;
         saveInputState({
             key: 'userNick',
-            inputValue
+            inputValue,
+            flag
         });
     }
 
     //이메일 입력 이벤트 핸들러
-    const email1Handler = e => {
-        setEmail1(e.target.value);
-        selectedEmailHandler();
-    }
 
-    const email2Handler = (e) => {
-        setEmail2(e.target.value);
-        selectedEmailHandler();
-    };
-
-    
-    const selectedEmailHandler = () => {
-        let fullEmail = document.getElementById('email1').value + '@' + email2;
-        let inputValue = fullEmail;
+    const selectedEmailHandler = (e) => {
+        const selectedEmailValue = e.target.value;
+        setEmail2(selectedEmailValue);
+        let fullEmail = document.getElementById('email1').value + '@' + selectedEmailValue;
         let flag = false;
-        if(userValue.email1 && userValue.email2) {
+        if(document.getElementById('email1').value && selectedEmailValue) {
             flag = true;
         }
-      
         saveInputState({
             key: 'userEmail',
-            inputValue,
+            inputValue: fullEmail,
             flag
         });
+        
         console.log(fullEmail);
     };
     
@@ -284,20 +278,25 @@ const Join = () => {
         const $phone2 = document.getElementById('phone2').value;
         const $phone3 = document.getElementById('phone3').value;
         let fullPhoneNum = '010'+$phone2+$phone3;
-        let flag = true;
-        let userPhone = fullPhoneNum;
+        let flag = false;
+        if($phone2 && $phone3) {
+            alert('인증번호가 전송되었습니다.')
+            console.log(fullPhoneNum);
+            flag = true;
+        }
+        else {
+            alert('휴대폰번호를 입력하세요')
+        }
+        saveInputState({
+            key: 'userPhone',
+            inputValue: fullPhoneNum,
+            flag
+        });
         const phoneData = {
             'sendTo': fullPhoneNum
         };
 
-        saveInputState({
-            ...userValue,
-            key:'userPhone',
-            flag
-        });
-
         //인증번호 요청
-        const phoneCheckNum = '';
         fetch(`${API_BASE_URL}/phoneNumAuthenticate`, {
             method : 'POST',
             headers : { 'content-type' : 'application/json' },
@@ -307,33 +306,33 @@ const Join = () => {
             return res.text();
         })
         .then(data => {
-            setUserValue({...userValue, userPhone: data.fullPhoneNum});
+            setPhoneCheckNum(data);
             console.log(data);
-            setPhoneCheckNum(data);    
         })
+        
+        
+        
 
-        
-        
-        console.log(fullPhoneNum);
+    
     };
 
     //인증번호가 입력값과 일치하는지 검증
     const phoneCheckNumHanlder = (e) => {
-        let msg, flag = false;
+        let flag = false;
         const inputValue = document.getElementById('inputPhoneCheckNum').value;
-        if(inputValue === phoneCheckNum) {
+        if(inputValue && inputValue === phoneCheckNum) {
             alert('인증되었습니다.');
-            saveInputState({
-                ...userValue,
-                key: 'phoneCheckNum',
-                flag
-            });
-            flag = true;
+            flag = true;            
+        } else if (!inputValue) {
+            alert('인증번호를 입력해주세요.');
         } else {
             alert('인증번호가 일치하지 않습니다.');
         }
-        
-    
+        saveInputState({
+            ...userValue,
+            key: 'phoneCheckNum',
+            flag
+        });    
         
     }
 
@@ -358,11 +357,6 @@ const Join = () => {
                 
             },
         }).open();
-        // saveInputState({
-            //     zonecode,
-            //     userPostcode,
-            //     flag
-            // });
           
     };
 
@@ -393,7 +387,7 @@ const Join = () => {
 
     // 필수 입력칸이 모두 검증에 통과했는지 여부를 검사
     const isValid = () => {
-
+        console.log(correct);
         for(const key in correct) {
             const flag = correct[key];
             if(!flag) return false;
@@ -401,12 +395,32 @@ const Join = () => {
         return true;
     }
 
+
+    // 체크박스 변경 이벤트 핸들러
+    const handleAgreeChange = (event) => {
+        setAgreeChecked(event.target.checked);
+    };
+
+
     //회원 가입 처리 서버 요청
     const fetchJoinPost = () => {
+        console.log(userValue.userPhone);
+        const requestData = {
+            'userId': userValue.userId,
+            'userPw': userValue.userPw,
+            'userName': userValue.userName,
+            'userNick': userValue.userNick,
+            'userEmail': userValue.userEmail,
+            'userPhoneNum': userValue.userPhone,
+            'addrBasic': userValue.userAddrBasic,
+            'addrDetail': userValue.userAddrDetail,
+            'userZipCode': userValue.userPostcode,
+          };
+
         fetch(API_BASE_URL, {
             method: 'POST',
             headers: {'content-type' : 'application/json'},
-            body: JSON.stringify(userValue)
+            body: JSON.stringify(requestData)
         })
         .then(res => {
             if(res.status === 200) {
@@ -414,26 +428,29 @@ const Join = () => {
                 redirection('/login');
             } else {
                 alert('서버와의 통신이 원활하지 않습니다.');
+                console.log(JSON.stringify(requestData));
             }
         })
     }
 
 
 
-    const joinButtonClickHandler = e => {
+    // 회원 가입 버튼 클릭 핸들러
+    const joinButtonClickHandler = (e) => {
         e.preventDefault();
-        //회원 가입 서버 요청
-        if(isValid()) {
+        if (isValid()) {
+        if (agreeChecked) {
+            // fetchJoinPost 함수 호출
             fetchJoinPost();
         } else {
-            alert('입력란을 다시 확인해 주세요!');
-            console.log(JSON.stringify(correct));
-            
-
+            alert('개인정보 수집 및 이용에 동의해야 합니다.');
         }
-    }
-
-    console.log(correct);
+        } else {
+        alert('입력란을 다시 확인해 주세요!');
+        console.log(JSON.stringify(correct));
+        }
+    };
+    
 
 
 
@@ -544,7 +561,6 @@ const Join = () => {
                         fullWidth
                         id="email1"
                         label="이메일"
-
                     />
                 </Grid>
                 <Grid item xs={2} sm={1}>
@@ -552,7 +568,7 @@ const Join = () => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <FormControl fullWidth>
-                        <Select id='email2' value={email2} fullWidth displayEmpty>
+                        <Select id='email2' value={email2} fullWidth displayEmpty onChange={selectedEmailHandler}>
                         <MenuItem value='gmail.com'>gmail.com</MenuItem>
                         <MenuItem value='naver.com'>naver.com</MenuItem>
                         <MenuItem value='hanmail.net'>hanmail.net</MenuItem>
@@ -653,6 +669,7 @@ const Join = () => {
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
+                        autoComplete='off'
                         type="text"
                         id="sample4_detailAddress"
                         name="detailAddress"
@@ -666,10 +683,17 @@ const Join = () => {
 
 
                 <Grid item xs={12}>
-                <FormControlLabel
-                    control={<Checkbox value="allow" color="primary" />}
-                    label="개인정보 수집 및 이용에 동의합니다."
-                />
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                            value="allow"
+                            color="primary"
+                            checked={agreeChecked} // 체크 여부를 상태 변수와 연결
+                            onChange={handleAgreeChange} // 체크박스 변경 이벤트 핸들러 설정
+                            />
+                        }
+                        label="개인정보 수집 및 이용에 동의합니다."
+                    />
                 </Grid>
             </Grid>
         <Grid container spacing={2}>
