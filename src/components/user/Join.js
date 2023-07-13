@@ -131,36 +131,36 @@ const Join = () => {
     });
   };
 
-  //아이디 중복체크
-  const idCheck = () => {
-    const userId = document.getElementById("userId").value;
-    let msg = "",
-      flag = false;
-    fetch(`${API_BASE_URL}/idCheck?userId=${userId}`)
-      .then((res) => {
-        if (res.status === 200) {
-          return res.json();
-        }
-      })
-      .then((json) => {
-        console.log(json);
-        if (json) {
-          msg = "중복된 id입니다.";
-        } else {
-          msg = "사용 가능한 아이디입니다.";
-          flag = true;
-        }
-        saveInputState({
-          key: "idCheck",
-          inputValue: "pass",
-          msg,
-          flag,
-        });
-      })
-      .catch((error) => {
-        console.log("서버 통신이 원활하지 않습니다.");
-      });
-  };
+    //아이디 중복체크
+    const idCheck = () => {
+        const userId = document.getElementById('userId').value;
+        let msg = '', flag = false;
+        fetch(`${API_BASE_URL}/idCheck?userId=${userId}`)
+            .then(res => {
+                if(res.status === 200) {
+                    return res.json();
+                }
+            })
+            .then(json => {
+                console.log(json);
+                if(json) {
+                    msg='중복된 id입니다.';
+                } else {
+                    msg='사용 가능한 아이디입니다.';
+                    flag = true;
+                }
+                saveInputState({
+                    key: 'idCheck',
+                    inputValue: 'pass',
+                    msg,
+                    flag
+                });
+
+            })
+            .catch(error => {
+                console.log('서버 통신이 원활하지 않습니다.');
+            });
+    };
 
   //이름 입력 이벤트 핸들러
   const nameHandler = (e) => {
@@ -199,34 +199,39 @@ const Join = () => {
     selectedEmailHandler();
   };
 
-  const email2Handler = (e) => {
-    setEmail2(e.target.value);
-    selectedEmailHandler();
-  };
+    const email2Handler = (e) => {
+        setEmail2(e.target.value);
+        selectedEmailHandler();
+    };
 
-  const selectedEmailHandler = () => {
-    let fullEmail = document.getElementById("email1").value + "@" + email2;
+    
+    const selectedEmailHandler = () => {
+        let fullEmail = document.getElementById('email1').value + '@' + email2;
+        let inputValue = fullEmail;
+        let flag = false;
+        if(userValue.email1 && userValue.email2) {
+            flag = true;
+        }
+      
+        saveInputState({
+            key: 'userEmail',
+            inputValue,
+            flag
+        });
+        console.log(fullEmail);
+    };
+    
 
-    let flag = false;
-    if (email1 && email2) {
-      flag = true;
-    }
+    //비밀번호 입력 이벤트 핸들러
+    const pwHandler = e => {
 
-    saveInputState({
-      key: "userEmail",
-      inputValue: fullEmail,
-      flag,
-    });
-    console.log(fullEmail);
-  };
+       
+        document.getElementById('pwCheck').value = '';
+        document.getElementById('pwCheck').textContent = '';
 
-  //비밀번호 입력 이벤트 핸들러
-  const pwHandler = (e) => {
-    document.getElementById("pwCheck").value = "";
-    document.getElementById("pwCheck").textContent = "";
+        setMessage({...message, pwCheck: ''});
+        setCorrect({...correct, pwCheck: false});
 
-    setMessage({ ...message, pwCheck: "" });
-    setCorrect({ ...correct, pwCheck: false });
 
     const inputValue = e.target.value;
 
@@ -266,30 +271,34 @@ const Join = () => {
     });
   };
 
-  //휴대폰번호 입력 이벤트 핸들러
-  const phone2Handler = (e) => {
-    const inputValue = e.target.value;
-    setPhone2(inputValue);
-  };
-  const phone3Handler = (e) => {
-    const inputValue = e.target.value;
-    setPhone3(inputValue);
-  };
+    //휴대폰번호 입력 이벤트 핸들러
+    const phone2Handler = e => {
+        const inputValue = e.target.value;
+        setPhone2(inputValue);
+ 
+    }
+    const phone3Handler = e => {
+        const inputValue = e.target.value;
+        setPhone3(inputValue);
+    
+    }
 
-  const phoneHandler = () => {
-    const $phone2 = document.getElementById("phone2").value;
-    const $phone3 = document.getElementById("phone3").value;
-    let fullPhoneNum = "010" + $phone2 + $phone3;
-    let flag = true;
-    const phoneData = {
-      sendTo: fullPhoneNum,
-    };
+ 
+    const phoneHandler = () => {
+        const $phone2 = document.getElementById('phone2').value;
+        const $phone3 = document.getElementById('phone3').value;
+        let fullPhoneNum = '010'+$phone2+$phone3;
+        let flag = true;
+        let userPhone = fullPhoneNum;
+        const phoneData = {
+            'sendTo': fullPhoneNum
+        };
 
-    setUserValue({
-      ...userValue,
-      userPhone: fullPhoneNum,
-      flag,
-    });
+        saveInputState({
+            ...userValue,
+            key:'userPhone',
+            flag
+        });
 
     //인증번호 요청
     const phoneCheckNum = "";
@@ -310,65 +319,68 @@ const Join = () => {
     console.log(fullPhoneNum);
   };
 
-  //인증번호가 입력값과 일치하는지 검증
-  const phoneCheckNumHanlder = (e) => {
-    let msg,
-      flag = false;
-    const inputValue = document.getElementById("inputPhoneCheckNum").value;
-    if (inputValue === phoneCheckNum) {
-      flag = true;
-      alert("인증되었습니다.");
-    } else {
-      alert("인증번호가 일치하지 않습니다.");
-    }
-    setUserValue({
-      ...userValue,
-      key: "phoneCheckNum",
-      flag,
-      msg,
-    });
-  };
-
-  //주소검색 입력 변수
-  const handlePostcode = () => {
-    let flag = true;
-    new window.daum.Postcode({
-      oncomplete: function (data) {
-        const { zonecode, roadAddress, buildingName, apartment } = data;
-        let extraRoadAddr = "";
-
-        if (data.buildingName !== "" && data.apartment === "Y") {
-          extraRoadAddr +=
-            extraRoadAddr !== "" ? ", " + data.buildingName : data.buildingName;
+    //인증번호가 입력값과 일치하는지 검증
+    const phoneCheckNumHanlder = (e) => {
+        let msg, flag = false;
+        const inputValue = document.getElementById('inputPhoneCheckNum').value;
+        if(inputValue === phoneCheckNum) {
+            alert('인증되었습니다.');
+            saveInputState({
+                ...userValue,
+                key: 'phoneCheckNum',
+                flag
+            });
+            flag = true;
+        } else {
+            alert('인증번호가 일치하지 않습니다.');
         }
-        if (zonecode) {
-          flag = true;
-          setUserPostcode(zonecode);
-          setUserAddrBasic(roadAddress);
-        }
-      },
-    }).open();
-    setUserValue({
-      ...userValue,
-      userPostcode,
-      userAddrBasic,
-      flag,
-    });
-  };
-
-  //상세주소 입력 변수
-  const addrDetailHandler = (e) => {
-    const inputValue = e.target.value;
-    let flag = false;
-    if (inputValue) {
-      flag = true;
+        
+    
+        
     }
-    setUserValue({
-      ...userValue,
-      inputValue,
-      flag,
-    });
-  };
+
+
+    //주소검색 입력 변수
+    const handlePostcode = () => {
+        let flag = true;
+        new window.daum.Postcode({
+            oncomplete: function (data) {
+                const { zonecode, roadAddress, buildingName, apartment } = data;
+                let extraRoadAddr = '';
+                console.log('zonecode: ', zonecode);
+
+                if (data.buildingName !== '' && data.apartment === 'Y') {
+                    extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                if(zonecode) {
+                    // flag = true;
+                    setUserValue({...userValue, 'userPostcode': zonecode, 'userAddrBasic': roadAddress});
+                    setCorrect({...correct, 'userPostcode': !correct.userPostcode, 'userAddrBasic' : !correct.userAddrBasic});
+                }
+                
+            },
+        }).open();
+        // saveInputState({
+            //     zonecode,
+            //     userPostcode,
+            //     flag
+            // });
+          
+    };
+
+    //상세주소 입력 변수
+    const addrDetailHandler = e => {
+        const inputValue = e.target.value;
+        let flag = false;
+        if(inputValue) {
+            flag = true;
+        }
+        setUserValue({
+            ...userValue,
+            'userAddrDetail': inputValue,
+        });
+        setCorrect({...correct, 'userAddrDetail' : !correct.userAddrDetail})
+    }
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -415,7 +427,7 @@ const Join = () => {
       alert("입력란을 다시 확인해 주세요!");
       console.log(JSON.stringify(correct));
     }
-  };
+
 
   return (
     <>
@@ -440,22 +452,20 @@ const Join = () => {
             >
               <Grid container spacing={1}>
                 <Grid item xs={8} sm={8}>
-                  <TextField
-                    autoComplete="ID"
-                    name="userId"
-                    required
-                    fullWidth
-                    id="userId"
-                    label="아이디"
-                    onChange={idHandler}
-                  />
-                  <span
-                    style={
-                      correct.userId ? { color: "black" } : { color: "red" }
-                    }
-                  >
-                    {message.userId}
-                  </span>
+                    <TextField
+                        autoComplete="off"
+                        name="userId"
+                        required
+                        fullWidth
+                        id="userId"
+                        label="아이디"
+                        onChange={idHandler}
+                    />
+                    <span style={
+                                    correct.userId
+                                    ? {color : 'black'}
+                                    : {color : 'red'}
+                                }>{message.userId}</span>
                 </Grid>
                 <Grid item xs={4} sm={4}>
                   <Button
@@ -469,132 +479,121 @@ const Join = () => {
                   </Button>
                 </Grid>
                 <Grid item xs={12} sm={12}>
-                  <TextField
-                    autoComplete="PASSWORD"
-                    name="userPw"
-                    required
-                    fullWidth
-                    id="userPw"
-                    type="password"
-                    label="비밀번호"
-                    onChange={pwHandler}
-                  />
-                  <span
-                    style={
-                      correct.userId ? { color: "red" } : { color: "black" }
-                    }
-                  >
-                    {message.userPw}
-                  </span>
+                    <TextField
+                        autoComplete="off"
+                        name="userPw"
+                        required
+                        fullWidth
+                        id="userPw"
+                        type="password"
+                        label="비밀번호"
+                        onChange={pwHandler}
+                    />
+                    <span style={
+                                    correct.userId
+                                    ? {color : 'red'}
+                                    : {color : 'black'}
+                                }>{message.userPw}</span>
                 </Grid>
 
                 <Grid item xs={12} sm={12}>
-                  <TextField
-                    autoComplete="PASSWORD"
-                    name="pwCheck"
-                    required
-                    type="password"
-                    fullWidth
-                    id="pwCheck"
-                    label="비밀번호 확인"
-                    onChange={pwCheckHandler}
-                  />
-                  <span
-                    id="pwCheck"
-                    style={
-                      correct.userId ? { color: "red" } : { color: "black" }
-                    }
-                  >
-                    {message.pwCheck}
-                  </span>
+                    <TextField
+                        autoComplete="off"
+                        name="pwCheck"
+                        required
+                        type="password"
+                        fullWidth
+                        id="pwCheck"
+                        label="비밀번호 확인"
+                        onChange={pwCheckHandler}
+                    />
+                    <span id='pwCheck' style={
+                                correct.userId
+                                ? {color : 'red'}
+                                : {color : 'black'}
+                            }>{message.pwCheck}</span>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <TextField
-                    autoComplete="NAME"
-                    name="userName"
-                    required
-                    fullWidth
-                    id="userName"
-                    label="이름"
-                    onChange={nameHandler}
-                  />
+                    <TextField
+                        autoComplete="NAME"
+                        name="userName"
+                        required
+                        fullWidth
+                        id="userName"
+                        label="이름"
+                        onChange={nameHandler}
+                    />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <TextField
-                    autoComplete="NICKNAME"
-                    name="userNick"
-                    fullWidth
-                    id="userNick"
-                    label="닉네임"
-                    onClick={nickHandler}
-                  />
+                    <TextField
+                        autoComplete="off"
+                        name="userNick"
+                        fullWidth
+                        id="userNick"
+                        label="닉네임"
+                        onChange={nickHandler}
+                    />
                 </Grid>
                 <Grid item xs={12} sm={5}>
-                  <TextField
-                    autoComplete="EMAIL1"
-                    name="email1"
-                    required
-                    fullWidth
-                    id="email1"
-                    label="이메일"
-                    onChange={email1Handler}
-                  />
+                    <TextField
+                        autoComplete="off"
+                        name="email1"
+                        required
+                        fullWidth
+                        id="email1"
+                        label="이메일"
+
+                    />
                 </Grid>
                 <Grid item xs={2} sm={1}>
                   <span className="at">@</span>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <FormControl fullWidth>
-                    <Select
-                      id="email2"
-                      value={email2}
-                      onChange={email2Handler}
-                      fullWidth
-                      displayEmpty
-                    >
-                      <MenuItem value="gmail.com">gmail.com</MenuItem>
-                      <MenuItem value="naver.com">naver.com</MenuItem>
-                      <MenuItem value="hanmail.net">hanmail.net</MenuItem>
-                      <MenuItem value="daum.net">daum.net</MenuItem>
-                      <MenuItem value="nate.com">nate.com</MenuItem>
-                    </Select>
-                  </FormControl>
+                    <FormControl fullWidth>
+                        <Select id='email2' value={email2} fullWidth displayEmpty>
+                        <MenuItem value='gmail.com'>gmail.com</MenuItem>
+                        <MenuItem value='naver.com'>naver.com</MenuItem>
+                        <MenuItem value='hanmail.net'>hanmail.net</MenuItem>
+                        <MenuItem value='daum.net'>daum.net</MenuItem>
+                        <MenuItem value='nate.com'>nate.com</MenuItem>
+                        </Select>
+                    </FormControl>
                 </Grid>
                 <Grid item xs={3} sm={2}>
-                  <TextField
-                    autoComplete="PHONE1"
-                    name="phone1"
-                    fullWidth
-                    id="phone1"
-                    label="010"
-                    disabled
-                    inputProps={{ maxLength: 3 }}
-                  />
+                    <TextField
+                        autoComplete="off"
+                        name="phone1"
+                        fullWidth
+                        id="phone1"
+                        label="010"
+                        disabled
+                        inputProps={{ maxLength: 3 }}
+                    />
                 </Grid>
                 <Grid item xs={3} sm={3}>
-                  <TextField
-                    autoComplete="PHONE2"
-                    name="phone2"
-                    required
-                    fullWidth
-                    id="phone2"
-                    label=""
-                    inputProps={{ maxLength: 4 }}
-                    onChange={phone2Handler}
-                  />
+                    <TextField
+                        autoComplete="off"
+                        name="phone2"
+                        required
+                        fullWidth
+                        id="phone2"
+                        label=""
+                        inputProps={{ maxLength: 4 }}
+                        onChange={phone2Handler}
+                    />
                 </Grid>
 
                 <Grid item xs={3} sm={3}>
-                  <TextField
-                    autoComplete="PHONE3"
-                    name="phone3"
-                    required
-                    fullWidth
-                    id="phone3"
-                    label=""
-                    inputProps={{ maxLength: 4 }}
-                    onChange={phone3Handler}
-                  />
+                    <TextField
+                        autoComplete="off"
+                        name="phone3"
+                        required
+                        fullWidth
+                        id="phone3"
+                        label=""
+                        inputProps={{ maxLength: 4 }}
+                        onChange={phone3Handler}
+                    />
                 </Grid>
                 <Grid item xs={12} sm={4}>
                   <Button
@@ -609,24 +608,20 @@ const Join = () => {
                   </Button>
                 </Grid>
                 <Grid item xs={12} sm={8}>
-                  <TextField
-                    autoComplete="PHONECHECK"
-                    name="phoneCheck"
-                    required
-                    fullWidth
-                    id="inputPhoneCheckNum"
-                    label="인증번호 4자리"
-                    inputProps={{ maxLength: 4 }}
-                  />
-                  <span
-                    style={
-                      correct.phoneCheckNum
-                        ? { color: "black" }
-                        : { color: "red" }
-                    }
-                  >
-                    {message.phoneCheckNum}
-                  </span>
+                    <TextField
+                        autoComplete="off"
+                        name="phoneCheck"
+                        required
+                        fullWidth
+                        id="inputPhoneCheckNum"
+                        label="인증번호 4자리"
+                        inputProps={{ maxLength: 4 }}
+                    />
+                    <span style={
+                                    correct.phoneCheckNum
+                                    ? {color : 'black'}
+                                    : {color : 'red'}
+                                }>{message.phoneCheckNum}</span>
                 </Grid>
                 <Grid item xs={12} sm={4}>
                   <Button
@@ -674,14 +669,14 @@ const Join = () => {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
-                    type="text"
-                    id="sample4_detailAddress"
-                    name="detailAddress"
-                    placeholder="상세주소"
-                    onChange={addrDetailHandler}
-                    fullWidth
-                  />
+                    <TextField
+                        type="text"
+                        id="sample4_detailAddress"
+                        name="detailAddress"
+                        placeholder="상세주소"
+                        onBlur={addrDetailHandler}
+                        fullWidth
+                    />
                 </Grid>
 
                 <Grid item xs={12}>
