@@ -188,34 +188,6 @@ const Join = () => {
         });
     }
 
-    //이메일 입력 이벤트 핸들러
-    const email1Handler = e => {
-        setEmail1(e.target.value);
-        selectedEmailHandler();
-    }
-
-    const email2Handler = (e) => {
-        setEmail2(e.target.value);
-        selectedEmailHandler();
-    };
-
-    
-    const selectedEmailHandler = () => {
-        let fullEmail = document.getElementById('email1').value + '@' + email2;
-        let inputValue = fullEmail;
-        let flag = false;
-        if(userValue.email1 && userValue.email2) {
-            flag = true;
-        }
-      
-        saveInputState({
-            key: 'userEmail',
-            inputValue,
-            flag
-        });
-        console.log(fullEmail);
-    };
-    
 
     //비밀번호 입력 이벤트 핸들러
     const pwHandler = e => {
@@ -421,6 +393,18 @@ const Join = () => {
 
 
     const joinButtonClickHandler = e => {
+        let fullEmail = document.getElementById('email1').value + '@' + email2;
+        console.log(fullEmail);
+        let inputValue = fullEmail;
+        let flag = false;
+        if(userValue.email1 && email2) {
+            flag = true;
+        }
+        saveInputState({
+            key: 'userEmail',
+            inputValue,
+            flag
+        });
         e.preventDefault();
         //회원 가입 서버 요청
         if(isValid()) {
@@ -544,7 +528,6 @@ const Join = () => {
                         fullWidth
                         id="email1"
                         label="이메일"
-
                     />
                 </Grid>
                 <Grid item xs={2} sm={1}>
