@@ -25,7 +25,7 @@ const Join = () => {
   //리다이렉트 사용하기
   const redirection = useNavigate();
 
-  const API_BASE_URL = "http://localhost:8181/api/user";
+  const API_BASE_URL = BASE + USER;
 
   const [agreeChecked, setAgreeChecked] = useState(false);
 
@@ -146,7 +146,7 @@ const Join = () => {
       .then((json) => {
         console.log(json);
         if (json) {
-          msg = "중복된 id입니다.";
+          alert("중복된 id입니다.");
         } else if (userId) {
           alert("사용 가능한 아이디입니다.");
           flag = true;
@@ -154,7 +154,6 @@ const Join = () => {
         saveInputState({
           key: "idCheck",
           inputValue: "pass",
-          msg,
           flag,
         });
       })
@@ -173,7 +172,7 @@ const Join = () => {
       flag = false;
 
     if (!nameRegex.test(inputValue)) {
-      msg = "2~5글자 사이의 한글로 작성하세요!";
+      msg = "2~5글자 사이의 한글로 작성하세요.";
     } else {
       flag = true;
     }
