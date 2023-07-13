@@ -1,6 +1,6 @@
 import "./Board.scss";
 
-import { React, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import {
   FormControl,
@@ -11,13 +11,13 @@ import {
   Select,
   MenuItem,
   Stack,
-  Pagination,
+  Pagination
 } from "@mui/material";
-import { fontWeight, margin } from "@mui/system";
 import { API_BASE_URL as BASE, BOARD } from "../../config/host-config";
 
 function BoardList() {
   const [data, setData] = useState([]);
+
 
   const API_BASE_URL = BASE + BOARD;
 
@@ -40,6 +40,8 @@ function BoardList() {
       });
   }, []);
 
+  
+
   const [selectedTopic, setSelectedTopic] = useState("all"); // 기본값으로 'all'을 선택
   const handleTopicChange = (event) => {
     setSelectedTopic(event.target.value);
@@ -49,6 +51,26 @@ function BoardList() {
   const handleConditionChange = (event) => {
     setSelectedCondition(event.target.value);
   };
+
+  //페이지네이션
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const itemsPerPage = 20;
+  const pageCount = Math.ceil(data.length / itemsPerPage);
+
+
+  //공지글이 제일 최상단에 고정되도록
+  const sortedData = [...data].sort((a, b) => {
+    if (a.category === "notice" && b.category !== "notice") return -1;
+    if (a.category !== "notice" && b.category === "notice") return 1;
+    return 0;
+  });
+  
+  const displayedData = sortedData.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
 
   return (
     <>
@@ -118,10 +140,10 @@ function BoardList() {
               </tr>
             </thead>
             <tbody>
-              {data.map((row) => (
+              {displayedData.map((row) => (
                 <tr
                   style={
-                    row.category == "공지"
+                    row.category == "notice"
                       ? { backgroundColor: "gainsboro" }
                       : { backgroundColor: "none" }
                   }
@@ -130,28 +152,29 @@ function BoardList() {
                   <td className="td">
                     <div
                       style={
-                        row.category == "공지"
+                        row.category == "notice"
                           ? { display: "none" }
                           : { display: "block" }
                       }
                     >
-                      {row.category}
+                      {row.category == "information" && "정보"}
+                      {row.category == "free" && "자유"}
                     </div>
                     <div
                       className="notice-box"
                       style={
-                        row.category == "공지"
+                        row.category == "notice"
                           ? { display: "block", color: "red" }
                           : { display: "none" }
                       }
                     >
-                      {row.category}
+                      {row.category == "notice" && "공지"}
                     </div>
                   </td>
                   <td
                     className="td td-title"
                     style={
-                      row.category == "공지"
+                      row.category == "notice"
                         ? { color: "red", fontWeight: "bold" }
                         : { color: "black" }
                     }
@@ -168,7 +191,11 @@ function BoardList() {
         </Grid>
         <Grid>
           <Stack spacing={2}>
-            <Pagination count={10} color="primary" />
+          <Pagination
+      count={pageCount}
+      page={currentPage}
+      color="success"
+      onChange={(event, page) => setCurrentPage(page)} />
           </Stack>
         </Grid>
       </Container>

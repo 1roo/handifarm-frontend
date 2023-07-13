@@ -70,9 +70,10 @@ table {
 
 textArea {
     border: 1px solid lightgray;
-    width: 650px;
+    width: 700px;
     height: 350px;
     resize: none;
+    margin-top: 20px;
 
     
         input {
@@ -81,7 +82,7 @@ textArea {
             justify-content: start;
             align-content: start;
             vertical-align: top;
-            width: 650px;
+            width: 700px;
             font-size: 1rem;
             font-weight: 200;
             line-height: 1.5;
@@ -90,7 +91,7 @@ textArea {
         }
     
         @media (min-width: 770px) {
-            width: 655px;
+            width: 700px;
         }
     
     
@@ -104,6 +105,17 @@ textArea:focus {
     outline: white;
 }
 
-.grid-box {
+.css-do48jf-MuiFormControl-root {
+    display: flex !important;
+}
+
+.registBtns {
     display: flex;
+
+    button {
+        width: 200px;
+        margin: 0 20px;
+        text-decoration: none;
+        color: white;
+    }
 }
