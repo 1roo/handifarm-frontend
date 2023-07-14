@@ -60,6 +60,11 @@ table {
 
     .td-title {
         text-align: left;
+        cursor: pointer;
+    }
+
+    .td-title:hover {
+        font-size: 1.1em;
     }
 
     td.td {
@@ -118,4 +123,67 @@ textArea:focus {
         text-decoration: none;
         color: white;
     }
+}
+
+.regist-btn-div {
+    display: flex;
+    justify-content: end;
+
+    .regist-btn {
+        @include green-btn;
+        height: 40px;
+        margin: 0 auto;
+        margin-top: 50px;
+    }
+}
+
+
+.cateTitle {
+    display: flex;
+    padding-left: 20px;
+    margin-top: 50px;
+    font-size: 1.6em;
+
+    div.category {
+        margin-right: 5px;
+        font-weight: bold;
+    }
+}
+
+
+.info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    padding: 0 90px;
+    font-size: 1.1em;
+}
+
+.writerInfo {
+    display: flex;
+    align-items: center;;
+
+    div.writer {
+        margin-right: 15px;
+    }
+
+    div.regDate {
+        font-size: 0.8em;
+    }
+}
+
+.viewReply {
+    display: flex;
+    margin-right: 100px;
+
+    .viewCount {
+        margin-right: 15px;
+    }
+}
+
+.content {
+    padding: 50px;
+    height: 500px;
+    font-size: 1.3em;
+    cursor: default;
 }
