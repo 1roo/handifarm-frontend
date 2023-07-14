@@ -17,19 +17,40 @@ a{
 }
 
 h1{
-    margin-top: 100px;
-    margin-left: 80px;
+    margin: 100px 0 0 80px;
     font-size: 28px;
-    font-weight: 900;
+}
+hr.h1-bottom{
+    margin: 10px 0 50px 70px;
+    width: 90%;
 }
 
 // MarketList START
 .container.market{
     display: block;
 
+    h1{ font-weight: 900; margin-bottom: 20;}
+    .searchVar{
+        // margin-bottom: 80px;
+
+        background-color: $main-green;
+        margin: 0 auto 80px;
+        width: 100%;
+        height: 30px;
+
+        font-size: 20px;
+        font-weight: 500;
+        line-height: 30px;
+        text-align: right;
+        padding: 0 30px;
+
+        color: white;
+    }
+
     .market-list{
-        margin: 50px auto;
-        width: 100%; 
+        margin: 0 auto;
+        min-width: min-content;
+        width: 1080px;
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;
@@ -39,7 +60,7 @@ h1{
             padding: 10px 10px 0;
             box-sizing: content-box; //padding을 적용시키기 위함
 
-            width: 240px; height: 240px;
+            width: 220px; height: 220px;
             
             display: flex;
             align-items: center;
@@ -76,14 +97,14 @@ h1{
                     height: fit-content;
                     color: gray;
                     strong{ // 상품명
-                        font-size: 1.4em;
+                        font-size: 1.3em;
                         font-weight: 700;
                         color: black;
                         margin-bottom: 8px;
                         display: inline-block;
                     }
                 }
-                .price{ font-size: 1.2em; } //가격 폰트크기
+                .price{ font-size: 1.1em; } //가격 폰트크기
             }
 
             &:hover{ //마우스 호버 시 반응
@@ -95,8 +116,27 @@ h1{
                 border-radius: 10px;
             } //마우스 호버 시 반응 END
         }
+
+    }
+    
+    .more-btn{ //더보기 버튼
+        @include flex-center();
+        font-family: 'SUITE-Regular';
+        width: 80%;
+        padding: 10px 20px;
+        background-color: rgba($color: lightgray, $alpha: 0.7); 
+        box-shadow: 2px 2px 7px rgba($color: #8a8a8a, $alpha: 0.5);
+        
+        margin: 20px auto 50px;
+    }
+    .link-box{
+        width: 100%;
+        display: flex;
+        justify-content: right;
+        svg{margin-right: 5px;}
     }
 }
+    
 // MarketList END
 
 
@@ -104,76 +144,236 @@ h1{
 .container.market-regist{
 
     .write{
-        @include flex-center();
+        display: flex;
+        justify-content: center;
+        align-items: center;
         width: 100%;
-        background-color: azure;
         
         .MuiButton-root{ display: block;}
         .write-image{
-            // flex-grow: 1;
+            width: 500px;
+            background-color: lightgrey;
             margin-left: 50px;
             cursor: pointer;
 
             .add-file{
+                @include flex-center();
+                overflow: hidden;
                 width: 100%;
                 height: 500px;
-                background-color: lightgrey;
                 img{ width: 100%;}
             }
         }
         .write-content{
-            // flex-grow: 3;
-            margin: 0 110px 0 50px;
-
+            margin-right: 50px;
+            margin-left: 30px;
+            
             display: flex;
             flex-direction: column;
-            width: 75%;
+            justify-content: center;
+            width: 90%;
+            
 
-            input{ margin-top: 5px; }
+            .answer-content{ //각각 input 박스 조절
+                display: flex;
+                justify-content: left;
+                align-items: flex-start;
+                font-size: 20px;
+                margin-bottom: 10px;
+                width: 100%;
 
+                &:nth-child(3){ //상품설명 박스
+                    align-items: center;
+                    .list-title{ margin-top: -30px; } //위치 맞추기
+                }
+                
+                .list-title{ //소제목
+                    margin-right: 22px;
+                    width: 90px;
+                    text-align: end;
+                    font-weight: 700;
+                    margin-top: 5px;
+                }
+                .answer-box{ //입력 박스          
+                    font-family: 'SUITE-Regular';
+                    width: 95%;
+                    font-size: 1.2em;
+                    letter-spacing: 0.05em; 
 
+                    &[disabled]{ 
+                        background-color: rgb(185, 185, 185);
+                        border-top-left-radius: 7px;
+                        border-top-right-radius: 7px;
+                        padding-top: 7px;
+                    }
+                    input{
+                        // border-left: 5px double yellow;
+                        // border-style: dotted;
+                        // border-top-left-radius: 3px;
+                        text-indent: 3px;
+                    }
+                }
+            } // 박스 잡기 END   
+        } // .write-content END
+    } // .write END
+    
+    .btn-center{
+        @include flex-center();
+        margin-top: 70px;
+        
+        #regist-btn{ //등록하기 버튼
+            font-family: 'SUITE-Regular';
+            font-weight: 600;
+            margin-left: 40px;
+            width: 120px;
         }
-
-
-
-    }
-
-}
-.add-file{
-    width: 200px; height: 200px;
-    overflow: hidden;
-    @include flex-center();
-    img{
-        width: 100%;
+        .return-btn{
+            background-color: lightgray !important;
+            color: black;
+            font-family: 'SUITE-Regular';
+            font-weight: 600;
+            width: 120px;
+        }
     }
 }
 // MarketRegist END
 
 
 
+
 // MarketDetail START
 .container.market-detail{
+    width: 100%;
+
+    .content{
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        width: 100%;
+
+        .content-img{ //상품 이미지
+            width: 500px;
+            article{
+                width: 360px;
+                height: 500px;
+                background-color: lightgrey;
+                margin-left: 50px;
+                overflow: hidden;
     
+                img{
+                    @include flex-center();
+                    height: 100%;
+                }
+            }
+        }
+        .content-content{
+            margin-left: 50px;
+            min-width: 50%;
+            width: fit-content;
+
+            .green-btn[disabled]{
+                font-weight: 500;
+                height: fit-content;
+                padding: 0 15px;
+                color: white;
+                font-family: 'SUITE-Regular';
+            }
+
+            .title{ //상품명, 등록일
+                margin-top: 15px;
+                width: 85%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                strong{
+                    
+                    font-weight: 900;
+                    font-size: 2em;
+                }
+                span{ 
+                    color: darkgray;
+                    margin-right: 20px;
+                    font-size: 14px;
+                    font-weight: 600;
+                }
+            }
+            .score{ //별점
+                display: flex;
+                align-items: center;
+                margin-top: 8px;
+                span{
+                    span{ //별이 다섯개~~
+                        @include flex-center();
+                        scale: 1.08;
+                    }
+                }
+                em{
+                    margin-left: 10px;
+                    color: blue;
+                    text-decoration: underline;
+                }
+            }
+            .from{ //판매자 & 원산지
+                line-height: 1.4em;
+                margin-top: 30px;
+                color: gray;
+                text-indent: 10px;
+            }
+            .text{ //상품설명
+                margin-top: 10px;
+                margin-left: 5px;
+                background-color: rgb(241, 241, 241);
+                max-width: 85%;
+
+                p{
+                    width: 100%;
+                    padding: 15px 17px;
+                    em{
+                        height: fit-content;
+                        color: gray;
+                        font-size: 1.1em;
+                    }
+                    span{ //등록일
+                        margin-top: 10px;
+                        display: block;
+                        text-align: end;
+                    }
+                }
+            }
+            .price{ //가격
+                margin-top: 50px;
+                line-height: 1.7em;
+                strong{
+                    font-size: 1.7em;
+                    font-weight: 900;
+                }
+                p{
+                    color: red;
+                }
+            }
+            .btn-center{
+                width: 85%;
+                @include flex-center();
+                #buy-btn{ //등록하기 버튼
+                    width: 130px;
+                    height: fit-content;
+                    margin-top: 30px;
+                    font-weight: 600;
+                }
+            }
+
+        }
+
+
+
+    }
 
 
 
 
 }
 // MarketDetail END
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

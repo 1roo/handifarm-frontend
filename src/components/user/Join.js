@@ -25,14 +25,17 @@ const Join = () => {
   //리다이렉트 사용하기
   const redirection = useNavigate();
 
-  const API_BASE_URL = BASE + USER;
+  const API_BASE_URL = "http://localhost:8181/api/user";
 
   const [agreeChecked, setAgreeChecked] = useState(false);
 
   const [phoneCheckNum, setPhoneCheckNum] = useState("");
+  const [email1, setEmail1] = useState("");
   const [email2, setEmail2] = useState("");
   const [phone2, setPhone2] = useState("");
   const [phone3, setPhone3] = useState("");
+  const [userAddrBasic, setUserAddrBasic] = useState("");
+  const [userPostcode, setUserPostcode] = useState("");
 
   useEffect(() => {
     window.daum = window.daum || {}; // daum 객체 전역 범위에 선언
@@ -58,6 +61,7 @@ const Join = () => {
     userAddrBasic: "",
     userAddrDetail: "",
     userPostcode: "",
+    phoneCheckNum: "",
   });
 
   //검증 메세지 상태변수 관리
@@ -395,23 +399,10 @@ const Join = () => {
 
   //회원 가입 처리 서버 요청
   const fetchJoinPost = () => {
-    console.log(userValue.userPhone);
-    const requestData = {
-      userId: userValue.userId,
-      userPw: userValue.userPw,
-      userName: userValue.userName,
-      userNick: userValue.userNick,
-      userEmail: userValue.userEmail,
-      userPhoneNum: userValue.userPhone,
-      addrBasic: userValue.userAddrBasic,
-      addrDetail: userValue.userAddrDetail,
-      userZipCode: userValue.userPostcode,
-    };
-
     fetch(API_BASE_URL, {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify(requestData),
+      body: JSON.stringify(userValue),
     }).then((res) => {
       if (res.status === 200) {
         alert("회원가입에 성공했습니다!");
