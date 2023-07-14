@@ -4,15 +4,13 @@ import React, { useEffect, useState } from "react";
 const AuthContext = React.createContext({
     isLoggedIn: false, //로그인 했는지의 여부 추적
     onLogout: () => {}, //더미 함수를 넣으면 자동완성 시 편함.
-    onLogin: (userId, userPw) => {},
+    onLogin: () => {},
     setUserInfo: () => {}
 });
 
 // 위에서 생성한 Context를 제공할 수 있는 provider
 // 이 컴포넌트를 통해 자식 컴포넌트들에게 인증 상태와 관련된 함수들을 전달할 수 있음.
 export const AuthContextProvider = props => {
-
-    console.log('AuthContextProvider Rendering!');
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -33,15 +31,13 @@ export const AuthContextProvider = props => {
     //로그인 핸들러
     const loginHandler = (token) => {
         localStorage.setItem('isLoggedIn', '1');
-        //json에 담긴 인증정보를 클라이언트에 보관
-        // 1. 로컬 스토리지 - 브라우저가 종료되어도 보관됨.
-        // 2. 세션 스토리지 - 브라우저가 종료되면 사라짐.
+
         localStorage.setItem('ACCESS_TOKEN', token);
         setIsLoggedIn(true);
     };
 
     //토큰 및 로그인 유저 데이터를 브라우저에 저장하는 함수
-    const setLoginUserInfo = ({ token, userName, role }) => {
+    const setLoginUserInfo = ({ token }) => {
         localStorage.setItem('ACCESS_TOKEN', token);
     }
 

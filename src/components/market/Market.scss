@@ -29,6 +29,9 @@ hr.h1-bottom{
 .container.market{
     display: block;
 
+    .market-list{
+        margin: 50px auto;
+        width: 100%; 
     h1{ font-weight: 900; margin-bottom: 20;}
     .searchVar{
         // margin-bottom: 80px;
@@ -59,7 +62,6 @@ hr.h1-bottom{
             margin: 0 15px 40px;
             padding: 10px 10px 0;
             box-sizing: content-box; //padding을 적용시키기 위함
-
             width: 220px; height: 220px;
             
             display: flex;
@@ -116,6 +118,10 @@ hr.h1-bottom{
                 border-radius: 10px;
             } //마우스 호버 시 반응 END
         }
+
+    }
+}
+
 
     }
     
@@ -237,7 +243,6 @@ hr.h1-bottom{
     }
 }
 // MarketRegist END
-
 
 
 
@@ -374,9 +379,5 @@ hr.h1-bottom{
 
 }
 // MarketDetail END
-
-
-
-
 
 
