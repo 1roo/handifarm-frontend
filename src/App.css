@@ -10,6 +10,7 @@ body{ font-family: 'SUITE-Regular' !important; } /* 글씨체 지정 */
 
 .container{ /* 컨테이너 설정 */
   min-width: 1280px;
+  /* min-width: 750px; */
   width: 80%;
 }
 a{
