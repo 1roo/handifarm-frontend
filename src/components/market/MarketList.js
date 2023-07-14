@@ -2,6 +2,7 @@ import React from "react";
 import "./Market.scss";
 import "../.././Custom.scss";
 import HomeMarketBody from "../HomeMarketBody";
+import CreateIcon from "@mui/icons-material/Create"; //작성 아이콘
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 
@@ -48,26 +49,81 @@ const MarketList = () => {
       imgSrc:
         "https://cdn.mkhealth.co.kr/news/photo/202212/61768_65496_2151.jpg", //이미지 링크
     },
+    {
+      marketName: "멋쟁이 토마토", //상품명
+      userName: "토마토", //판매자
+      price: "999000", //가격
+      imgSrc:
+        "https://cdn.mkhealth.co.kr/news/photo/202212/61768_65496_2151.jpg", //이미지 링크
+    },
+    {
+      marketName: "멋쟁이 토마토", //상품명
+      userName: "토마토", //판매자
+      price: "999000", //가격
+      imgSrc:
+        "https://cdn.mkhealth.co.kr/news/photo/202212/61768_65496_2151.jpg", //이미지 링크
+    },
+    {
+      marketName: "멋쟁이 토마토", //상품명
+      userName: "토마토", //판매자
+      price: "999000", //가격
+      imgSrc:
+        "https://cdn.mkhealth.co.kr/news/photo/202212/61768_65496_2151.jpg", //이미지 링크
+    },
+    {
+      marketName: "멋쟁이 토마토", //상품명
+      userName: "토마토", //판매자
+      price: "999000", //가격
+      imgSrc:
+        "https://cdn.mkhealth.co.kr/news/photo/202212/61768_65496_2151.jpg", //이미지 링크
+    },
+    {
+      marketName: "멋쟁이 토마토", //상품명
+      userName: "토마토", //판매자
+      price: "999000", //가격
+      imgSrc:
+        "https://cdn.mkhealth.co.kr/news/photo/202212/61768_65496_2151.jpg", //이미지 링크
+    },
+    {
+      marketName: "멋쟁이 토마토", //상품명
+      userName: "토마토", //판매자
+      price: "999000", //가격
+      imgSrc:
+        "https://cdn.mkhealth.co.kr/news/photo/202212/61768_65496_2151.jpg", //이미지 링크
+    },
+    {
+      marketName: "멋쟁이 토마토", //상품명
+      userName: "토마토", //판매자
+      price: "999000", //가격
+      imgSrc:
+        "https://cdn.mkhealth.co.kr/news/photo/202212/61768_65496_2151.jpg", //이미지 링크
+    },
   ];
 
   return (
     <>
       <div className="container market">
         <h1>거래장터</h1>
+        <div className="searchVar">최신순 │ 이런거 │ 들어가지않나 </div>
         <div className="market-list">
           {MarketList.map((ma) => (
             <Link to="/marketDetail">
               <HomeMarketBody market={ma} />
             </Link>
           ))}
-        </div>{" "}
+        </div>
         {/* market-group END */}
-        <Link to="/marketRegist">
-          <Button variant="success">작성 페이지</Button>
-        </Link>
-        <Link to="/marketDetail">
-          <Button variant="success">상세보기 페이지</Button>
-        </Link>
+        <Button className="more-btn" type="button" variant="light">
+          더 보기
+        </Button>
+        <hr />
+        <div className="link-box">
+          <Link to="/marketRegist">
+            <Button className="write-link-btn" variant="success">
+              <CreateIcon />내 농작물 판매하기
+            </Button>
+          </Link>
+        </div>
       </div>
     </>
   );

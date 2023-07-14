@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { createTheme } from "@mui/system";
 import { Input } from "reactstrap";
+import { Link } from "react-router-dom";
 
 const MarketRegist = () => {
   const $fileTag = useRef();
@@ -132,7 +133,10 @@ const MarketRegist = () => {
     console.log(correct);
     if (isValid()) {
       //입력값 문제없음 OK
+      console.log("백엔드로 보내질 값들:");
       console.log(marketValue);
+      console.log(imgFile);
+      console.log("입력값 검증 통과!");
     }
   };
 
@@ -140,6 +144,7 @@ const MarketRegist = () => {
     <>
       <div className="container market-regist">
         <h1>거래장터</h1>
+        <hr className="h1-bottom" />
 
         <div className="write">
           <Grid className="write-image">
@@ -220,6 +225,15 @@ const MarketRegist = () => {
           {/* write-content END */}
         </div>
         <div className="btn-center">
+          <Link to="/market">
+            <Button
+              className="green-btn center return-btn"
+              type="button"
+              variant="contained"
+            >
+              취소하기
+            </Button>
+          </Link>
           <Button
             className="green-btn center"
             id="regist-btn"

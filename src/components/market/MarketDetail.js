@@ -17,6 +17,8 @@ const MarketDetail = () => {
     <>
       <div className="container market-detail">
         <h1>거래장터</h1>
+        <hr className="h1-bottom" />
+
         <div className="content">
           <Grid className="content-img">
             <article>
@@ -45,7 +47,6 @@ const MarketDetail = () => {
             <div className="from">
               <span>
                 판매자: 누구누구 농부 <br />
-                원산지: ㅇㅇ
               </span>
             </div>
             <div className="text">
