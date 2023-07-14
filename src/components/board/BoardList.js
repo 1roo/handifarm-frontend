@@ -11,13 +11,14 @@ import {
   Select,
   MenuItem,
   Stack,
-  Pagination
+  Pagination,
 } from "@mui/material";
 import { API_BASE_URL as BASE, BOARD } from "../../config/host-config";
+import { useNavigate } from "react-router-dom";
 
 function BoardList() {
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
-
 
   const API_BASE_URL = BASE + BOARD;
 
@@ -35,12 +36,8 @@ function BoardList() {
         console.log(data);
         console.log(data.postList);
       })
-      .catch((error) => {
-        console.error(error);
-      });
+      .catch((error) => {});
   }, []);
-
-  
 
   const [selectedTopic, setSelectedTopic] = useState("all"); // 기본값으로 'all'을 선택
   const handleTopicChange = (event) => {
@@ -52,25 +49,28 @@ function BoardList() {
     setSelectedCondition(event.target.value);
   };
 
+  const redirection = useNavigate();
+  const goToRegist = (e) => {
+    redirection("/boardRegist");
+  };
+
   //페이지네이션
   const [currentPage, setCurrentPage] = useState(1);
 
   const itemsPerPage = 20;
   const pageCount = Math.ceil(data.length / itemsPerPage);
 
-
   //공지글이 제일 최상단에 고정되도록
   const sortedData = [...data].sort((a, b) => {
-    if (a.category === "notice" && b.category !== "notice") return -1;
-    if (a.category !== "notice" && b.category === "notice") return 1;
-    return 0;
+    if (a.category === "notice") return -1;
+    if (b.category === "notice") return 1;
+    return b.boardNo - a.boardNo;
   });
-  
+
   const displayedData = sortedData.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
-
 
   return (
     <>
@@ -178,6 +178,7 @@ function BoardList() {
                         ? { color: "red", fontWeight: "bold" }
                         : { color: "black" }
                     }
+                    onClick={() => navigate(`/board/${row.boardNo}`)}
                   >
                     {row.title}
                   </td>
@@ -188,14 +189,26 @@ function BoardList() {
               ))}
             </tbody>
           </Table>
+          <div className="regist-btn-div">
+            <Button
+              className="regist-btn"
+              type="button"
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              onClick={goToRegist}
+            >
+              글 작성
+            </Button>
+          </div>
         </Grid>
         <Grid>
           <Stack spacing={2}>
-          <Pagination
-      count={pageCount}
-      page={currentPage}
-      color="success"
-      onChange={(event, page) => setCurrentPage(page)} />
+            <Pagination
+              count={pageCount}
+              page={currentPage}
+              color="success"
+              onChange={(event, page) => setCurrentPage(page)}
+            />
           </Stack>
         </Grid>
       </Container>
