@@ -33,7 +33,7 @@ const MarketRegist = () => {
     marketName: null,
     price: null,
     info: null,
-    userName: null,
+    userName: "판매자 데이터넣기",
   });
   const [correct, setCorrect] = useState({
     // 검증 통과여부
@@ -41,10 +41,15 @@ const MarketRegist = () => {
     price: false,
     info: false,
   });
-  const [priceMsg, setPriceMsg] = useState("숫자만 입력이 가능합니다."); //가격 수정요구 메세지
+  const [message, setMessage] = useState({
+    // 메시지 전달
+    marketName: " ",
+    price: "숫자만 입력이 가능합니다.",
+    info: " ",
+  });
 
   //검증 데이터를 상태 변수에 저장하는 함수
-  const saveInputState = ({ key, inputVal, flag }) => {
+  const saveInputState = ({ key, inputVal, msg, flag }) => {
     setMarketValue({
       ...marketValue,
       [key]: inputVal,
@@ -54,42 +59,63 @@ const MarketRegist = () => {
       ...correct,
       [key]: flag,
     });
+
+    setMessage({
+      ...message,
+      [key]: msg,
+    });
   };
 
-  //가격 입력마다 입력값 검증
+  //가격 price 입력마다 입력값 검증
   const priceHandler = (e) => {
     const inputVal = e.target.value;
 
     let flag = false;
     let msg = " ";
-    if (!/^[0-9]{0,999}$/.test(inputVal)) {
+    if (!/^[0-9]{0,}$/.test(inputVal)) {
       msg = "숫자만 입력이 가능합니다.";
     } else if (!inputVal) {
-      msg = "가격 입력해야된다";
+      msg = "상품의 가격을 입력해주세요.";
     } else if (!/^[0-9]{0,6}$/.test(inputVal)) {
       msg = "상품의 가격은 100만원을 넘길 수 없습니다.";
     } else {
       flag = true;
     }
-    setPriceMsg(msg);
-    setCorrect({ key: "price", inputVal, flag });
+    saveInputState({ key: "price", inputVal, flag, msg });
   };
 
-  //상품명 입력값 검증
+  //상품명 marketName입력값 검증
   const marketNameHandler = (e) => {
     const inputVal = e.target.value;
 
     let flag = false;
     let msg = " ";
     if (!inputVal) {
-      msg = "빈칸 안됨";
-    } else if (!/^[0-9]{0,6}$/.test(inputVal)) {
-      msg = "상품의 가격은 100만원을 넘길 수 없습니다.";
+      msg = " ";
+    } else if (!/^.{0,15}$/.test(inputVal)) {
+      msg = "제목은 15글자를 넘길 수 없습니다.";
     } else {
       flag = true;
     }
-    setPriceMsg(msg);
-    setCorrect({ key: "marketName", inputVal, flag });
+    saveInputState({ key: "marketName", inputVal, flag, msg });
+  };
+
+  //상품 설명 info입력값 검증
+  const infoHandler = (e) => {
+    const inputVal = e.target.value;
+
+    let flag = false;
+    let msg = " ";
+    if (!/^.{0,100}$/.test(inputVal)) {
+      e.target.style.color = "tomato";
+      e.target.style.fontStyle = "italic";
+      msg = "100자 제한에 도달했습니다.";
+    } else {
+      e.target.style.color = "inherit";
+      e.target.style.fontStyle = "initial";
+      flag = true;
+    }
+    saveInputState({ key: "info", inputVal, flag, msg });
   };
 
   // 입력 통과 여부 조회
@@ -103,17 +129,11 @@ const MarketRegist = () => {
 
   //등록하기 버튼 클릭
   const registBtn = (e) => {
-    console.log("correct" + correct);
+    console.log(correct);
     if (isValid()) {
-      setMarketValue({
-        marketName: document.getElementById("marketNameValue").value,
-        price: document.getElementById("priceValue").value,
-        info: document.getElementById("infoValue").value,
-        userName: document.getElementById("userNameValue").value,
-      });
+      //입력값 문제없음 OK
+      console.log(marketValue);
     }
-
-    console.log(marketValue);
   };
 
   return (
@@ -147,6 +167,8 @@ const MarketRegist = () => {
                 id="marketNameValue"
                 color="success"
                 placeholder="상품의 이름을 입력해주세요."
+                helperText={message.marketName}
+                onChange={marketNameHandler}
               />
             </div>
             <div className="answer-content">
@@ -158,7 +180,7 @@ const MarketRegist = () => {
                 color="success"
                 type="text"
                 placeholder=" "
-                helperText={priceMsg}
+                helperText={message.price}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="start" id="price-unit">
@@ -178,7 +200,9 @@ const MarketRegist = () => {
                 color="success"
                 multiline
                 rows={4}
+                helperText={message.info}
                 placeholder="제품 설명을 입력해주세요. (최대 100자)"
+                onChange={infoHandler}
               />
             </div>
             <div className="answer-content">
