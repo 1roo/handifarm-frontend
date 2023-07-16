@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { redirect, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { API_BASE_URL as BASE, BOARD } from "../../config/host-config";
 import { Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -39,7 +39,9 @@ function BoardDetail() {
 
   // 게시글 삭제
   const deleteBoardHandler = (boardNo) => {
-    const apiUrl = `${BASE}${BOARD}/${boardNo}`;
+    const result = window.confirm("정말 삭제하시겠습니까?");
+    if(result) {
+      const apiUrl = `${BASE}${BOARD}/${boardNo}`;
 
     const token = localStorage.getItem("ACCESS_TOKEN");
 
@@ -50,6 +52,7 @@ function BoardDetail() {
         Authorization: `Bearer ${token}`,
       },
     };
+  
 
     fetch(apiUrl, requestOptions)
       .then((response) => {
@@ -64,12 +67,14 @@ function BoardDetail() {
         console.error(error.message);
       });
   };
+    }
+    
 
 
-  // 게시글 수정 
-  const modifyBoardHandler = (boardNo) => {
+  // 게시글 수정 페이지로 이동
+  const redirectToBoardModify = () => {
+    redirection(`/boardModify/${boardNo}`);
   };
-
 
 
 
@@ -98,7 +103,7 @@ function BoardDetail() {
           {board.userNick === localUserNick && (
             <button
               className="modify-board-btn"
-              onClick={() => modifyBoardHandler(board.boardNo)}
+              onClick={redirectToBoardModify}
             >
               수정
             </button>

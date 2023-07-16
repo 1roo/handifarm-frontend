@@ -19,3 +19,5 @@ npm install react-material-ui-carousel
 첨언) Home.js에서 캐러셀 진행중 (현재 완성X)
 
 npm install axios
+
+npm install cors
