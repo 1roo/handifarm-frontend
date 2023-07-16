@@ -29,10 +29,14 @@ export const AuthContextProvider = props => {
     };
 
     //로그인 핸들러
-    const loginHandler = (token) => {
+    const loginHandler = (token, userId, userName, userNick, userProfileImg) => {
         localStorage.setItem('isLoggedIn', '1');
 
         localStorage.setItem('ACCESS_TOKEN', token);
+        localStorage.setItem('USER_ID', userId);
+        localStorage.setItem('USER_NAME', userName);
+        localStorage.setItem('USER_NICK', userNick);
+        localStorage.setItem('USER_PROFILE_IMG', userProfileImg);
         setIsLoggedIn(true);
     };
 
