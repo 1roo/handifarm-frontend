@@ -11,6 +11,7 @@ import Join from "./components/user/Join";
 import BoardList from "./components/board/BoardList";
 import BoardRegist from "./components/board/BoardRegist";
 import BoardDetail from "./components/board/BoardDetail";
+import BoardModify from "./components/board/BoardModify";
 import { AuthContextProvider } from "./components/util/AuthContext";
 import MarketList from "./components/market/MarketList";
 import MarketDetail from "./components/market/MarketDetail";
@@ -30,6 +31,7 @@ function App() {
           <Route path="/board" element={<BoardList />} />
           <Route path="/boardRegist" element={<BoardRegist />} />
           <Route path="/board/:boardNo" element={<BoardDetail />} />
+          <Route path="/boardModify/:boardNo" element={<BoardModify />} />
           <Route path="/market" element={<MarketList />} />
           <Route path="/marketRegist" element={<MarketRegist />} />
           <Route path="/marketDetail" element={<MarketDetail />} />
