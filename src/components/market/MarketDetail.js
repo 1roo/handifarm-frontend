@@ -44,6 +44,8 @@ const MarketDetail = () => {
               />
               <em>2n개 상품평</em>
             </div>
+
+            
             <div className="from">
               <span>
                 판매자: 누구누구 농부 <br />

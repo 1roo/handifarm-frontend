@@ -96,9 +96,10 @@ const Home = () => {
     <>
       <div className='container home'>
 
+            <Link to='/pest'>Pest 이동</Link>
           {/* 날씨 박스 */}
           <section className='weather-box'>
-              <div className='title'><h2>제주<br/>날씨</h2></div>
+          <div className='title'><Link to='/weather'><h2>제주<br/>날씨</h2></Link></div>
 
               <div className='weather D0'>
                 <div>
