@@ -189,9 +189,18 @@ const Join = () => {
   const nickHandler = (e) => {
     const inputValue = e.target.value;
     let flag = true;
+  
+    // 입력값이 없을 때 userId 값을 userNick에 할당
+    const updatedUserNick = inputValue ? inputValue : userValue.userId;
+  
+    setUserValue({
+      ...userValue,
+      userNick: updatedUserNick,
+    });
+   
     saveInputState({
       key: "userNick",
-      inputValue,
+      inputValue: updatedUserNick,
       flag,
     });
   };
