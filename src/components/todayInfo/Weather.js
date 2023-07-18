@@ -50,6 +50,7 @@ const Weather = () => {
 
     //일통계 조회
     const getTempData = (plusDay) => {
+      setTemps({})
 
       const $stnIds = '108'; //지역 아이디 워드파일 참고 (108: 서울)
       const $stYmd = getDate(-plusDay).dateString; //오늘 날짜
@@ -58,19 +59,20 @@ const Weather = () => {
           +'&numOfRows=10&pageNo=1&dataType=JSON&dataCd=ASOS&dateCd=DAY&startDt='+$stYmd+'&endDt='+$stYmd+'&stnIds='+$stnIds
       ).then(res => res.json())
       .then(data => {
-        console.log('응답메시지 코드: '+weatherCode);
-        console.log('받아온 정보: ', data);
 
         setWeatherCode(data.response.header.resultCode)
         const datas = data.response.body.items.item[0];
+        console.log('datas', datas);
+
         setTemps({
           avgTa : datas.avgTa, //평균온도
           minTa : datas.minTa, //최저온도
           maxTa : datas.maxTa, //최고온도
-          iscs : datas.iscs   
+          iscs : datas.iscs  
         })
       })
 
+      console.log('temps', temps) ;
       return {temps}
     }
 
@@ -79,8 +81,12 @@ const Weather = () => {
     console.log('Effect 작동');
 
     setWeather0(getTempData(3).temps);
-    setWeather1(getTempData(2).temps);
+    setWeather1(getTempData(15).temps);
     setWeather2(getTempData(1).temps);
+
+    // console.log('0: ',weather0);
+    // console.log('1: ',weather1);
+    // console.log('2: ',weather2);
 
   }, []) //effect 종료
 
