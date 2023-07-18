@@ -11,6 +11,7 @@ import Join from './components/user/Join';
 import BoardList from './components/board/BoardList';
 import BoardRegist from './components/board/BoardRegist';
 import BoardDetail from './components/board/BoardDetail';
+import { AuthContextProvider } from './components/util/AuthContext';
 import MarketList from './components/market/MarketList';
 import MarketDetail from './components/market/MarketDetail';
 import MarketRegist from './components/market/MarketRegist';
@@ -20,7 +21,7 @@ import Pest from './components/todayInfo/Pest';
 
 function App() {
   return (
-
+    <AuthContextProvider>
       <Router>
         <Reset />
         <Header />
@@ -41,6 +42,7 @@ function App() {
           
         <Footer />  
       </Router>
+    </AuthContextProvider>
   );
 }
 
