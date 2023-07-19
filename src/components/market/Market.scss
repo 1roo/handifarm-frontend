@@ -28,11 +28,11 @@ hr.h1-bottom{
 // MarketList START
 .container.market{
     display: block;
-
-    .market-list{
-        margin: 50px auto;
-        width: 100%; 
+    
+    margin: 50px auto;
+    width: 100%; 
     h1{ font-weight: 900; margin-bottom: 20;}
+
     .searchVar{
         // margin-bottom: 80px;
 
@@ -118,31 +118,28 @@ hr.h1-bottom{
                 border-radius: 10px;
             } //마우스 호버 시 반응 END
         }
-
-    }
-}
-
-
-    }
-    
-    .more-btn{ //더보기 버튼
-        @include flex-center();
-        font-family: 'SUITE-Regular';
-        width: 80%;
-        padding: 10px 20px;
-        background-color: rgba($color: lightgray, $alpha: 0.7); 
-        box-shadow: 2px 2px 7px rgba($color: #8a8a8a, $alpha: 0.5);
         
-        margin: 20px auto 50px;
     }
-    .link-box{
-        width: 100%;
-        display: flex;
-        justify-content: right;
-        svg{margin-right: 5px;}
-    }
+
 }
     
+.more-btn{ //더보기 버튼
+    @include flex-center();
+    font-family: 'SUITE-Regular';
+    width: 80%;
+    padding: 10px 20px;
+    background-color: rgba($color: lightgray, $alpha: 0.7); 
+    box-shadow: 2px 2px 7px rgba($color: #8a8a8a, $alpha: 0.5);
+    
+    margin: 20px auto 50px;
+}
+.link-box{
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    svg{margin-right: 5px;}
+}
+
 // MarketList END
 
 
