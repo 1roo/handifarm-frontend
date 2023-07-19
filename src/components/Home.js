@@ -1,13 +1,19 @@
 import React from 'react'
 import './Home.scss';
 import '.././Custom.scss';
-import { Button, Stack, Table } from 'react-bootstrap';
-import WbSunnySharpIcon from '@mui/icons-material/WbSunnySharp';
-import WbCloudyIcon from '@mui/icons-material/WbCloudy';
+// mui 아이콘 > 시작
+import WbSunnySharpIcon from '@mui/icons-material/WbSunnySharp'; //날씨 맑음
+import WbCloudyIcon from '@mui/icons-material/WbCloudy';  //날씨 구름
+import AcUnitIcon from '@mui/icons-material/AcUnit';      //날씨 눈
+import UmbrellaIcon from '@mui/icons-material/Umbrella';  //날씨 비... 가 없다. 대신 우산.
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
+// mui 아이콘 > 끝!
+// Link용 js파일 > 시작
 import HomeTableBody from './HomeTableBody';
 import HomeMarketBody from './HomeMarketBody';
 import SnsBoardCarousel from './SnsBoardCarousel';
+// Link용 js파일 > 끝!
+import { Button, Stack, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 
