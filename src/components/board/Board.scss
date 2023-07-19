@@ -195,11 +195,14 @@ textArea:focus {
     max-width: 1000px;
     display: flex;
     flex-direction: column;
+    position: relative;
 
     .reply-info {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        
+
     
         .user-nick {
             font-weight: bold;
@@ -222,8 +225,8 @@ textArea:focus {
     }
 
     .reply-content {
-        margin-top: 15px;
-        margin-bottom: 10px;
+        margin-top: 25px;
+        margin-bottom: 20px;
     }
 }
 
@@ -242,7 +245,7 @@ textArea:focus {
         background: none;
         border: none;
         padding: 0;
-        margin-top: 20px;
+        margin-top: 50px;
         color: inherit;
         cursor: pointer;
         outline: inherit;
@@ -268,4 +271,18 @@ textArea:focus {
         cursor: pointer;
         outline: inherit;
         margin: 0;
+}
+
+.save-cancel {
+    position: absolute;
+    right: 0;
+}
+
+.nick-time {
+    margin-bottom: 10px;
+}
+
+
+.margin-div {
+    margin-bottom: 25px;
 }
