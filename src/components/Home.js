@@ -96,21 +96,21 @@ const Home = () => {
     <>
       <div className='container home'>
 
-            <Link to='/pest'>Pest 이동</Link>
+          <Link to='/pest'>Pest 이동</Link>
           {/* 날씨 박스 */}
           <section className='weather-box'>
-          <div className='title'><Link to='/weather'><h2>제주<br/>날씨</h2></Link></div>
+          <div className='title'><h2>제주<br/>날씨</h2></div>
 
               <div className='weather D0'>
                 <div>
                   <div className='day'><h3>오늘</h3><span>7/5</span></div>
                   <div className='icon'>
-                    <span className='am'>오전</span> <i><WbSunnySharpIcon /></i>
-                    <span className='pm'>오후</span> <i><WbCloudyIcon /></i>
+                    <span className='am'>오전</span><i><WbSunnySharpIcon /></i>
+                    <span className='pm'>오후</span><i><WbCloudyIcon /></i>
                   </div>
                 </div>
                 <div className='temp'>
-                  <span>25℃</span> <hr/> <span>28℃</span>
+                  <span>25℃</span><hr/><span>28℃</span>
                 </div>
               </div> {/* weather D-0 END */}
               
@@ -118,12 +118,12 @@ const Home = () => {
                 <div>
                   <div className='day'><h3>내일</h3><span>7/6</span></div>
                   <div className='icon'>
-                    <span className='am'>오전</span>  <i><WbSunnySharpIcon /></i>
-                    <span className='pm'>오후</span>  <i><WbSunnySharpIcon /></i>
+                    <span className='am'>오전</span><i><WbSunnySharpIcon /></i>
+                    <span className='pm'>오후</span><i><WbSunnySharpIcon /></i>
                   </div>
                 </div>
                 <div className='temp'>
-                  <span>25℃</span> <hr/> <span>28℃</span>
+                  <span>25℃</span><hr/><span>28℃</span>
                 </div>
               </div> {/* weather D+1 END */}
 
@@ -131,12 +131,12 @@ const Home = () => {
                 <div>
                   <div className='day'><h3>모레</h3><span>7/7</span></div>
                   <div className='icon'>
-                    <span className='am'>오전</span> <i><WbSunnySharpIcon /></i>
-                    <span className='pm'>오후</span> <i><WbCloudyIcon /></i>
+                    <span className='am'>오전</span><i><WbSunnySharpIcon /></i>
+                    <span className='pm'>오후</span><i><WbCloudyIcon /></i>
                   </div>
                 </div>
                 <div className='temp'>
-                  <span>25℃</span> <hr/> <span>28℃</span>
+                  <span>25℃</span><hr/><span>28℃</span>
                 </div>
               </div> {/* weather D+2 END */}
 
@@ -144,7 +144,7 @@ const Home = () => {
           {/* 날씨 박스 끝  */}
 
           <section className='button-box'>
-            <Link to='#'><Button variant="success">오늘의 정보</Button></Link>
+            <Link to='/weather'><Button variant="success">오늘의 정보</Button></Link>
             <Link to='/board'><Button variant="success">게시판</Button></Link>
             <Link to='#'><Button variant="success">농사일기</Button></Link>
             <Link to='/market'><Button variant="success">거래장터</Button></Link>
@@ -163,10 +163,9 @@ const Home = () => {
                 </tr>
               </thead>
               <tbody> {/* 본문 내용 */}
-                { boardList.map(bo => <HomeTableBody board={bo}/>) }
+                {boardList.map(bo =><HomeTableBody board={bo}/>)}
               </tbody>
             </Table>
-
           </section>
 
           <section className='small-snsBoard'>
@@ -184,7 +183,7 @@ const Home = () => {
           <section className='small-market'>
             <h2>거래장터</h2>
             <div className='market-group'>
-              { MarketList.map(ma => <HomeMarketBody market={ma}/>) }
+              { MarketList.map(ma =><HomeMarketBody market={ma}/>) }
             </div> {/* market-group END */}
           </section>
 

@@ -13,12 +13,12 @@ const HomeTableBody = (market) => {
     <>
       <div className="market-img">
         <figure>
-          <img src={imgSrc} alt="거래장터 사진" />
+          <img src={imgSrc} alt="거래장터 사진"/>
         </figure>
         <div className="product">
           <p>
-            <strong>{marketName}</strong> <br />
-            <StorefrontIcon /> {userName}
+            <strong>{marketName}</strong><br/>
+            <StorefrontIcon />{userName}
           </p>
           <div className="price">{price}원</div>
         </div>
