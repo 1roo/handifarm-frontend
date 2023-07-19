@@ -30,12 +30,9 @@ const Join = () => {
   const [agreeChecked, setAgreeChecked] = useState(false);
 
   const [phoneCheckNum, setPhoneCheckNum] = useState("");
-  const [email1, setEmail1] = useState("");
   const [email2, setEmail2] = useState("");
   const [phone2, setPhone2] = useState("");
   const [phone3, setPhone3] = useState("");
-  const [userAddrBasic, setUserAddrBasic] = useState("");
-  const [userPostcode, setUserPostcode] = useState("");
 
   useEffect(() => {
     window.daum = window.daum || {}; // daum 객체 전역 범위에 선언
@@ -188,9 +185,18 @@ const Join = () => {
   const nickHandler = (e) => {
     const inputValue = e.target.value;
     let flag = true;
+  
+    // 입력값이 없을 때 userId 값을 userNick에 할당
+    const updatedUserNick = inputValue ? inputValue : userValue.userId;
+  
+    setUserValue({
+      ...userValue,
+      userNick: updatedUserNick,
+    });
+   
     saveInputState({
       key: "userNick",
-      inputValue,
+      inputValue: updatedUserNick,
       flag,
     });
   };
@@ -421,7 +427,6 @@ const Join = () => {
         redirection("/login");
       } else {
         alert("서버와의 통신이 원활하지 않습니다.");
-        console.log(JSON.stringify(requestData));
       }
     });
   };

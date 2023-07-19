@@ -60,6 +60,11 @@ table {
 
     .td-title {
         text-align: left;
+        cursor: pointer;
+    }
+
+    .td-title:hover {
+        font-size: 1.1em;
     }
 
     td.td {
@@ -70,9 +75,10 @@ table {
 
 textArea {
     border: 1px solid lightgray;
-    width: 650px;
+    width: 700px;
     height: 350px;
     resize: none;
+    margin-top: 20px;
 
     
         input {
@@ -81,7 +87,7 @@ textArea {
             justify-content: start;
             align-content: start;
             vertical-align: top;
-            width: 650px;
+            width: 700px;
             font-size: 1rem;
             font-weight: 200;
             line-height: 1.5;
@@ -90,7 +96,7 @@ textArea {
         }
     
         @media (min-width: 770px) {
-            width: 655px;
+            width: 700px;
         }
     
     
@@ -104,6 +110,162 @@ textArea:focus {
     outline: white;
 }
 
-.grid-box {
+.css-do48jf-MuiFormControl-root {
+    display: flex !important;
+}
+
+.registBtns {
     display: flex;
+
+    button {
+        width: 200px;
+        margin: 0 20px;
+        text-decoration: none;
+        color: white;
+    }
+}
+
+.regist-btn-div {
+    display: flex;
+    justify-content: end;
+
+    .regist-btn {
+        @include green-btn;
+        height: 40px;
+        margin: 0 auto;
+        margin-top: 50px;
+    }
+}
+
+
+.cateTitle {
+    display: flex;
+    padding-left: 20px;
+    margin-top: 50px;
+    font-size: 1.6em;
+
+    div.category {
+        margin-right: 5px;
+        font-weight: bold;
+    }
+}
+
+
+.info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    padding: 0 90px;
+    font-size: 1.1em;
+    vertical-align: baseline;
+}
+
+.writerInfo {
+    display: flex;
+    align-items: center;;
+
+    div.writer {
+        margin-right: 15px;
+    }
+
+    div.regDate {
+        font-size: 0.8em;
+        margin-right: 30px;
+    }
+}
+
+.viewReply {
+    display: flex;
+    margin-right: 100px;
+
+    .viewCount {
+        margin-right: 15px;
+    }
+}
+
+.content {
+    padding: 50px;
+    height: 500px;
+    font-size: 1.3em;
+    cursor: default;
+}
+
+.reply-box {
+    margin: 0 auto;
+    max-width: 1000px;
+    display: flex;
+    flex-direction: column;
+
+    .reply-info {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    
+        .user-nick {
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        .reg-time {
+            font-size: 0.8em;
+        }
+
+        button {
+            background: none;
+            border: none;
+            padding: 0;
+            margin-right: 10px;
+            color: inherit;
+            cursor: pointer;
+            outline: inherit;
+    
+        }
+    }
+
+    .reply-content {
+        margin-top: 15px;
+        margin-bottom: 10px;
+    }
+}
+
+.reply-regist-box {
+    max-width: 1000px;
+    margin: 20px auto;
+    border: 1px solid gainsboro;
+    border-radius: 10px;
+    padding: 10px ;
+
+    input.reply-content {
+        border: none;
+    }
+
+    button {
+        background: none;
+        border: none;
+        padding: 0;
+        margin-top: 20px;
+        color: inherit;
+        cursor: pointer;
+        outline: inherit;
+    }
+
+    .regist-user-nick {
+        font-weight: bold;
+    }
+
+    .reply-content-box {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+    }
+}
+
+.delete-board-btn, .modify-board-btn {
+    background: none;
+        border: 1px solid gainsboro;
+        border-radius: 10px;
+        padding: 10px;
+        color: inherit;
+        cursor: pointer;
+        outline: inherit;
+        margin: 0;
 }
