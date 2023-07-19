@@ -1,7 +1,7 @@
 import "./App.css";
 import "./Custom.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import { Reset } from "styled-reset";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
@@ -19,6 +19,8 @@ import MarketDetail from "./components/market/MarketDetail";
 import MarketRegist from "./components/market/MarketRegist";
 import SnsList from "./components/snsBoard/SnsList";
 import SnsDetail from "./components/snsBoard/SnsDetail";
+import Weather from './components/todayInfo/Weather';
+import Pest from './components/todayInfo/Pest';
 
 function App() {
   return (
@@ -41,7 +43,8 @@ function App() {
           <Route path="/marketDetail" element={<MarketDetail />} />
           <Route path="/snsBoard/snsList" element={<SnsList />} />
           <Route path="/snsBoard/snsDetail/:id" element={<SnsDetail />} />
-
+          <Route path="/weather" element={ <Weather /> } />
+            <Route path="/pest" element={ <Pest /> } />
         </Routes>
 
         <Footer />

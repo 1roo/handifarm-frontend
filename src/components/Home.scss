@@ -142,7 +142,6 @@ section.small-snsBoard{
 
     h2{ margin: 0 0 50px 180px; @include title-font() }
     .img-list{
-        
         margin-top: 20px;
         display: flex;
         align-items: center;
@@ -188,7 +187,7 @@ section.small-market{
 
     .market-group{
         margin: 0 auto;
-        width: 1040px; // 이미지 하나당 240 + 마진 20 = 260*4 = 1040px
+        width: fit-content; // 이미지 하나당 240 + 마진 20 = 260*4 = 1040px
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;

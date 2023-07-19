@@ -1,0 +1,82 @@
+$main-green: #53A069;
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+};
+@mixin title-font { /* 타이틀 문구 미리 지정 */
+    font-size: 22px;
+    font-weight: 700;
+}
+
+
+a{
+    all: unset !important;
+    cursor: pointer !important;
+    text-decoration: none !important;
+}
+
+
+// 날씨 알림창 (weather-box)
+section.weather-box{
+    margin: 50px auto 0;
+    width: 1120px;
+    display: flex;
+    background-color: rgb(241, 241, 241);
+    justify-content: space-evenly;
+    padding: 17px 0;
+
+    .title{
+        flex-grow: 2;
+        @include flex-center;
+        @include title-font()
+    }
+
+    .weather{
+        flex-grow: 2;
+        border-left: 1px solid darkgray;
+        @include flex-center;
+
+        .day{
+            h3{
+                font-size: 22px;
+                font-weight: 600;
+                display: inline;
+            }
+            span{
+                margin-left: 8px;
+                color: gray;
+            }
+        } 
+        .icon{
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            i{
+                scale: 1.4; 
+                margin: 0 18px 0 10px;
+            }
+        }
+        .temp{
+            margin-left: 15px;
+            border-radius: 10px;
+            border: 1px solid darkgray;
+            padding: 8px 13px;
+            font-size: 18px;
+
+            span:first-child{ color: blue; }
+            span:last-child{ color: red; }
+            hr{ margin: 4px 0; }
+        }
+    }
+} // 날씨 weather-box END
+
+
+
+
+
+
+
+
+
