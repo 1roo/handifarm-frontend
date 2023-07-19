@@ -15,6 +15,8 @@ import { AuthContextProvider } from './components/util/AuthContext';
 import MarketList from './components/market/MarketList';
 import MarketDetail from './components/market/MarketDetail';
 import MarketRegist from './components/market/MarketRegist';
+import Weather from './components/todayInfo/Weather';
+import Pest from './components/todayInfo/Pest';
 
 
 function App() {
@@ -34,6 +36,8 @@ function App() {
             <Route path="/market" element={ <MarketList /> } />
             <Route path="/marketRegist" element={ <MarketRegist /> } />
             <Route path="/marketDetail" element={ <MarketDetail /> } />
+            <Route path="/weather" element={ <Weather /> } />
+            <Route path="/pest" element={ <Pest /> } />
           </Routes>
           
         <Footer />  
