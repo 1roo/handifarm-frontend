@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import './TodayInfo.scss';
 import '../../Custom.scss';
 // mui 아이콘 > 시작
+import HomeIcon from '@mui/icons-material/Home';
 import WbSunnySharpIcon from '@mui/icons-material/WbSunnySharp'; //날씨 맑음
 import WbCloudyIcon from '@mui/icons-material/WbCloudy';  //날씨 구름
 import UmbrellaIcon from '@mui/icons-material/Umbrella';  //날씨 비... 가 없다. 대신 우산.
@@ -111,7 +112,8 @@ const Weather = () => {
       skyRainList.push(state);
       count++;
     });
-    // setWeatherIconNum(skyRainList);
+    // setWeatherIcon(skyRainList)
+
 
     console.log('날씨코드:', skyCode, '비 여부 코드:', rainCode);
     console.log('어제, 오늘, 내일 날씨 코드: ', skyRainList);
@@ -122,7 +124,6 @@ const Weather = () => {
     document.querySelector('.weather.D1 .temp span:nth-of-type(2)').textContent = temp[3]+'℃';
     document.querySelector('.weather.D2 .temp span:nth-of-type(1)').textContent = temp[4]+'℃';
     document.querySelector('.weather.D2 .temp span:nth-of-type(2)').textContent = temp[5]+'℃';
-
 
     // document.querySelector('.weather.D0 div .icon i:nth-of-type(1)').innerHTML = weatherIcon[skyRainList[0]];
     // document.querySelector('.weather.D0 div .icon i:nth-of-type(2)').innerHTML = weatherIcon[skyRainList[1]];
@@ -138,9 +139,6 @@ const Weather = () => {
   }
 
 
-
-
-
   return(
   <>
     {/* <div id="loading">
@@ -153,8 +151,8 @@ const Weather = () => {
           <div>
             <div className='day'><h3>오늘</h3><span>{getDate(0).month}/{getDate(0).day} {getDate(0).dayName}</span></div>
             <div className='icon'>
-              <span className='am'>오전</span> <i>{weatherIcon[2]}</i>
-              <span className='pm'>오후</span> <i><WbCloudyIcon /></i>
+              <span className='am'>오전</span> <i>{weatherIcon[0]}</i>
+              <span className='pm'>오후</span> <i>{weatherIcon[1]}</i>
             </div>
           </div>
           <div className='temp'>
@@ -166,8 +164,8 @@ const Weather = () => {
           <div>
             <div className='day'><h3>내일</h3><span>{getDate(1).month}/{getDate(1).day} {getDate(1).dayName}</span></div>
             <div className='icon'>
-              <span className='am'>오전</span>  <i><WbSunnySharpIcon /></i>
-              <span className='pm'>오후</span>  <i><WbSunnySharpIcon /></i>
+              <span className='am'>오전</span>  <i>{weatherIcon[0]}</i>
+              <span className='pm'>오후</span>  <i>{weatherIcon[0]}</i>
             </div>
           </div>
           <div className='temp'>
@@ -179,8 +177,8 @@ const Weather = () => {
           <div>
             <div className='day'><h3>모레</h3><span>{getDate(2).month}/{getDate(2).day} {getDate(2).dayName}</span></div>
             <div className='icon'>
-              <span className='am'>오전</span> <i><WbSunnySharpIcon /></i>
-              <span className='pm'>오후</span> <i><WbCloudyIcon /></i>
+              <span className='am'>오전</span> <i>{weatherIcon[1]}</i>
+              <span className='pm'>오후</span> <i>{weatherIcon[2]}</i>
             </div>
           </div>
           <div className='temp'>

@@ -101,6 +101,9 @@ const Home = () => {
   return (
     <>
       <div className='container home'>
+        <div className="sub-link">
+          <Link to="/"></Link>
+        </div>
 
           <Link to='/pest'>Pest 이동</Link>
           {/* 날씨 박스 */}
