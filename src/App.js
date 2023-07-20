@@ -18,6 +18,7 @@ import MarketList from "./components/market/MarketList";
 import MarketDetail from "./components/market/MarketDetail";
 import MarketRegist from "./components/market/MarketRegist";
 import SnsList from "./components/snsBoard/SnsList";
+import SnsRegist from "./components/snsBoard/SnsRegist";
 import SnsDetail from "./components/snsBoard/SnsDetail";
 import Weather from './components/todayInfo/Weather';
 import Pest from './components/todayInfo/Pest';
@@ -41,7 +42,8 @@ function App() {
           <Route path="/market" element={<MarketList />} />
           <Route path="/marketRegist" element={<MarketRegist />} />
           <Route path="/marketDetail" element={<MarketDetail />} />
-          <Route path="/snsBoard/snsList" element={<SnsList />} />
+          <Route path="/snsBoard" element={<SnsList />} />
+          <Route path="/snsBoard/snsRegist" element={<SnsRegist />} />
           <Route path="/snsBoard/snsDetail/:id" element={<SnsDetail />} />
           <Route path="/weather" element={ <Weather /> } />
             <Route path="/pest" element={ <Pest /> } />

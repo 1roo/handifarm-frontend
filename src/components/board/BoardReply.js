@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { API_BASE_URL as BASE, BOARD } from "../../config/host-config";
 import { Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-const BoardReply = ({ boardNo }) => {
+const BoardReply = ({ boardNo, onReplySubmitted }) => {
   const API_BASE_URL = `${BASE}${BOARD}/${boardNo}/boardReply`;
   const redirection = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
@@ -12,6 +12,9 @@ const BoardReply = ({ boardNo }) => {
     boardReplies: [],
     totalPages: 0,
   });
+
+  // 입력 창(input element)에 대한 참조를 저장하기 위한 useRef
+  const replyInputRef = useRef(null);
 
   const [replyValues, setReplyValues] = useState({});
 
@@ -47,15 +50,22 @@ const BoardReply = ({ boardNo }) => {
       method: "POST",
       headers: { "content-type": "application/json", Authorization: `Bearer ${token}` },
       body: JSON.stringify(requestData),
-    }).then((res) => {
-      if (res.status === 200) {
-        alert("댓글 등록이 완료되었습니다.");
-        console.log("로그로구" + JSON.stringify(requestData));
-        redirection(`/board/${boardNo}`);
-      } else {
-        console.error();
-      }
-    });
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          alert("댓글 등록이 완료되었습니다.");
+          console.log(requestData);
+          // 댓글 등록이 성공하면 입력 창을 초기화
+          replyInputRef.current.value = "";
+          fetchBoardReplies();
+          onReplySubmitted(); // 이 부분에서 바로 콜백 함수 호출
+        } else {
+          console.error();
+        }
+      })
+      .catch((error) => {
+        console.error("댓글 등록 중 에러 발생:", error);
+      });
   };
 
   const registButtonClickHandler = (e) => {
@@ -66,6 +76,7 @@ const BoardReply = ({ boardNo }) => {
   const fetchBoardReplies = async () => {
     const token = localStorage.getItem("ACCESS_TOKEN");
     try {
+      // 페이지 번호와 사이즈를 설정하여 댓글 목록을 요청합니다.
       const response = await fetch(
         `${BASE}${BOARD}/${boardNo}/boardReply?page=${currentPage}&size=${pageSize}`,
         {
@@ -82,6 +93,7 @@ const BoardReply = ({ boardNo }) => {
   };
 
   useEffect(() => {
+    // 페이지 번호가 변경될 때마다 해당 페이지에 맞는 댓글 목록을 가져오도록 수정합니다.
     fetchBoardReplies();
   }, [boardNo, currentPage, pageSize]);
 
@@ -145,7 +157,7 @@ const BoardReply = ({ boardNo }) => {
   // 댓글 삭제와 관련된 코드
   const deleteReplyHandler = (replyNo) => {
     const token = localStorage.getItem("ACCESS_TOKEN");
-  
+
     fetch(`${API_BASE_URL}/${replyNo}`, {
       method: "DELETE",
       headers: {
@@ -248,15 +260,14 @@ const BoardReply = ({ boardNo }) => {
       <div className="reply-regist-box">
         <span className="regist-user-nick">{localStorage.getItem("USER_NICK")}</span>
         <div className="reply-content-box">
+          {/* 입력 창(input element)에 ref를 사용하여 참조를 설정합니다 */}
           <input
             className="reply-content"
             placeholder="댓글을 남겨보세요"
             onChange={(e) => replyHandler(e, boardNo)}
+            ref={replyInputRef}
           />
-          <button
-            className="reply-regist-btn"
-            onClick={registButtonClickHandler}
-          >
+          <button className="reply-regist-btn" onClick={registButtonClickHandler}>
             등록
           </button>
         </div>

@@ -10,6 +10,7 @@ function BoardDetail() {
   const API_BASE_URL = `${BASE}${BOARD}/${boardNo}`;
   const redirection = useNavigate();
   const [board, setBoard] = useState(null);
+  const [replyUpdated, setReplyUpdated] = useState(false);
 
   const localUserNick = localStorage.getItem("USER_NICK");
 
@@ -27,7 +28,7 @@ function BoardDetail() {
         console.log("data: ", data);
       })
       .catch((error) => {});
-  }, [API_BASE_URL]);
+  }, [API_BASE_URL, replyUpdated]);
 
   if (!board) {
     return <div>Loading...</div>;
@@ -69,16 +70,18 @@ function BoardDetail() {
     redirection(`/boardModify/${boardNo}`);
   };
 
+  // 댓글이 등록되면 호출되는 함수
+  const handleReplySubmission = () => {
+    // 댓글이 등록된 것을 알리기 위해 replyUpdated 상태를 변경합니다.
+    setReplyUpdated(!replyUpdated);
+  };
+
   return (
     <Container maxwidth="sm">
       <div className="cateTitle">
-        <div className="category">
-          {board.category === "NOTICE" && "[공지]"}
-        </div>
+        <div className="category">{board.category === "NOTICE" && "[공지]"}</div>
         <div className="category">{board.category === "FREE" && "[자유]"}</div>
-        <div className="category">
-          {board.category === "INFORMATION" && "[정보]"}
-        </div>
+        <div className="category">{board.category === "INFORMATION" && "[정보]"}</div>
         <div>{board.title}</div>
       </div>
       <div className="info">
@@ -86,23 +89,16 @@ function BoardDetail() {
           <div className="writer">{board.userNick}</div>
           <div className="regDate">{board.createDate}</div>
           {board.userNick === localUserNick && (
-            <button
-              className="delete-board-btn"
-              onClick={() => deleteBoardHandler(board.boardNo)}
-            >
+            <button className="delete-board-btn" onClick={() => deleteBoardHandler(board.boardNo)}>
               삭제
             </button>
           )}
           {board.userNick === localUserNick && (
-            <button
-              className="modify-board-btn"
-              onClick={redirectToBoardModify}
-            >
+            <button className="modify-board-btn" onClick={redirectToBoardModify}>
               수정
             </button>
           )}
         </div>
-
         <div className="viewReply">
           <div className="viewCount">조회 {board.views}</div>
           <div className="replyCount">댓글</div>
@@ -113,7 +109,10 @@ function BoardDetail() {
         <p>{board.content}</p>
       </div>
       <hr />
-      <BoardReply boardNo={boardNo} />
+      <BoardReply
+        boardNo={boardNo}
+        onReplySubmitted={handleReplySubmission} // 댓글 등록 시 콜백 함수를 전달합니다.
+      />
     </Container>
   );
 }
