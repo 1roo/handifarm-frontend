@@ -12,6 +12,17 @@ import { json } from "react-router-dom";
 import { ENCODING_KEY, WMCODE_KEY } from '../../config/key-config';
 
 
+
+
+/*
+  할 일...
+  1. 아이콘 출력하기 (날씨에 따라 1~4로 구분해서 배열을 만들어놨으나 출력이 어려움...)
+  2. 데이터 한번만 불러와서 저장하게 하기 (지금 렌더링 한 번당 배열을 1200개 불어옴)
+  3. .........디자인과 출력 기타 등등 페이지 완성 필요
+*/
+
+
+
 const Weather = () => {
 
   const [weatherIcon, setWeatherIcon] = useState([<WbSunnySharpIcon />, <WbCloudyIcon />, <UmbrellaIcon />, <AcUnitIcon />]);
@@ -90,11 +101,11 @@ const Weather = () => {
       }
     });
 
-    // 사흘간 날씨 구하기 (12시 정오 기준)
+    // 사흘간 날씨 구하기 (오전 오후 6시 기준)
     const skys = itemList.filter(it => it.category == 'SKY' && (it.fcstTime == '0600' || it.fcstTime == '1800' ))
     const skyCode = skys.map(it => it.fcstValue);
 
-    //사흘간 날씨 구하기22 (12시 정오 기준)
+    //사흘간 날씨 구하기22 (오전 오후 6시 기준)
     const rains = itemList.filter(it => it.category == 'PTY' && (it.fcstTime == '0600' || it.fcstTime == '1800' ))
     const rainCode = rains.map(it => it.fcstValue);
 
@@ -118,6 +129,12 @@ const Weather = () => {
     console.log('날씨코드:', skyCode, '비 여부 코드:', rainCode);
     console.log('어제, 오늘, 내일 날씨 코드: ', skyRainList);
     console.log('어제, 오늘, 내일의 최저/최고 온도: ', temp);
+
+    // localStorage.setItem('tempData', temp);
+    // localStorage.setItem('skyData', skyRainList);
+    // console.log(localStorage.getItem('tempData'));
+    // console.log(localStorage.getItem('skyData'));
+
     document.querySelector('.weather.D0 .temp span:nth-of-type(1)').textContent = temp[0]+'℃';
     document.querySelector('.weather.D0 .temp span:nth-of-type(2)').textContent = temp[1]+'℃';
     document.querySelector('.weather.D1 .temp span:nth-of-type(1)').textContent = temp[2]+'℃';
@@ -125,17 +142,14 @@ const Weather = () => {
     document.querySelector('.weather.D2 .temp span:nth-of-type(1)').textContent = temp[4]+'℃';
     document.querySelector('.weather.D2 .temp span:nth-of-type(2)').textContent = temp[5]+'℃';
 
+    // 바로바로 출력은 되나 텍스트 Object [Object] 이따구로 불러와짐.
     // document.querySelector('.weather.D0 div .icon i:nth-of-type(1)').innerHTML = weatherIcon[skyRainList[0]];
     // document.querySelector('.weather.D0 div .icon i:nth-of-type(2)').innerHTML = weatherIcon[skyRainList[1]];
     // document.querySelector('.weather.D1 div .icon i:nth-of-type(1)').textContent = weatherIcon[skyRainList[2]];
     // document.querySelector('.weather.D1 div .icon i:nth-of-type(2)').textContent = weatherIcon[skyRainList[3]];
     // document.querySelector('.weather.D2 div .icon i:nth-of-type(1)').textContent = weatherIcon[skyRainList[4]];
     // document.querySelector('.weather.D2 div .icon i:nth-of-type(2)').textContent = weatherIcon[skyRainList[5]];
-    
-  }
-  
-  function getWeatherIcon() {
-    return ;
+
   }
 
 
@@ -145,7 +159,7 @@ const Weather = () => {
         <img id="loadingElement" src="https://cdn-icons-png.flaticon.com/512/189/189768.png"/>
     </div>    */}
     <section className='weather-box'>
-        <div className='title'><h2>제주<br/>날씨</h2></div>
+        <div className='title'><h2>서울<br/>날씨</h2></div>
 
         <div className='weather D0'>
           <div>
@@ -156,7 +170,7 @@ const Weather = () => {
             </div>
           </div>
           <div className='temp'>
-            <span>{getTempData(0).temp}21℃</span> <hr/> <span>29℃</span>
+            <span>{getTempData(0).temp}22℃</span> <hr/> <span>29℃</span>
           </div>
         </div> {/* weather D-0 END */}
         
@@ -164,8 +178,8 @@ const Weather = () => {
           <div>
             <div className='day'><h3>내일</h3><span>{getDate(1).month}/{getDate(1).day} {getDate(1).dayName}</span></div>
             <div className='icon'>
-              <span className='am'>오전</span>  <i>{weatherIcon[0]}</i>
-              <span className='pm'>오후</span>  <i>{weatherIcon[0]}</i>
+              <span className='am'>오전</span>  <i>{weatherIcon[2]}</i>
+              <span className='pm'>오후</span>  <i>{weatherIcon[3]}</i>
             </div>
           </div>
           <div className='temp'>
@@ -177,8 +191,8 @@ const Weather = () => {
           <div>
             <div className='day'><h3>모레</h3><span>{getDate(2).month}/{getDate(2).day} {getDate(2).dayName}</span></div>
             <div className='icon'>
-              <span className='am'>오전</span> <i>{weatherIcon[1]}</i>
-              <span className='pm'>오후</span> <i>{weatherIcon[2]}</i>
+              <span className='am'>오전</span> <i>{weatherIcon[0]}</i>
+              <span className='pm'>오후</span> <i>{weatherIcon[0]}</i>
             </div>
           </div>
           <div className='temp'>
