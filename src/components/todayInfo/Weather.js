@@ -4,14 +4,18 @@ import '../../Custom.scss';
 // mui 아이콘 > 시작
 import WbSunnySharpIcon from '@mui/icons-material/WbSunnySharp'; //날씨 맑음
 import WbCloudyIcon from '@mui/icons-material/WbCloudy';  //날씨 구름
-import AcUnitIcon from '@mui/icons-material/AcUnit';      //날씨 눈
 import UmbrellaIcon from '@mui/icons-material/Umbrella';  //날씨 비... 가 없다. 대신 우산.
+import AcUnitIcon from '@mui/icons-material/AcUnit';      //날씨 눈
 // mui 아이콘 > 끝!
 import { json } from "react-router-dom";
 import { ENCODING_KEY, WMCODE_KEY } from '../../config/key-config';
 
 
 const Weather = () => {
+
+  const [weatherIcon, setWeatherIcon] = useState([<WbSunnySharpIcon />, <WbCloudyIcon />, <UmbrellaIcon />, <AcUnitIcon />]);
+  // const [weatherIconNum, setWeatherIconNum] = useState([0,0,0,0,0,0]);
+
 
   //날짜 정보 구하기
   function getDate(plusDay) {
@@ -63,11 +67,16 @@ const Weather = () => {
       +'&numOfRows=1000&pageNo=1&dataType=JSON&base_date='+stYmd+'&base_time='+stTime+'&nx='+nX+'&ny='+nY);
     const resYesterWeather = await fetch('http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey='+ENCODING_KEY
       +'&numOfRows=400&pageNo=1&dataType=JSON&base_date='+stYesterdayYmd+'&base_time='+stTime+'&nx='+nX+'&ny='+nY);
-    
+      
     const data = await resWeather.json();
-    const itemList = data.response.body.items.item;
-
     const data2 = await resYesterWeather.json();
+
+    if(data.response.header.resultCode !== '00'){ //정상처리되지 않았을 경우
+      console.log('잘못된 요청입니다.');
+      // return;
+    }
+
+    const itemList = data.response.body.items.item;
     const itemList2 = data2.response.body.items.item;
 
     // 최고, 최저온도 구하기
@@ -91,15 +100,18 @@ const Weather = () => {
 
     // 맑음0, 흐림1, 비2, 눈3, 
     const skyRainList = []
+    let count = 0;
     skyCode.forEach(sc => {
       let state = 0 //상태저장
-      if(sc === 3 || sc === 4){ state = 1 }
-      rainCode.forEach(rc => {
-        if(rc === 3 || rc === 7) state = 3;
-        else if(rc != 0) state = 2;
-      });
+      if(sc == 3 || sc == 4){ state = 1 }
+      
+      if(rainCode[count] == 3 || rainCode[count] == 7) state = 3;
+      else if(rainCode[count] > 0) state = 2;
+
       skyRainList.push(state);
+      count++;
     });
+    // setWeatherIconNum(skyRainList);
 
     console.log('날씨코드:', skyCode, '비 여부 코드:', rainCode);
     console.log('어제, 오늘, 내일 날씨 코드: ', skyRainList);
@@ -111,17 +123,14 @@ const Weather = () => {
     document.querySelector('.weather.D2 .temp span:nth-of-type(1)').textContent = temp[4]+'℃';
     document.querySelector('.weather.D2 .temp span:nth-of-type(2)').textContent = temp[5]+'℃';
 
-    document.querySelector('.weather.D0 div .icon i:nth-of-type(1)').textContent = skyRainList[0];
-    document.querySelector('.weather.D0 div .icon i:nth-of-type(2)').textContent = skyRainList[1];
-    document.querySelector('.weather.D1 div .icon i:nth-of-type(1)').textContent = skyRainList[2];
-    document.querySelector('.weather.D1 div .icon i:nth-of-type(2)').textContent = skyRainList[3];
-    document.querySelector('.weather.D2 div .icon i:nth-of-type(1)').textContent = skyRainList[4];
-    document.querySelector('.weather.D2 div .icon i:nth-of-type(2)').textContent = skyRainList[5];
+
+    // document.querySelector('.weather.D0 div .icon i:nth-of-type(1)').innerHTML = weatherIcon[skyRainList[0]];
+    // document.querySelector('.weather.D0 div .icon i:nth-of-type(2)').innerHTML = weatherIcon[skyRainList[1]];
+    // document.querySelector('.weather.D1 div .icon i:nth-of-type(1)').textContent = weatherIcon[skyRainList[2]];
+    // document.querySelector('.weather.D1 div .icon i:nth-of-type(2)').textContent = weatherIcon[skyRainList[3]];
+    // document.querySelector('.weather.D2 div .icon i:nth-of-type(1)').textContent = weatherIcon[skyRainList[4]];
+    // document.querySelector('.weather.D2 div .icon i:nth-of-type(2)').textContent = weatherIcon[skyRainList[5]];
     
-    if(data.response.header.resultCode !== '00'){ //정상처리되지 않았을 경우
-      console.log('잘못된 요청입니다.');
-      // return;
-    }
   }
   
   function getWeatherIcon() {
@@ -144,7 +153,7 @@ const Weather = () => {
           <div>
             <div className='day'><h3>오늘</h3><span>{getDate(0).month}/{getDate(0).day} {getDate(0).dayName}</span></div>
             <div className='icon'>
-              <span className='am'>오전</span> <i></i>
+              <span className='am'>오전</span> <i>{weatherIcon[2]}</i>
               <span className='pm'>오후</span> <i><WbCloudyIcon /></i>
             </div>
           </div>
