@@ -1,9 +1,13 @@
 import React from "react";
 import "./Market.scss";
 import "../.././Custom.scss";
+// mui 아이콘 > 시작
+import HomeIcon from '@mui/icons-material/Home';
+// mui 아이콘 > 끝!
 import { Box, Button, Grid, Rating } from "@mui/material";
 import { StarBorderRounded } from "@mui/icons-material";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { Link } from "react-router-dom";
 
 // 필요 데이터: 상품명, 판매내용, 가격, 이미지번호-(이미지 링크), 등록일, 판매여부
 
@@ -16,6 +20,11 @@ const MarketDetail = () => {
   return (
     <>
       <div className="container market-detail">
+        <div className="sub-link">
+          <Link to="/"><HomeIcon/></Link> <span>> </span>
+          <Link to="/market">거래장터</Link> <span>> </span>
+          <Link to="#">상세보기</Link>
+        </div> 
         <h1>거래장터</h1>
         <hr className="h1-bottom" />
 
@@ -35,7 +44,7 @@ const MarketDetail = () => {
             <div className="title">
               <strong>상품명 이름</strong> <span>yyyy.MM.dd</span>
             </div>
-            <div className="score">
+            {/* <div className="score">
               <Rating
                 defaultValue={2} //별점데이터
                 size="large"
@@ -43,7 +52,7 @@ const MarketDetail = () => {
                 emptyIcon={<StarBorderRounded fontSize="inherit" />}
               />
               <em>2n개 상품평</em>
-            </div>
+            </div> */}
 
             
             <div className="from">

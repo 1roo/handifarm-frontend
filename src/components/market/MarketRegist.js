@@ -1,15 +1,10 @@
 import React, { useRef, useState } from "react";
 import "./Market.scss";
 import "../.././Custom.scss";
-import {
-  Button,
-  CssBaseline,
-  TextField,
-  Grid,
-  Box,
-  ThemeProvider,
-  InputAdornment,
-} from "@mui/material";
+// mui 아이콘 > 시작
+import HomeIcon from '@mui/icons-material/Home';
+// mui 아이콘 > 끝!
+import { Button, CssBaseline, TextField, Grid, Box, ThemeProvider, InputAdornment, } from "@mui/material";
 import { createTheme } from "@mui/system";
 import { Input } from "reactstrap";
 import { Link } from "react-router-dom";
@@ -143,6 +138,11 @@ const MarketRegist = () => {
   return (
     <>
       <div className="container market-regist">
+        <div className="sub-link">
+          <Link to="/"><HomeIcon/></Link> <span>> </span>
+          <Link to="/market">거래장터</Link> <span>> </span>
+          <Link to="#">등록물품 작성</Link>
+        </div> 
         <h1>거래장터</h1>
         <hr className="h1-bottom" />
 

@@ -58,3 +58,15 @@ a{
     transform: rotate(360deg);
   }
 }
+
+/* 헤더 밑 좌측 서브링크 */
+.sub-link{
+  color: gray;
+  position: absolute;
+  margin-top: -80px;
+  margin-left: 30px;
+}
+.sub-link svg{
+  padding-bottom: 2px;
+  margin-bottom: 2.5px;
+}
