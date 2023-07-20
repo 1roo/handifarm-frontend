@@ -30,12 +30,9 @@ const Join = () => {
   const [agreeChecked, setAgreeChecked] = useState(false);
 
   const [phoneCheckNum, setPhoneCheckNum] = useState("");
-  const [email1, setEmail1] = useState("");
   const [email2, setEmail2] = useState("");
   const [phone2, setPhone2] = useState("");
   const [phone3, setPhone3] = useState("");
-  const [userAddrBasic, setUserAddrBasic] = useState("");
-  const [userPostcode, setUserPostcode] = useState("");
 
   useEffect(() => {
     window.daum = window.daum || {}; // daum 객체 전역 범위에 선언
