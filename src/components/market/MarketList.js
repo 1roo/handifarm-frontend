@@ -2,7 +2,10 @@ import React from "react";
 import "./Market.scss";
 import "../.././Custom.scss";
 import HomeMarketBody from "../HomeMarketBody";
+// mui 아이콘 > 시작
 import CreateIcon from "@mui/icons-material/Create"; //작성 아이콘
+import HomeIcon from '@mui/icons-material/Home';
+// mui 아이콘 > 끝!
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 
@@ -103,6 +106,10 @@ const MarketList = () => {
   return (
     <>
       <div className="container market">
+        <div className="sub-link">
+          <Link to="/"><HomeIcon/></Link> <span>> </span> 
+          <Link to="/market">거래장터</Link>
+        </div>
         <h1>거래장터</h1>
         <div className="searchVar">최신순 │ 이런거 │ 들어가지않나 </div>
         <div className="market-list">
