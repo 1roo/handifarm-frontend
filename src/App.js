@@ -8,6 +8,7 @@ import Footer from "./components/layout/Footer";
 import Home from "./components/Home";
 import Login from "./components/user/Login";
 import Join from "./components/user/Join";
+import Mypage from "./components/user/Mypage";
 import BoardList from "./components/board/BoardList";
 import BoardRegist from "./components/board/BoardRegist";
 import BoardDetail from "./components/board/BoardDetail";
@@ -37,6 +38,7 @@ function App(props) {
           <Route exact path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/join" element={<Join />} />
+          <Route path="/mypage" element={<Mypage />} />
           <Route path="/board" element={<BoardList />} />
           <Route path="/boardRegist" element={<BoardRegist />} />
           <Route path="/board/:boardNo" element={<BoardDetail />} />
