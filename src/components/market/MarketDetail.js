@@ -12,8 +12,14 @@ import { Link } from "react-router-dom";
 // 필요 데이터: 상품명, 판매내용, 가격, 이미지번호-(이미지 링크), 등록일, 판매여부
 
 const MarketDetail = () => {
+
+  const productName = "감자";
+  const productPrice = 8600;
+
   const buyBtn = (e) => {
     //구매버튼
+    console.log(productName);
+    console.log(productPrice);
     console.log("구매하기 버튼 클릭!");
   };
 
@@ -21,8 +27,8 @@ const MarketDetail = () => {
     <>
       <div className="container market-detail">
         <div className="sub-link">
-          <Link to="/"><HomeIcon/></Link> <span>> </span>
-          <Link to="/market">거래장터</Link> <span>> </span>
+          <Link to="/"><HomeIcon/></Link> <span> &gt; </span>
+          <Link to="/market">거래장터</Link> <span> &gt; </span>
           <Link to="#">상세보기</Link>
         </div> 
         <h1>거래장터</h1>
@@ -75,15 +81,17 @@ const MarketDetail = () => {
             </div>
 
             <div className="btn-center">
-              <Button
-                className="green-btn center"
-                id="buy-btn"
-                type="button"
-                variant="contained"
-                onClick={buyBtn}
-              >
-                바로 구매 <ChevronRightIcon />
-              </Button>
+              <Link to={"/payment"} state={ {'productName': productName, 'productPrice': productPrice} }>
+                <Button
+                  className="green-btn center"
+                  id="buy-btn"
+                  type="button"
+                  variant="contained"
+                  onClick={buyBtn}
+                >
+                  바로 구매 <ChevronRightIcon />
+                </Button>
+              </Link>
             </div>
           </Grid>
           {/* content-content END */}

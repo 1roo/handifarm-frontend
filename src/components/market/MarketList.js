@@ -107,7 +107,7 @@ const MarketList = () => {
     <>
       <div className="container market">
         <div className="sub-link">
-          <Link to="/"><HomeIcon/></Link> <span>> </span> 
+          <Link to="/"><HomeIcon/></Link> <span> &gt; </span> 
           <Link to="/market">거래장터</Link>
         </div>
         <h1>거래장터</h1>
