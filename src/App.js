@@ -22,8 +22,11 @@ import SnsRegist from "./components/snsBoard/SnsRegist";
 import SnsDetail from "./components/snsBoard/SnsDetail";
 import Weather from './components/todayInfo/Weather';
 import Pest from './components/todayInfo/Pest';
+import MarketPayment from "./components/market/MarketPayment";
+import { PaymentSuccess } from "./components/market/PaymentSuccess";
+import { PaymentFail } from "./components/market/PaymentFail";
 
-function App() {
+function App(props) {
   return (
     <AuthContextProvider>
       <Router>
@@ -46,7 +49,10 @@ function App() {
           <Route path="/snsBoard/snsRegist" element={<SnsRegist />} />
           <Route path="/snsBoard/snsDetail/:id" element={<SnsDetail />} />
           <Route path="/weather" element={ <Weather /> } />
-            <Route path="/pest" element={ <Pest /> } />
+          <Route path="/pest" element={ <Pest /> } />
+          <Route path="/payment" element={ <MarketPayment /> } />
+          <Route path="/success" element={ <PaymentSuccess /> } />
+          <Route path="/fail" element={ <PaymentFail /> } />
         </Routes>
 
         <Footer />
