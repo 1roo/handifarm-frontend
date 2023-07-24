@@ -19,7 +19,6 @@ import {
 } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
-import { API_BASE_URL as BASE, USER } from "../../config/host-config";
 
 const Join = () => {
   //리다이렉트 사용하기
@@ -190,6 +189,9 @@ const Join = () => {
     // 입력값이 없을 때 userId 값을 userNick에 할당
     const updatedUserNick = inputValue ? inputValue : userValue.userId;
   
+    if (inputValue === '관리자') {
+      alert("관리자는 사용할 수 없는 닉네임입니다.");
+    }
     setUserValue({
       ...userValue,
       userNick: updatedUserNick,
@@ -338,7 +340,7 @@ const Join = () => {
     let flag = true;
     new window.daum.Postcode({
       oncomplete: function (data) {
-        const { zonecode, roadAddress, buildingName, apartment } = data;
+        const { zonecode, roadAddress } = data;
         let extraRoadAddr = "";
         console.log("zonecode: ", zonecode);
 
@@ -394,6 +396,10 @@ const Join = () => {
     for (const key in correct) {
       const flag = correct[key];
       if (!flag) return false;
+    }
+    if(userValue.userNick === '관리자') {
+      alert("관리자는 사용할 수 없는 닉네임입니다.")
+      return false;
     }
     return true;
   };

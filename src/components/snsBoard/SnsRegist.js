@@ -2,28 +2,37 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import registImg from '../../image/add-image.png';
 import { Container } from "react-bootstrap";
+import { API_BASE_URL as BASE, SNS } from "../../config/host-config";
 
 const SnsRegist = () => {
   const [content, setContent] = useState('');
   const [hashTags, setHashTags] = useState([]);
-  const [itemImgs, setItemImgs] = useState([]);
+  const [imageFile, setImageFile] = useState(null); // 단일 이미지 파일 상태
   const [imagePreview, setImagePreview] = useState(null); // 이미지 미리보기를 위한 상태
+
+  const API_BASE_URL = `${BASE}${SNS}`;
+  const token = localStorage.getItem("ACCESS_TOKEN");
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
     try {
+      if (!imageFile) {
+        console.error('이미지를 선택해주세요.');
+        return;
+      }
+
       const formData = new FormData();
-      formData.append('content', content);
+    formData.append('content', content);
+    hashTags.forEach((tag) => formData.append('hashTags', tag));
+    formData.append('itemImgs', imageFile);
 
-      hashTags.forEach((tag) => formData.append('hashTags', tag));
-      itemImgs.forEach((img) => formData.append('itemImgs', img));
-
-      const response = await axios.post('/api/cboard', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+    const response = await axios.post(API_BASE_URL, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${token}`,
+      },
+    });
 
       console.log(response.data);
       // 성공 시 응답 데이터 처리 또는 다른 페이지로 리다이렉션 처리
@@ -34,10 +43,9 @@ const SnsRegist = () => {
   };
 
   const handleFileInputChange = (e) => {
-    setItemImgs(e.target.files);
-    // 이미지 미리보기를 위해 선택한 이미지 파일의 URL을 생성
-    const imageFile = e.target.files[0];
-    const imageUrl = URL.createObjectURL(imageFile);
+    const file = e.target.files[0];
+    setImageFile(file);
+    const imageUrl = URL.createObjectURL(file);
     setImagePreview(imageUrl);
   };
 
@@ -52,7 +60,7 @@ const SnsRegist = () => {
               style={{ width: '200px', height: '200px', margin: '0 40px 20px' }}
             />
           ) : (
-            <label htmlFor="itemImgs" style={{ cursor: 'pointer' }}>
+            <label htmlFor="itemImg" style={{ cursor: 'pointer' }}>
               <img
                 src={registImg}
                 alt="이미지 아이콘"
@@ -62,9 +70,9 @@ const SnsRegist = () => {
           )}
           <input
             type="file"
-            id="itemImgs"
+            id="itemImg"
             onChange={handleFileInputChange}
-            multiple
+            accept="image/*" // 이미지 파일만 선택 가능하도록 지정
             style={{ display: 'none' }}
           />
         </div>
