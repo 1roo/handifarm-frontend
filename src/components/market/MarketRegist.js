@@ -7,11 +7,17 @@ import HomeIcon from '@mui/icons-material/Home';
 import { Button, CssBaseline, TextField, Grid, Box, ThemeProvider, InputAdornment, } from "@mui/material";
 import { createTheme } from "@mui/system";
 import { Input } from "reactstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../../config/host-config";
+import { getLoginUserInfo } from "../util/login-utils";
 
 const MarketRegist = () => {
   const $fileTag = useRef();
-  const [imgFile, setImgFile] = useState(null);
+  const [imgFile, setImgFile] = useState([]);
+  const [token, setToken] = useState(getLoginUserInfo().token); //토큰
+
+  const redirection = useNavigate();
+
 
   //클릭 시 이미지 반영하기
   const showThumbnailHandler = (e) => {
@@ -24,24 +30,25 @@ const MarketRegist = () => {
     };
   };
 
+  //전달을 위한 값 저장
   const [marketValue, setMarketValue] = useState({
-    //전달을 위한 값 저장
-    marketName: null,
-    price: null,
-    info: null,
-    userName: "판매자 데이터넣기",
+    seller: localStorage.getItem('USER_NICK'),
+    itemName: null,     //물품명
+    itemContent: null,  //물품 설명
+    price: null,        //가격
   });
+
   const [correct, setCorrect] = useState({
     // 검증 통과여부
-    marketName: false,
+    itemName: false,
+    itemContent: false,
     price: false,
-    info: false,
   });
   const [message, setMessage] = useState({
     // 메시지 전달
-    marketName: " ",
+    itemName: " ",
+    itemContent: " ",
     price: "숫자만 입력이 가능합니다.",
-    info: " ",
   });
 
   //검증 데이터를 상태 변수에 저장하는 함수
@@ -80,8 +87,8 @@ const MarketRegist = () => {
     saveInputState({ key: "price", inputVal, flag, msg });
   };
 
-  //상품명 marketName입력값 검증
-  const marketNameHandler = (e) => {
+  //상품명 itemName입력값 검증
+  const itemNameHandler = (e) => {
     const inputVal = e.target.value;
 
     let flag = false;
@@ -93,11 +100,11 @@ const MarketRegist = () => {
     } else {
       flag = true;
     }
-    saveInputState({ key: "marketName", inputVal, flag, msg });
+    saveInputState({ key: "itemName", inputVal, flag, msg });
   };
 
-  //상품 설명 info입력값 검증
-  const infoHandler = (e) => {
+  //상품 설명 itemContent입력값 검증
+  const itemContentHandler = (e) => {
     const inputVal = e.target.value;
 
     let flag = false;
@@ -111,7 +118,7 @@ const MarketRegist = () => {
       e.target.style.fontStyle = "initial";
       flag = true;
     }
-    saveInputState({ key: "info", inputVal, flag, msg });
+    saveInputState({ key: "itemContent", inputVal, flag, msg });
   };
 
   // 입력 통과 여부 조회
@@ -125,14 +132,51 @@ const MarketRegist = () => {
 
   //등록하기 버튼 클릭
   const registBtn = (e) => {
-    console.log(correct);
-    if (isValid()) {
-      //입력값 문제없음 OK
-      console.log("백엔드로 보내질 값들:");
-      console.log(marketValue);
-      console.log(imgFile);
-      console.log("입력값 검증 통과!");
+    console.log('입력된 값: ', marketValue);
+    if (!isValid()) { //입력값 문제없음 OK
+      console.log('모든 값을 제대로 입력했는지 확인해주세요.');
+      return;
     }
+
+
+
+    /////////////////////값 등록 시작
+    const requestHeader = {
+      // 'content-type' : 'multipart/form-data',
+      'Authorization' : 'Bearer ' + token
+    };
+
+    const marketJsonBlob = new Blob(
+      [JSON.stringify(marketValue)],
+      { type: 'application/json' }
+    );
+
+    // 이미지 파일과 회원정보 FormData 객체를 활용해서 JSON을 하나로 묶어야 한다.
+    const marketFormData = new FormData();
+    marketFormData.append('marketItem', marketJsonBlob)
+    marketFormData.append('itemImgs', $fileTag.current.files[0]);
+    console.log('Blob', marketJsonBlob);
+    console.log($fileTag.current.files[0]);
+
+    console.log('FormData: ', marketFormData);
+  
+
+
+    fetch(`${API_BASE_URL}/api/market`, {
+      method : "POST",
+      headers : requestHeader,
+      body : marketFormData
+    })
+    .then(res => {
+      if(res.ok) {
+        console.log('등록되었습니다. res: ', res);
+        
+      } else if(res.status === 403) {
+        alert('로그인한 사용자만 접근할 수 있는 페이지입니다.');
+        redirection('/');
+        return;
+      }
+    })
   };
 
   return (
@@ -151,7 +195,7 @@ const MarketRegist = () => {
             <div className="add-file" onClick={() => $fileTag.current.click()}>
               <img
                 src={imgFile || require("../../image/add-image.png")}
-                alt="product photo"
+                alt="물품 사진을 등록해주세요."
               />
             </div>
             <input
@@ -169,11 +213,11 @@ const MarketRegist = () => {
               <TextField
                 className="answer-box"
                 variant="standard"
-                id="marketNameValue"
+                id="itemNameValue"
                 color="success"
                 placeholder="상품의 이름을 입력해주세요."
-                helperText={message.marketName}
-                onChange={marketNameHandler}
+                helperText={message.itemName}
+                onChange={itemNameHandler}
               />
             </div>
             <div className="answer-content">
@@ -201,13 +245,13 @@ const MarketRegist = () => {
               <TextField
                 className="answer-box"
                 variant="outlined"
-                id="infoValue"
+                id="itemContentValue"
                 color="success"
                 multiline
                 rows={4}
-                helperText={message.info}
+                helperText={message.itemContent}
                 placeholder="제품 설명을 입력해주세요. (최대 100자)"
-                onChange={infoHandler}
+                onChange={itemContentHandler}
               />
             </div>
             <div className="answer-content">
@@ -215,9 +259,9 @@ const MarketRegist = () => {
               <TextField
                 className="answer-box"
                 variant="standard"
-                id="userNameValue"
+                id="sellerValue"
                 disabled
-                value={"판매자 이름 데이터 넣기"}
+                value={marketValue.seller}
                 color="success"
               />
             </div>
