@@ -3,6 +3,8 @@ import { useSearchParams } from "react-router-dom";
 export function PaymentSuccess() {
   const [searchParams] = useSearchParams();
 
+  console.log(searchParams);
+
   return (
     <div>
       <h1>결제 성공</h1>
