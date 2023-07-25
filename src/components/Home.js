@@ -81,10 +81,8 @@ const Home = () => {
         return;
       }
   
-      console.log('헤헤');
       res.json().then(data => { 
         setMarketList(data.marketItems);
-        console.log(data.marketItems);
       })
     })
 
