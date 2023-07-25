@@ -1,28 +1,31 @@
 
 import React from 'react'
-import cn from 'classnames'
 import StorefrontIcon from '@mui/icons-material/Storefront';
+import { Link } from 'react-router-dom';
 
 // import AgricultureIcon from '@mui/icons-material/Agriculture';
 // 판매자 아이콘 후보
 
 const HomeTableBody = (market) => {
-  const { marketName, userName, price, imgSrc } = market.market;
+  const { seller, itemName, price, imgLinks, itemNo } = market.market;
+  console.log(imgLinks);
 
   return (
     <>
+    <Link to="/marketDetail">
       <div className="market-img">
         <figure>
-          <img src={imgSrc} alt="거래장터 사진"/>
+          <img src={(imgLinks[0]) ? imgLinks[0] : require('../image/no-image.jpg')} alt="사진이 등록되지 않았습니다."/>
         </figure>
         <div className="product">
           <p>
-            <strong>{marketName}</strong><br/>
-            <StorefrontIcon />{userName}
+            <strong>{itemName}</strong><br/>
+            <StorefrontIcon />{seller}
           </p>
           <div className="price">{price}원</div>
         </div>
       </div>
+    </Link>
     </>
   );
 };

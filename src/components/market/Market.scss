@@ -58,9 +58,13 @@ hr.h1-bottom{
         flex-wrap: wrap;
         justify-content: flex-start;
 
+        a{
+            cursor: default !important;
+        }
+
         .market-img{ //사진+상품설명 전체 한 칸
             margin: 0 15px 40px;
-            padding: 10px 10px 0;
+            padding: 10px 10px 15px;
             box-sizing: content-box; //padding을 적용시키기 위함
             width: 220px; height: 220px;
             
@@ -364,7 +368,6 @@ hr.h1-bottom{
                     font-weight: 600;
                 }
             }
-
         }
 
 
@@ -375,6 +378,18 @@ hr.h1-bottom{
 
 
 }
+
+
+#loading {
+    background-color: #f9f9f9;
+    width: 100vw;
+    height: 100vh;
+    img{
+        position:absolute; width:100px; top:50%; left:50%;
+    }
+}
+
+
 // MarketDetail END
 
 
