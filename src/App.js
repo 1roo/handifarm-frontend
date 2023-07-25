@@ -21,11 +21,11 @@ import MarketRegist from "./components/market/MarketRegist";
 import SnsList from "./components/snsBoard/SnsList";
 import SnsRegist from "./components/snsBoard/SnsRegist";
 import SnsDetail from "./components/snsBoard/SnsDetail";
-import Weather from './components/todayInfo/Weather';
-import Pest from './components/todayInfo/Pest';
-import MarketPayment from "./components/market/MarketPayment";
-import { PaymentSuccess } from "./components/market/PaymentSuccess";
-import { PaymentFail } from "./components/market/PaymentFail";
+import Weather from "./components/todayInfo/Weather";
+import Pest from "./components/todayInfo/Pest";
+import Payment from "./components/payment/Payment";
+import { PaymentSuccess } from "./components/payment/PaymentSuccess";
+import { PaymentFail } from "./components/payment/PaymentFail";
 
 function App(props) {
   return (
@@ -50,11 +50,11 @@ function App(props) {
           <Route path="/snsBoard" element={<SnsList />} />
           <Route path="/snsBoard/snsRegist" element={<SnsRegist />} />
           <Route path="/snsBoard/snsDetail/:id" element={<SnsDetail />} />
-          <Route path="/weather" element={ <Weather /> } />
-          <Route path="/pest" element={ <Pest /> } />
-          <Route path="/payment" element={ <MarketPayment /> } />
-          <Route path="/success" element={ <PaymentSuccess /> } />
-          <Route path="/fail" element={ <PaymentFail /> } />
+          <Route path="/weather" element={<Weather />} />
+          <Route path="/pest" element={<Pest />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/success" element={<PaymentSuccess />} />
+          <Route path="/fail" element={<PaymentFail />} />
         </Routes>
 
         <Footer />
