@@ -47,3 +47,27 @@ button#exitBtn {
 }
 
 
+///////////////////////////////////////////////////////////////////
+
+/* mapage */
+.profile-img-box {
+    margin: 0 auto;
+    width: 200px;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 50px;
+
+    .user-img {
+        width: 100px;
+        height: 100px;
+    }
+
+    span {
+        text-align: center;
+        font-weight: 700;
+        font-size: 1.2em;
+        margin-top: 15px;
+    }
+}
