@@ -4,7 +4,7 @@ import "../.././Custom.scss";
 // mui 아이콘 > 시작
 import HomeIcon from '@mui/icons-material/Home';
 // mui 아이콘 > 끝!
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button, Grid, Rating } from "@mui/material";
 import { StarBorderRounded } from "@mui/icons-material"; //별점 아이콘
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -14,9 +14,11 @@ import { API_BASE_URL } from "../../config/host-config";
 
 
 // 필요 데이터: 상품명, 판매내용, 가격, 이미지번호-(이미지 링크), 등록일, 판매여부
-const MarketDetail = ({itemNo}) => {
+const MarketDetail = () => {
 
-  console.log('itemNo: ', itemNo);
+  const location = useLocation();
+  const itemNo = location.state.itemNo;
+
   const redirection = useNavigate();
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState(getLoginUserInfo().token); //토큰
@@ -30,7 +32,7 @@ const MarketDetail = ({itemNo}) => {
       'Authorization' : 'Bearer ' + token
     };
 
-    fetch(`${API_BASE_URL}/api/market/6`, {
+    fetch(`${API_BASE_URL}/api/market/${itemNo}`, {
       headers : requestHeader
     })
     .then(res => {
@@ -38,8 +40,8 @@ const MarketDetail = ({itemNo}) => {
         if(res.status === 403) alert('로그인한 사용자만 접근할 수 있는 페이지입니다.');
         else if(res.status === 500) alert('500에러')
         else alert('로딩 중 문제가 발생하였습니다. 관리자에게 문의바랍니다.')
-        // redirection('/');
-        // return;
+        redirection('/');
+        return;
       }
   
       res.json().then(data => { 

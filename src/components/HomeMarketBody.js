@@ -9,11 +9,10 @@ import { Link } from 'react-router-dom';
 
 const HomeTableBody = (market) => {
   const { seller, itemName, price, imgLinks, itemNo } = market.market;
-  console.log(itemNo);
 
   return (
     <>
-    <Link to="/marketDetail" itemNo={itemNo}>
+    <Link to="/marketDetail" state={{ itemNo:itemNo }}>
       <div className="market-img">
         <figure>
           <img src={(imgLinks[0]) ? imgLinks[0] : require('../image/no-image.jpg')} alt="사진이 등록되지 않았습니다."/>
@@ -27,6 +26,7 @@ const HomeTableBody = (market) => {
         </div>
       </div>
     </Link>
+
     </>
   );
 };
