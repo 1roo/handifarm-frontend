@@ -53,72 +53,12 @@ hr.h1-bottom{
     .market-list{
         margin: 0 auto;
         min-width: min-content;
-        width: 1080px;
+        width: 1160px;
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;
 
-        .market-img{ //사진+상품설명 전체 한 칸
-            margin: 0 15px 40px;
-            padding: 10px 10px 0;
-            box-sizing: content-box; //padding을 적용시키기 위함
-            width: 220px; height: 220px;
-            
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-
-            cursor: pointer;
-            transition: 0.3s;
-
-
-            figure{ //사진 영역
-                height: 160px;
-                width: 240px;
-                border-radius: 5px;
-                overflow: hidden;
-                transition: 0.3s;
-                @include flex-center();
-                img{
-                    border-radius: 5px;
-                    margin: 0 auto;
-                    height: 100%;
-                    transition: 0.3s;
-                }
-            }
-            .product{ //상품 설명 영역
-                margin-top: 15px;
-                width: 100%;
-
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 0 3px;
-
-                p{ // 상품 판매자
-                    height: fit-content;
-                    color: gray;
-                    strong{ // 상품명
-                        font-size: 1.3em;
-                        font-weight: 700;
-                        color: black;
-                        margin-bottom: 8px;
-                        display: inline-block;
-                    }
-                }
-                .price{ font-size: 1.1em; } //가격 폰트크기
-            }
-
-            &:hover{ //마우스 호버 시 반응
-                box-shadow: 2px 3px 15px lightgray;
-                border-radius: 20px;
-                scale: 1.07;
-            }
-            &:hover figure, &:hover figure img{
-                border-radius: 10px;
-            } //마우스 호버 시 반응 END
-        }
-        
+        //각 물품에 적용되는 속성은 MarketBody.scss에서 처리함.
     }
 
 }
@@ -279,6 +219,10 @@ hr.h1-bottom{
                 padding: 0 15px;
                 color: white;
                 font-family: 'SUITE-Regular';
+
+                &.red{
+                    background-color: orangered !important;
+                }
             }
 
             .title{ //상품명, 등록일
@@ -354,17 +298,22 @@ hr.h1-bottom{
                     color: red;
                 }
             }
+            
             .btn-center{
                 width: 85%;
                 @include flex-center();
-                #buy-btn{ //등록하기 버튼
-                    width: 130px;
+                .buttons{ //등록하기 버튼
+                    font-size: 17px !important;
+                    width: 150px;
                     height: fit-content;
-                    margin-top: 30px;
-                    font-weight: 600;
+                    margin: 40px 15px 0;
+                    padding: 10px 0 6px 10px;
+                    font-weight: 400;
+                }
+                #buy-btn{
+                    width: 130px;
                 }
             }
-
         }
 
 
@@ -375,6 +324,18 @@ hr.h1-bottom{
 
 
 }
+
+
+#loading {
+    background-color: #f9f9f9;
+    width: 100vw;
+    height: 100vh;
+    img{
+        position:absolute; width:100px; top:50%; left:50%;
+    }
+}
+
+
 // MarketDetail END
 
 
