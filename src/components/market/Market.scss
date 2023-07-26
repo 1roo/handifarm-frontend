@@ -219,6 +219,10 @@ hr.h1-bottom{
                 padding: 0 15px;
                 color: white;
                 font-family: 'SUITE-Regular';
+
+                &.red{
+                    background-color: orangered !important;
+                }
             }
 
             .title{ //상품명, 등록일
@@ -294,14 +298,20 @@ hr.h1-bottom{
                     color: red;
                 }
             }
+            
             .btn-center{
                 width: 85%;
                 @include flex-center();
-                #buy-btn{ //등록하기 버튼
-                    width: 130px;
+                .buttons{ //등록하기 버튼
+                    font-size: 17px !important;
+                    width: 150px;
                     height: fit-content;
-                    margin-top: 30px;
-                    font-weight: 600;
+                    margin: 40px 15px 0;
+                    padding: 10px 0 6px 10px;
+                    font-weight: 400;
+                }
+                #buy-btn{
+                    width: 130px;
                 }
             }
         }

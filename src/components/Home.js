@@ -196,7 +196,7 @@ const Home = () => {
 
           <section className='small-market'>
             <h2>거래장터</h2>
-            <div className='market-group'>
+            <div className='market-group' >
               { marketList.map(ma =><HomeMarketBody market={ma}/>) }
             </div> {/* market-group END */}
           </section>
