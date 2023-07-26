@@ -23,6 +23,7 @@ function BoardList() {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
   const [selectedTopic, setSelectedTopic] = useState("all");
+  const [selectedCondition, setSelectedCondition] = useState("all");
 
   const API_BASE_URL = BASE + BOARD;
 
@@ -31,8 +32,9 @@ function BoardList() {
   // API 호출을 통해 게시글 목록을 가져오는 함수
   const fetchBoardsByPage = async () => {
     try {
+      console.log("API 호출 URL:", `${API_BASE_URL}?page=${currentPage}&size=${pageSize}&category=${selectedTopic}&condition=${selectedCondition}`);
       const response = await fetch(
-        `${API_BASE_URL}?page=${currentPage}&size=${pageSize}`,
+        `${API_BASE_URL}?page=${currentPage}&size=${pageSize}&category=${selectedTopic}&condition=${selectedCondition}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -40,6 +42,7 @@ function BoardList() {
         }
       );
       const responseData = await response.json();
+      console.log("API 응답 데이터:", responseData);
       setData(responseData); // API 결과로 받은 데이터를 상태에 저장
     } catch (error) {
       console.error("게시글 목록을 불러오는 중 에러 발생:", error);
@@ -47,9 +50,9 @@ function BoardList() {
   };
 
   useEffect(() => {
-    // 페이지가 변경되면 API 호출을 수행하여 데이터를 업데이트합니다.
+    // 페이지가 변경되거나 "Topic" 또는 "Search Condition"이 변경되면 API 호출을 수행하여 데이터를 업데이트합니다.
     fetchBoardsByPage();
-  }, [currentPage, pageSize, token]);
+  }, [currentPage, pageSize, selectedTopic, selectedCondition, token]);
 
   // 게시글 데이터가 변경될 때마다 공지와 일반 게시글로 분리하여 업데이트
   const [noticeBoards, setNoticeBoards] = useState([]);
@@ -68,6 +71,40 @@ function BoardList() {
     setCurrentPage(newPage);
   };
 
+  // 검색 버튼을 클릭할 때 호출되는 함수
+  const handleSearch = async () => {
+    try {
+      // API 호출을 통해 게시글 목록을 가져옵니다.
+      console.log("검색 버튼 클릭됨!"); // 검색 버튼 클릭 이벤트 확인용 로그
+
+      // 검색 버튼을 눌렀을 때 currentPage를 1로 초기화하여 첫 페이지부터 검색 결과를 보여줍니다.
+      setCurrentPage(1);
+
+      console.log("API 호출 URL:", `${API_BASE_URL}?page=${currentPage}&size=${pageSize}&category=${selectedTopic}&condition=${selectedCondition}`);
+
+      const response = await fetch(
+        `${API_BASE_URL}?page=${currentPage}&size=${pageSize}&category=${selectedTopic}&condition=${selectedCondition}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const responseData = await response.json();
+      console.log("API 응답 데이터:", responseData);
+
+      // API 결과로 받은 데이터를 상태에 저장합니다.
+      setData(responseData);
+    } catch (error) {
+      console.error("게시글 목록을 불러오는 중 에러 발생:", error);
+    }
+  };
+
+  useEffect(() => {
+    // 페이지가 변경되거나 "Topic" 또는 "Search Condition"이 변경되면 API 호출을 수행하여 데이터를 업데이트합니다.
+    handleSearch();
+  }, [selectedTopic, selectedCondition]);
 
 
   return (
@@ -102,7 +139,11 @@ function BoardList() {
           </Grid>
           <Grid>
             <FormControl sx={{ m: 1, minWidth: 120 }}>
-              <Select id="condition">
+              <Select
+                id="condition"
+                value={selectedCondition}
+                onChange={(e) => setSelectedCondition(e.target.value)}
+              >
                 <MenuItem value={"all"}>
                   <em>검색조건</em>
                 </MenuItem>
@@ -115,7 +156,7 @@ function BoardList() {
           </Grid>
           <Grid>
             <TextField variant="outlined" />
-            <Button className="searchBtn" variant="contained">
+            <Button className="searchBtn" variant="contained" onClick={handleSearch}>
               검색
             </Button>
           </Grid>
@@ -175,10 +216,8 @@ function BoardList() {
                         : { color: "black" }
                     }
                     onClick={() => {
-                      // 해당 게시글 상세 페이지로 이동
                       navigate(`/board/${row.boardNo}`);
                     }}
-                    
                   >
                     {row.title}
                   </td>

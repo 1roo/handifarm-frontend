@@ -23,3 +23,5 @@ npm install axios
 npm install cors
 
 npm install react-modal
+
+npm install node-fetch
