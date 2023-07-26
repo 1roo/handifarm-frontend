@@ -7,17 +7,23 @@ import HomeIcon from '@mui/icons-material/Home';
 import { Button, CssBaseline, TextField, Grid, Box, ThemeProvider, InputAdornment, } from "@mui/material";
 import { createTheme } from "@mui/system";
 import { Input } from "reactstrap";
-import { Link, redirect, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../../config/host-config";
 import { getLoginUserInfo } from "../util/login-utils";
 
 const MarketRegist = () => {
+
+  const location = useLocation();
+  const [thisItem, setThisItem] = useState(location.state.thisItem); // 수정할 물품의 기본정보
+  
+  
   const $fileTag = useRef();
-  const [imgFile, setImgFile] = useState([]);
+  const [imgFile, setImgFile] = useState(thisItem.imgLinks);
   const [token, setToken] = useState(getLoginUserInfo().token); //토큰
-
+  
   const redirection = useNavigate();
-
+  const [loading, setLoading] = useState(true);
+  
 
   //클릭 시 이미지 반영하기
   const showThumbnailHandler = (e) => {
@@ -32,23 +38,23 @@ const MarketRegist = () => {
 
   //전달을 위한 값 저장
   const [marketValue, setMarketValue] = useState({
-    seller: localStorage.getItem('USER_NICK'),
-    itemName: null,     //물품명
-    itemContent: null,  //물품 설명
-    price: null,        //가격
+    'itemName': thisItem.itemName,     //물품명
+    'itemContent': thisItem.itemContent,  //물품 설명
+    'price': thisItem.price,        //가격
+    'imgLinks': [thisItem.imgLinks]
   });
 
   const [correct, setCorrect] = useState({
     // 검증 통과여부
-    itemName: false,
-    itemContent: false,
-    price: false,
+    itemName: true,
+    itemContent: true,
+    price: true,
   });
   const [message, setMessage] = useState({
     // 메시지 전달
     itemName: " ",
     itemContent: " ",
-    price: "숫자만 입력이 가능합니다.",
+    price: " ",
   });
 
   //검증 데이터를 상태 변수에 저장하는 함수
@@ -131,15 +137,13 @@ const MarketRegist = () => {
   };
 
   //수정 완료 버튼 클릭
-  const registBtn = (e) => {
+  const modifyBtn = (e) => {
     console.log('입력된 값: ', marketValue);
     if (!isValid()) { //입력값 문제없음 OK
       console.log('모든 값을 제대로 입력했는지 확인해주세요.');
       return;
     }
-    
 
-    
     /////////////////////값 등록 시작
     const requestHeader = {
       // 'content-type' : 'multipart/form-data',
@@ -153,7 +157,7 @@ const MarketRegist = () => {
 
     // 이미지 파일과 회원정보 FormData 객체를 활용해서 JSON을 하나로 묶어야 한다.
     const marketFormData = new FormData();
-    marketFormData.append('marketItem', marketJsonBlob)
+    marketFormData.append('itemInfo', marketJsonBlob)
     marketFormData.append('itemImgs', $fileTag.current.files[0]);
     console.log('Blob', marketJsonBlob);
     console.log($fileTag.current.files[0]);
@@ -162,21 +166,26 @@ const MarketRegist = () => {
   
 
 
-    fetch(`${API_BASE_URL}/api/market`, {
-      method : "POST",
+    fetch(`${API_BASE_URL}/api/market/${thisItem.itemNo}`, {
+      method : "PATCH",
       headers : requestHeader,
       body : marketFormData
     })
     .then(res => {
       if(res.ok) {
-        alert('게시글이 등록되었습니다!');
-        redirect('/marketDetail');
+        alert(console.log('게시글이 수정되었습니다.'));
+        console.log('res: ', res);
+        
       } else if(res.status === 403) {
         alert('로그인한 사용자만 접근할 수 있는 페이지입니다.');
         redirection('/');
         return;
+      } else if(res.status === 500) console.log('500에러');
+      else {
+        console.log('에러 발생!');
       }
     })
+    
   };
 
   return (
@@ -185,16 +194,16 @@ const MarketRegist = () => {
         <div className="sub-link">
           <Link to="/"><HomeIcon/></Link> <span> &gt; </span>
           <Link to="/market">거래장터</Link> <span> &gt; </span>
-          <Link to="#">등록물품 작성</Link>
+          <Link to="#">물품 수정</Link>
         </div> 
-        <h1>거래장터</h1>
+        <h1>거래장터 - 물품 수정</h1>
         <hr className="h1-bottom" />
 
         <div className="write">
           <Grid className="write-image">
             <div className="add-file" onClick={() => $fileTag.current.click()}>
               <img
-                src={imgFile || require("../../image/add-image.png")}
+                src={imgFile || thisItem.imgLinks[0]}
                 alt="물품 사진을 등록해주세요."
               />
             </div>
@@ -216,6 +225,7 @@ const MarketRegist = () => {
                 id="itemNameValue"
                 color="success"
                 placeholder="상품의 이름을 입력해주세요."
+                value={marketValue.itemName}
                 helperText={message.itemName}
                 onChange={itemNameHandler}
               />
@@ -229,6 +239,7 @@ const MarketRegist = () => {
                 color="success"
                 type="text"
                 placeholder=" "
+                value={marketValue.price}
                 helperText={message.price}
                 InputProps={{
                   endAdornment: (
@@ -249,8 +260,9 @@ const MarketRegist = () => {
                 color="success"
                 multiline
                 rows={4}
-                helperText={message.itemContent}
                 placeholder="제품 설명을 입력해주세요. (최대 100자)"
+                value={marketValue.itemContent}
+                helperText={message.itemContent}
                 onChange={itemContentHandler}
               />
             </div>
@@ -261,7 +273,7 @@ const MarketRegist = () => {
                 variant="standard"
                 id="sellerValue"
                 disabled
-                value={marketValue.seller}
+                value={thisItem.seller}
                 color="success"
               />
             </div>
@@ -283,9 +295,9 @@ const MarketRegist = () => {
             id="regist-btn"
             type="button"
             variant="contained"
-            onClick={registBtn}
+            onClick={modifyBtn}
           >
-            등록하기
+            수정 완료
           </Button>
         </div>
       </div>

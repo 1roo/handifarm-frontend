@@ -46,7 +46,7 @@ const MarketDetail = () => {
     .then(res => {
       if(!res.ok) {
         if(res.status === 403) alert('로그인한 사용자만 접근할 수 있는 페이지입니다.');
-        else if(res.status === 500) alert('500에러')
+        else if(res.status === 500) alert('내부 코드 오류가 발생하였습니다. 관리자에게 문의 바랍니다.')
         else alert('로딩 중 문제가 발생하였습니다. 관리자에게 문의바랍니다.')
         redirection('/');
         return;
@@ -79,7 +79,6 @@ const MarketDetail = () => {
   };
   const modiBtn = (e) => {    //수정하기 버튼
     console.log("수정하기 버튼 클릭!");
-
 
   };
   const delBtn = (e) => {    //삭제하기 버튼
@@ -172,15 +171,17 @@ const MarketDetail = () => {
               <div className="btn-center">
                 {thisItem.seller == localStorage.getItem('USER_NICK') ? //기본 구매하기 버튼. 물품 주인은 수정or삭제로 유도. 
                   <> 
-                    <Button
-                      className="green-btn center buttons"
-                      id="modi-btn"
-                      type="button"
-                      variant="contained"
-                      onClick={modiBtn}
-                    > 
-                      글 수정하기 <ChevronRightIcon />
-                    </Button>
+                    <Link to="/marketModify" state={{ thisItem:thisItem }}>
+                      <Button
+                        className="green-btn center buttons"
+                        id="modi-btn"
+                        type="button"
+                        variant="contained"
+                        onClick={modiBtn}
+                      > 
+                        글 수정하기 <ChevronRightIcon />
+                      </Button>
+                    </Link>
                     <Button
                       className="green-btn center buttons"
                       id="del-btn"

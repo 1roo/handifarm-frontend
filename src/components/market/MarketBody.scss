@@ -57,7 +57,7 @@ a{
             height: fit-content;
             color: gray;
             strong{ // 상품명 강조
-                font-size: 1.4em;
+                font-size: 1.2em;
                 font-weight: 700;
                 color: black;
                 margin-bottom: 8px;
@@ -65,7 +65,7 @@ a{
             }
             svg{ margin: 0 2px 5px; font-size: 1.4em;}
         }
-        .price{ font-size: 1.2em; } //가격 폰트크기
+        .price{ font-size: 1.1em; padding-top: 22px;} //가격 폰트크기
     }
 
     &:hover{ //마우스 호버 시 반응
