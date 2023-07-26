@@ -21,3 +21,9 @@ npm install react-material-ui-carousel
 npm install axios
 
 npm install cors
+
+npm install react-modal
+
+npm install nanoid
+
+npm install @tosspayments/payment-widget-sdk

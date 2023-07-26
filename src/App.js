@@ -8,6 +8,7 @@ import Footer from "./components/layout/Footer";
 import Home from "./components/Home";
 import Login from "./components/user/Login";
 import Join from "./components/user/Join";
+import Mypage from "./components/user/Mypage";
 import BoardList from "./components/board/BoardList";
 import BoardRegist from "./components/board/BoardRegist";
 import BoardDetail from "./components/board/BoardDetail";
@@ -18,11 +19,15 @@ import MarketList from "./components/market/MarketList";
 import MarketDetail from "./components/market/MarketDetail";
 import MarketRegist from "./components/market/MarketRegist";
 import SnsList from "./components/snsBoard/SnsList";
+import SnsRegist from "./components/snsBoard/SnsRegist";
 import SnsDetail from "./components/snsBoard/SnsDetail";
-import Weather from './components/todayInfo/Weather';
-import Pest from './components/todayInfo/Pest';
+import Weather from "./components/todayInfo/Weather";
+import Pest from "./components/todayInfo/Pest";
+import Payment from "./components/payment/Payment";
+import { PaymentSuccess } from "./components/payment/PaymentSuccess";
+import { PaymentFail } from "./components/payment/PaymentFail";
 
-function App() {
+function App(props) {
   return (
     <AuthContextProvider>
       <Router>
@@ -33,6 +38,7 @@ function App() {
           <Route exact path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/join" element={<Join />} />
+          <Route path="/mypage" element={<Mypage />} />
           <Route path="/board" element={<BoardList />} />
           <Route path="/boardRegist" element={<BoardRegist />} />
           <Route path="/board/:boardNo" element={<BoardDetail />} />
@@ -41,10 +47,14 @@ function App() {
           <Route path="/market" element={<MarketList />} />
           <Route path="/marketRegist" element={<MarketRegist />} />
           <Route path="/marketDetail" element={<MarketDetail />} />
-          <Route path="/snsBoard/snsList" element={<SnsList />} />
+          <Route path="/snsBoard" element={<SnsList />} />
+          <Route path="/snsBoard/snsRegist" element={<SnsRegist />} />
           <Route path="/snsBoard/snsDetail/:id" element={<SnsDetail />} />
-          <Route path="/weather" element={ <Weather /> } />
-            <Route path="/pest" element={ <Pest /> } />
+          <Route path="/weather" element={<Weather />} />
+          <Route path="/pest" element={<Pest />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/success" element={<PaymentSuccess />} />
+          <Route path="/fail" element={<PaymentFail />} />
         </Routes>
 
         <Footer />

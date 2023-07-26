@@ -1,15 +1,23 @@
+// BoardRegist.js
+
 import "./Board.scss";
 import React, { useState } from "react";
 import { MenuItem, Grid, CssBaseline, FormControl, Select, Container, TextField, Button } from "@mui/material";
 import { API_BASE_URL as BASE, BOARD } from "../../config/host-config";
 import { useNavigate } from "react-router-dom";
 
-function BoardRegist() {
+function BoardRegist({ userNick }) {
   const redirection = useNavigate();
 
   const [selectedTopic, setSelectedTopic] = useState("all");
   const handleTopicChange = (event) => {
-    setSelectedTopic(event.target.value);
+    const selectedValue = event.target.value;
+    // "관리자"가 아닌 경우 "selectedTopic"을 "all"로 설정하여 "공지" 옵션을 숨깁니다.
+    if (userNick !== "관리자" && selectedValue === "NOTICE") {
+      setSelectedTopic("all");
+    } else {
+      setSelectedTopic(selectedValue);
+    }
   };
 
   const [boardValue, setBoardValue] = useState({
@@ -78,8 +86,6 @@ function BoardRegist() {
     redirection("/board");
   };
 
-
-
   return (
     <>
       <p className="menu-title">게시글 작성</p>
@@ -99,7 +105,7 @@ function BoardRegist() {
                 <MenuItem value={"all"}>
                   <em>말머리</em>
                 </MenuItem>
-                <MenuItem value={"NOTICE"}>공지</MenuItem>
+                {userNick === "관리자" && <MenuItem value={"NOTICE"}>공지</MenuItem>}
                 <MenuItem value={"INFORMATION"}>정보</MenuItem>
                 <MenuItem value={"FREE"}>자유</MenuItem>
               </Select>

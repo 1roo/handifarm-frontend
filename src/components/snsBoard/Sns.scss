@@ -1,3 +1,42 @@
+$main-green: #53A069;
+
+@mixin green-btn {
+    background-color: $main-green !important;
+    height: 56px;
+    font-size: 1rem !important;
+}
+
+
+/* SnsRegist */
+.regist-content {
+    > div {
+        width: 260px;
+        display: flex;
+        justify-content: flex-end;
+    }
+}
+
+.regist-btn {
+    background-color: $main-green;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 5px 10px;
+    margin: 20px 110px 0;
+}
+
+
+
+
+/* sns등록 모달 */
+.modal-content {
+    width: 300px;
+    height: 350px;
+    margin: 0 auto;
+    border: 1px solid black;
+    position: absolute;
+}
+
 .sns-list {
     display: flex;
     

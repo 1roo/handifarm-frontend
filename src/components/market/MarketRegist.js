@@ -183,8 +183,8 @@ const MarketRegist = () => {
     <>
       <div className="container market-regist">
         <div className="sub-link">
-          <Link to="/"><HomeIcon/></Link> <span>> </span>
-          <Link to="/market">거래장터</Link> <span>> </span>
+          <Link to="/"><HomeIcon/></Link> <span> &gt; </span>
+          <Link to="/market">거래장터</Link> <span> &gt; </span>
           <Link to="#">등록물품 작성</Link>
         </div> 
         <h1>거래장터</h1>
