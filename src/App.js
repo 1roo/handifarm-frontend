@@ -18,13 +18,18 @@ import { AuthContextProvider } from "./components/util/AuthContext";
 import MarketList from "./components/market/MarketList";
 import MarketDetail from "./components/market/MarketDetail";
 import MarketRegist from "./components/market/MarketRegist";
+import MarketModify from "./components/market/MarketModify";
 import SnsList from "./components/snsBoard/SnsList";
 import SnsRegist from "./components/snsBoard/SnsRegist";
 import SnsDetail from "./components/snsBoard/SnsDetail";
-import Weather from './components/todayInfo/Weather';
-import Pest from './components/todayInfo/Pest';
+import Weather from "./components/todayInfo/Weather";
+import Pest from "./components/todayInfo/Pest";
+import Payment from "./components/payment/Payment";
+import { PaymentSuccess } from "./components/payment/PaymentSuccess";
+import { PaymentFail } from "./components/payment/PaymentFail";
+import Error404 from "./components/Error404";
 
-function App() {
+function App(props) {
   return (
     <AuthContextProvider>
       <Router>
@@ -44,11 +49,17 @@ function App() {
           <Route path="/market" element={<MarketList />} />
           <Route path="/marketRegist" element={<MarketRegist />} />
           <Route path="/marketDetail" element={<MarketDetail />} />
+          <Route path="/marketModify" element={<MarketModify />} />
           <Route path="/snsBoard" element={<SnsList />} />
           <Route path="/snsBoard/snsRegist" element={<SnsRegist />} />
           <Route path="/snsBoard/snsDetail/:id" element={<SnsDetail />} />
-          <Route path="/weather" element={ <Weather /> } />
-            <Route path="/pest" element={ <Pest /> } />
+          <Route path="/weather" element={<Weather />} />
+          <Route path="/pest" element={<Pest />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/success" element={<PaymentSuccess />} />
+          <Route path="/fail" element={<PaymentFail />} />
+
+          <Route path="/*" element={<Error404 />} /> {/* 404 에러 처리 */}
         </Routes>
 
         <Footer />

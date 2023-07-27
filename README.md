@@ -25,3 +25,7 @@ npm install cors
 npm install react-modal
 
 npm install node-fetch
+
+npm install nanoid
+
+npm install @tosspayments/payment-widget-sdk

@@ -187,59 +187,27 @@ section.small-market{
 
     .market-group{
         margin: 0 auto;
-        width: fit-content; // 이미지 하나당 240 + 마진 20 = 260*4 = 1040px
+        min-width: min-content;
+        width: 1080px; // 이미지 하나당 220 + 마진 20+패딩20 = 260*4 = 1040px
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;
 
-        .market-img{ //사진+상품설명 전체 한 칸
-            margin: 0 10px 20px;
 
-            width: 240px; height: 240px;
-            
-            display: flex;
-            align-items: center;
-            overflow: hidden;
-            flex-direction: column;
+        //각 물품에 적용되는 속성은 MarketBody.scss에서 처리함.
+        // Market.scss 기준이므로 다른 점은 이곳에서 따로 처리.
+        .market-img{ //
+            margin: 0 15px 40px;
+            padding: 10px 10px 15px;
 
-            figure{ //사진 영역
-                height: 160px;
-                border-radius: 10px;
-                overflow: hidden;
-                img{
-                    margin: 0 auto;
-                    height: 100%; 
-                }
+            &:hover{ //마우스 호버 시 반응
+                box-shadow: 2px 3px 10px rgb(221, 221, 221);
+                border-radius: 15px;
+                scale: 1.04;
             }
-            .product{ //상품 설명 영역
-                margin-top: 15px;
-                width: 100%;
-
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 0 3px;
-
-                p{ // 상품 판매자
-                    height: fit-content;
-                    color: gray;
-
-                    strong{ //상품명 강조
-                        font-size: 1.4em;
-                        font-weight: 700;
-                        color: black;
-                        margin-bottom: 8px;
-                        display: inline-block;
-                    }
-                    svg{ margin: 0 2px 5px; font-size: 1.4em;}
-                }
-                .price{ font-size: 1.2em; }  //가격 폰트크기
-            }
-        
-        
-        
         }
     }
+    
 
 
 }
