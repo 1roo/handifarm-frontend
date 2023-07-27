@@ -55,6 +55,7 @@ const Mypage = () => {
     userAddrBasic: "",
     userAddrDetail: "",
     userPostcode: "",
+    userProfileImg: "",
   });
   const [email1, setEmail1] = useState('');
   const [email2, setEmail2] = useState('');
@@ -241,7 +242,7 @@ const Mypage = () => {
     });
   };
 
-  const defaultTheme = createTheme(); //ㄴ
+  const defaultTheme = createTheme();
 
   // 닉네임 통과 여부를 검사
   const isValid = () => {
@@ -253,56 +254,38 @@ const Mypage = () => {
   };
 
   
-// 이미지 업로드 처리 함수
-const uploadImage = async () => {
-  if (imageFile) {
-    const formData = new FormData();
-    formData.append("image", imageFile); // "image"는 서버에서 이미지를 처리하는 필드명에 맞춰서 변경하세요.
+// 이미지 업로드 및 회원 정보 수정 처리 함수
+async function uploadImageAndModify() {
 
-    try {
-      const response = await axios.post(`${API_BASE_URL}/uploadImage`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.status === 200) {
-        console.log("이미지 업로드 성공");
-      } else {
-        console.log("이미지 업로드 실패");
-      }
-    } catch (error) {
-      console.error("이미지 업로드 에러:", error);
-    }
-  }
-};
+  const userJsonBlob = new Blob(
+    [JSON.stringify(userValue)],
+    { type: 'application/json' }
+  );
 
-// 회원 정보 수정 처리 서버 요청
-const fetchModifyPost = async () => {
-  try {
-    const response = await axios.put(`${API_BASE_URL}/modifyUser`, userValue, {
+  const formData = new FormData();
+  formData.append('userInfo', userJsonBlob);
+  formData.append('profileImg', imageFile);
+
+  const response = await fetch(`${API_BASE_URL}/modifyUser`, {
+      method: 'PUT',
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-    });
-    if (response.status === 200) {
-      console.log("회원 수정에 성공했습니다!");
-      // redirection("/login"); // 원하는 경로로 리디렉션
-    } else {
-      console.log("서버와의 통신이 원활하지 않습니다.");
-    }
-  } catch (error) {
-    console.error("회원 수정 에러:", error);
-  }
-};
+      body: formData,
+  });
 
-// 회원수정 버튼 클릭 핸들러
+  // 응답 데이터 처리
+  const result = await response.json();
+  console.log(result);
+
+}
+  
+
+// 회원정보수정 버튼 클릭 핸들러
 const modifyButtonClickHandler = async (e) => {
   e.preventDefault();
   if (isValid()) {
-    await uploadImage(); // 이미지 업로드를 먼저 처리
-    await fetchModifyPost(); // 회원 정보 수정 서버 요청
+    await uploadImageAndModify();
   }
 };
   
@@ -322,16 +305,11 @@ const modifyButtonClickHandler = async (e) => {
   return (
     <>
       <h2 className="menu-title">마이페이지</h2>
-      
-
-
 
       <ThemeProvider theme={defaultTheme}>
         <Container component="main" maxWidth="sm">
           <CssBaseline />
-          
-            
-          
+     
           <div className="profile-img-box">
           {imagePreview ? (
             <img
@@ -343,7 +321,7 @@ const modifyButtonClickHandler = async (e) => {
           ) : (
             <label htmlFor="itemImg" style={{ cursor: 'pointer' }}>
               <img
-                src={userImg}
+                src={userValue.userProfileImg !=null ? userValue.userProfileImg : userImg}
                 alt="이미지 아이콘"
                 style={{ width: '100px', height: '100px', margin: '0' }}
               />

@@ -23,6 +23,7 @@ function BoardList() {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
   const [selectedTopic, setSelectedTopic] = useState("all");
+  const [selectedCondition, setSelectedCondition] = useState("all");
 
   const API_BASE_URL = BASE + BOARD;
 
@@ -31,8 +32,9 @@ function BoardList() {
   // API 호출을 통해 게시글 목록을 가져오는 함수
   const fetchBoardsByPage = async () => {
     try {
+      console.log("API 호출 URL:", `${API_BASE_URL}?page=${currentPage}&size=${pageSize}&category=${selectedTopic}&condition=${selectedCondition}`);
       const response = await fetch(
-        `${API_BASE_URL}?page=${currentPage}&size=${pageSize}`,
+        `${API_BASE_URL}?page=${currentPage}&size=${pageSize}&category=${selectedTopic}&condition=${selectedCondition}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -40,6 +42,7 @@ function BoardList() {
         }
       );
       const responseData = await response.json();
+      console.log("API 응답 데이터:", responseData);
       setData(responseData); // API 결과로 받은 데이터를 상태에 저장
     } catch (error) {
       console.error("게시글 목록을 불러오는 중 에러 발생:", error);
@@ -47,7 +50,7 @@ function BoardList() {
   };
 
   useEffect(() => {
-    // 페이지가 변경되면 API 호출을 수행하여 데이터를 업데이트합니다.
+    // 페이지가 변경되거나 "Topic" 또는 "Search Condition"이 변경되면 API 호출을 수행하여 데이터 업데이트.
     fetchBoardsByPage();
   }, [currentPage, pageSize, token]);
 
@@ -56,17 +59,73 @@ function BoardList() {
   const [boards, setBoards] = useState([]);
 
   useEffect(() => {
-    const noticeBoards = data.boards.filter((board) => board.category === "NOTICE");
-    const otherBoards = data.boards.filter((board) => board.category !== "NOTICE");
+    const noticeBoards = data.boards && data.boards.filter((board) => board.category === "NOTICE");
+    const otherBoards = data.boards && data.boards.filter((board) => board.category !== "NOTICE");
 
-    setNoticeBoards(noticeBoards);
-    setBoards(otherBoards);
+    setNoticeBoards(noticeBoards || []);
+    setBoards(otherBoards || []);
   }, [data]);
+
+
 
   // 페이지 변경 시 호출되는 콜백 함수
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage);
   };
+
+
+
+
+
+
+
+
+  const [searchKeyword, setSearchKeyword] = useState("");
+
+
+  // API 호출을 통해 게시물 검색하는 함수
+  const searchBoardList = async (category, condition, searchWord) => {
+    try {
+      console.log('검색 요청 URL : ', `${API_BASE_URL}/search?category=${selectedTopic}&condition=${selectedCondition}&searchWord=${searchKeyword}`)
+      const response = await fetch(
+        `${API_BASE_URL}/search?category=${selectedTopic}&condition=${selectedCondition}&searchWord=${searchKeyword}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const responseData = await response.json();
+      setData({
+        boards: responseData,
+        totalPages: [...responseData].length/20,
+      });
+      console.log("data: ", data);
+    } catch (error) {
+      console.error("검색 중 에러 발생:", error);
+    }
+  };
+
+
+  // 검색 버튼을 클릭할 때 호출되는 함수
+  const handleSearchButtonClick = async () => {
+    try {
+      console.log("검색 버튼 클릭됨!");
+
+      setCurrentPage(1);
+
+      searchBoardList(selectedTopic, selectedCondition, searchKeyword);
+    }
+    catch (error) {
+      console.error("게시글 목록을 불러오는 중 에러 발생:", error);
+    }
+  };
+
+
+  useEffect(() => {}, [selectedTopic, selectedCondition]);
+
+
+
 
 
 
@@ -102,7 +161,11 @@ function BoardList() {
           </Grid>
           <Grid>
             <FormControl sx={{ m: 1, minWidth: 120 }}>
-              <Select id="condition">
+              <Select
+                id="condition"
+                value={selectedCondition}
+                onChange={(e) => setSelectedCondition(e.target.value)}
+              >
                 <MenuItem value={"all"}>
                   <em>검색조건</em>
                 </MenuItem>
@@ -114,8 +177,12 @@ function BoardList() {
             </FormControl>
           </Grid>
           <Grid>
-            <TextField variant="outlined" />
-            <Button className="searchBtn" variant="contained">
+            <TextField variant="outlined"
+              value={searchKeyword}
+              onChange={(e) => setSearchKeyword(e.target.value)} />
+            <Button className="searchBtn"
+              variant="contained"
+              onClick={handleSearchButtonClick}>
               검색
             </Button>
           </Grid>
@@ -135,7 +202,7 @@ function BoardList() {
               </tr>
             </thead>
             <tbody>
-              {data.boards.map((row) => (
+              {!!data.boards && data.boards.map((row) => (
                 <tr
                   style={
                     row.category === "NOTICE"
@@ -175,10 +242,8 @@ function BoardList() {
                         : { color: "black" }
                     }
                     onClick={() => {
-                      // 해당 게시글 상세 페이지로 이동
                       navigate(`/board/${row.boardNo}`);
                     }}
-                    
                   >
                     {row.title}
                   </td>
