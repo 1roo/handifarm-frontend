@@ -50,61 +50,83 @@ function BoardList() {
   };
 
   useEffect(() => {
-    // 페이지가 변경되거나 "Topic" 또는 "Search Condition"이 변경되면 API 호출을 수행하여 데이터를 업데이트합니다.
+    // 페이지가 변경되거나 "Topic" 또는 "Search Condition"이 변경되면 API 호출을 수행하여 데이터 업데이트.
     fetchBoardsByPage();
-  }, [currentPage, pageSize, selectedTopic, selectedCondition, token]);
+  }, [currentPage, pageSize, token]);
 
   // 게시글 데이터가 변경될 때마다 공지와 일반 게시글로 분리하여 업데이트
   const [noticeBoards, setNoticeBoards] = useState([]);
   const [boards, setBoards] = useState([]);
 
   useEffect(() => {
-    const noticeBoards = data.boards.filter((board) => board.category === "NOTICE");
-    const otherBoards = data.boards.filter((board) => board.category !== "NOTICE");
+    const noticeBoards = data.boards && data.boards.filter((board) => board.category === "NOTICE");
+    const otherBoards = data.boards && data.boards.filter((board) => board.category !== "NOTICE");
 
-    setNoticeBoards(noticeBoards);
-    setBoards(otherBoards);
+    setNoticeBoards(noticeBoards || []);
+    setBoards(otherBoards || []);
   }, [data]);
+
+
 
   // 페이지 변경 시 호출되는 콜백 함수
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage);
   };
 
-  // 검색 버튼을 클릭할 때 호출되는 함수
-  const handleSearch = async () => {
+
+
+
+
+
+
+
+  const [searchKeyword, setSearchKeyword] = useState("");
+
+
+  // API 호출을 통해 게시물 검색하는 함수
+  const searchBoardList = async (category, condition, searchWord) => {
     try {
-      // API 호출을 통해 게시글 목록을 가져옵니다.
-      console.log("검색 버튼 클릭됨!"); // 검색 버튼 클릭 이벤트 확인용 로그
-
-      // 검색 버튼을 눌렀을 때 currentPage를 1로 초기화하여 첫 페이지부터 검색 결과를 보여줍니다.
-      setCurrentPage(1);
-
-      console.log("API 호출 URL:", `${API_BASE_URL}?page=${currentPage}&size=${pageSize}&category=${selectedTopic}&condition=${selectedCondition}`);
-
+      console.log('검색 요청 URL : ', `${API_BASE_URL}/search?category=${selectedTopic}&condition=${selectedCondition}&searchWord=${searchKeyword}`)
       const response = await fetch(
-        `${API_BASE_URL}?page=${currentPage}&size=${pageSize}&category=${selectedTopic}&condition=${selectedCondition}`,
+        `${API_BASE_URL}/search?category=${selectedTopic}&condition=${selectedCondition}&searchWord=${searchKeyword}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-
       const responseData = await response.json();
-      console.log("API 응답 데이터:", responseData);
-
-      // API 결과로 받은 데이터를 상태에 저장합니다.
-      setData(responseData);
+      setData({
+        boards: responseData,
+        totalPages: [...responseData].length/20,
+      });
+      console.log("data: ", data);
     } catch (error) {
+      console.error("검색 중 에러 발생:", error);
+    }
+  };
+
+
+  // 검색 버튼을 클릭할 때 호출되는 함수
+  const handleSearchButtonClick = async () => {
+    try {
+      console.log("검색 버튼 클릭됨!");
+
+      setCurrentPage(1);
+
+      searchBoardList(selectedTopic, selectedCondition, searchKeyword);
+    }
+    catch (error) {
       console.error("게시글 목록을 불러오는 중 에러 발생:", error);
     }
   };
 
-  useEffect(() => {
-    // 페이지가 변경되거나 "Topic" 또는 "Search Condition"이 변경되면 API 호출을 수행하여 데이터를 업데이트합니다.
-    handleSearch();
-  }, [selectedTopic, selectedCondition]);
+
+  useEffect(() => {}, [selectedTopic, selectedCondition]);
+
+
+
+
 
 
   return (
@@ -155,8 +177,12 @@ function BoardList() {
             </FormControl>
           </Grid>
           <Grid>
-            <TextField variant="outlined" />
-            <Button className="searchBtn" variant="contained" onClick={handleSearch}>
+            <TextField variant="outlined"
+              value={searchKeyword}
+              onChange={(e) => setSearchKeyword(e.target.value)} />
+            <Button className="searchBtn"
+              variant="contained"
+              onClick={handleSearchButtonClick}>
               검색
             </Button>
           </Grid>
@@ -176,7 +202,7 @@ function BoardList() {
               </tr>
             </thead>
             <tbody>
-              {data.boards.map((row) => (
+              {!!data.boards && data.boards.map((row) => (
                 <tr
                   style={
                     row.category === "NOTICE"
