@@ -33,11 +33,11 @@ hr.h1-bottom{
     width: 100%; 
     h1{ font-weight: 900; margin-bottom: 20;}
 
+
     .searchVar{
-        // margin-bottom: 80px;
 
         background-color: $main-green;
-        margin: 0 auto 80px;
+        margin: 20px auto 80px;
         width: 100%;
         height: 30px;
 
@@ -68,7 +68,7 @@ hr.h1-bottom{
     font-family: 'SUITE-Regular';
     width: 80%;
     padding: 10px 20px;
-    background-color: rgba($color: lightgray, $alpha: 0.7); 
+    background-color: rgba($color: rgb(231, 231, 231), $alpha: 0.7); 
     box-shadow: 2px 2px 7px rgba($color: #8a8a8a, $alpha: 0.5);
     
     margin: 20px auto 50px;
@@ -90,12 +90,14 @@ hr.h1-bottom{
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 100%;
+        margin: 0 auto;
+        width: 90%;
         
         .MuiButton-root{ display: block;}
         .write-image{
             width: 500px;
-            background-color: lightgrey;
+            background-color: rgb(231, 231, 231);
+            border-radius: 5px;
             margin-left: 50px;
             cursor: pointer;
 
@@ -114,7 +116,7 @@ hr.h1-bottom{
             display: flex;
             flex-direction: column;
             justify-content: center;
-            width: 90%;
+            width: 85%;
             
 
             .answer-content{ //각각 input 박스 조절
@@ -150,9 +152,6 @@ hr.h1-bottom{
                         padding-top: 7px;
                     }
                     input{
-                        // border-left: 5px double yellow;
-                        // border-style: dotted;
-                        // border-top-left-radius: 3px;
                         text-indent: 3px;
                     }
                 }
@@ -196,22 +195,23 @@ hr.h1-bottom{
         .content-img{ //상품 이미지
             width: 500px;
             article{
-                width: 360px;
+                min-width: 360px;
+                width: 400px;
                 height: 500px;
-                background-color: lightgrey;
-                margin-left: 50px;
+                // background-color: rgb(255, 255, 255);
+                border-radius: 5px;
+                // margin-left: 50px;
+                margin: 0 auto;
                 overflow: hidden;
+                @include flex-center();
     
-                img{
-                    @include flex-center();
-                    height: 100%;
-                }
+                img{ height: 100%; }
             }
         }
         .content-content{
-            margin-left: 50px;
+            // margin-left: 50px;
             min-width: 50%;
-            width: fit-content;
+            width: 500px;
 
             .green-btn[disabled]{
                 font-weight: 500;
@@ -315,13 +315,7 @@ hr.h1-bottom{
                 }
             }
         }
-
-
-
     }
-
-
-
 
 }
 

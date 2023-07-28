@@ -23,11 +23,14 @@ const MarketRegist = () => {
   const showThumbnailHandler = (e) => {
     const file = $fileTag.current.files[0];
     const reader = new FileReader();
-    reader.readAsDataURL(file);
+    if(file){ 
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setImgFile(reader.result);
+      };
+      setCorrect({...correct, itemImage: true})
+    }
 
-    reader.onloadend = () => {
-      setImgFile(reader.result);
-    };
   };
 
   //전달을 위한 값 저장
@@ -43,6 +46,7 @@ const MarketRegist = () => {
     itemName: false,
     itemContent: false,
     price: false,
+    itemImage: false
   });
   const [message, setMessage] = useState({
     // 메시지 전달
@@ -121,6 +125,7 @@ const MarketRegist = () => {
     saveInputState({ key: "itemContent", inputVal, flag, msg });
   };
 
+
   // 입력 통과 여부 조회
   const isValid = () => {
     for (const c in correct) {
@@ -133,7 +138,10 @@ const MarketRegist = () => {
   //수정 완료 버튼 클릭
   const registBtn = (e) => {
     console.log('입력된 값: ', marketValue);
-    if (!isValid()) { //입력값 문제없음 OK
+    if(!correct.itemImage){
+      alert('상품 이미지를 등록해주세요.')
+      return;
+    } else if (!isValid()) { //입력값 문제없음 OK
       console.log('모든 값을 제대로 입력했는지 확인해주세요.');
       return;
     }
@@ -170,7 +178,12 @@ const MarketRegist = () => {
     .then(res => {
       if(res.ok) {
         alert('게시글이 등록되었습니다!');
-        redirect('/marketDetail');
+        res.json().then(data => { 
+          redirection('/marketDetail', {
+            state: { itemNo: data.itemNo }
+          });
+        })
+        return;
       } else if(res.status === 403) {
         alert('로그인한 사용자만 접근할 수 있는 페이지입니다.');
         redirection('/');

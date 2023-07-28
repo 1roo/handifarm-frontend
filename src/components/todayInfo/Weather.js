@@ -55,99 +55,102 @@ const Weather = () => {
     return {dateString, month, day, time, dayName};
   }
 
-  useEffect(async () => {
 
+  //조회 후 코드 시작
+  useEffect(() => {  StartFunction();  }, [])
+  const StartFunction = async() => {
     //일통계 조회
     
+    const stYmd = getDate(0).dateString; //오늘 날짜
+    const stYesterdayYmd = getDate(-1).dateString; //어제 날짜 확인용 (오늘)
+    // const $stTime = (getDate(-plusDay).time-1)+'00';
+    const stTime = '0500';
+    let nX = '59'; //서울 좌표
+    let nY = '126';
+    
+    console.log('\n\n 오늘 날짜: '+stYmd);
+    
+    
+    //실황
+    // const resRealTime = await fetch('http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey='+ENCODING_KEY
+    //  +'&numOfRows=10&pageNo=1&dataType=JSON&base_date='+stYmd+'&base_time='+stTime+'&nx='+nX+'&ny='+nY)
+    // const data = await resRealTime.json();
+    // console.log('data: ', data);
+    // const temp = data.response.body.items.item[3].obsrValue;
+    // console.log('현재기온: ', temp);
+    // const dd = document.querySelector('.weather.D0 > .temp > span');
+    // dd.textContent = temp+'℃';
 
-      const stYmd = getDate(0).dateString; //오늘 날짜
-      const stYesterdayYmd = getDate(-1).dateString; //어제 날짜 확인용 (오늘)
-      // const $stTime = (getDate(-plusDay).time-1)+'00';
-      const stTime = '0500';
-      let nX = '59';
-      let nY = '126';
+
+    //단기예보 
+    const resWeather = await fetch('http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey='+ENCODING_KEY
+      +'&numOfRows=1000&pageNo=1&dataType=JSON&base_date='+stYmd+'&base_time='+stTime+'&nx='+nX+'&ny='+nY);
+    const resYesterWeather = await fetch('http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey='+ENCODING_KEY
+      +'&numOfRows=400&pageNo=1&dataType=JSON&base_date='+stYesterdayYmd+'&base_time='+stTime+'&nx='+nX+'&ny='+nY);
       
-      console.log('\n\n 오늘 날짜: '+stYmd);
-      
-      
-      //실황
-      // const resRealTime = await fetch('http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey='+ENCODING_KEY
-      //  +'&numOfRows=10&pageNo=1&dataType=JSON&base_date='+stYmd+'&base_time='+stTime+'&nx='+nX+'&ny='+nY)
-      // const data = await resRealTime.json();
-      // console.log('data: ', data);
-      // const temp = data.response.body.items.item[3].obsrValue;
-      // console.log('현재기온: ', temp);
-      // const dd = document.querySelector('.weather.D0 > .temp > span');
-      // dd.textContent = temp+'℃';
+    const data = await resWeather.json();
+    const data2 = await resYesterWeather.json();
 
+    if(data.response.header.resultCode !== '00'){ //정상처리되지 않았을 경우
+      console.log('잘못된 요청입니다.');
+      return;
+    }
 
-      //단기예보 
-      const resWeather = await fetch('http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey='+ENCODING_KEY
-        +'&numOfRows=1000&pageNo=1&dataType=JSON&base_date='+stYmd+'&base_time='+stTime+'&nx='+nX+'&ny='+nY);
-      const resYesterWeather = await fetch('http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey='+ENCODING_KEY
-        +'&numOfRows=400&pageNo=1&dataType=JSON&base_date='+stYesterdayYmd+'&base_time='+stTime+'&nx='+nX+'&ny='+nY);
-        
-      const data = await resWeather.json();
-      const data2 = await resYesterWeather.json();
+    const itemList = data.response.body.items.item;
+    const itemList2 = data2.response.body.items.item;
 
-      if(data.response.header.resultCode !== '00'){ //정상처리되지 않았을 경우
-        console.log('잘못된 요청입니다.');
+    // 최고, 최저온도 구하기
+    const temps = itemList.filter(it => it.category === 'TMN' || it.category === 'TMX');
+    const temp = temps.map(it => it.fcstValue);
+    itemList2.forEach(it => {  //오늘 최저기온 구하기 1
+      if(it.category == 'TMN'){
+        temp.unshift(it.fcstValue);
         return;
       }
+    });
 
-      const itemList = data.response.body.items.item;
-      const itemList2 = data2.response.body.items.item;
+    // 사흘간 날씨(구름 소식) 구하기 (오전 오후 6시 기준)
+    const skys = itemList.filter(it => it.category == 'SKY' && (it.fcstTime == '0600' || it.fcstTime == '1800' ))
+    const skyCode = skys.map(it => it.fcstValue);
 
-      // 최고, 최저온도 구하기
-      const temps = itemList.filter(it => it.category == 'TMN' || it.category == 'TMX');
-      const temp = temps.map(it => it.fcstValue);
-      itemList2.forEach(it => {  //오늘 최저기온 구하기 1
-        if(it.category == 'TMN'){
-          temp.unshift(it.fcstValue);
-          return;
-        }
-      });
-
-      // 사흘간 날씨(구름 소식) 구하기 (오전 오후 6시 기준)
-      const skys = itemList.filter(it => it.category == 'SKY' && (it.fcstTime == '0600' || it.fcstTime == '1800' ))
-      const skyCode = skys.map(it => it.fcstValue);
-
-      //사흘간 날씨(비 소식) 구하기22 (오전 오후 6시 기준)
-      const rains = itemList.filter(it => it.category == 'PTY' && (it.fcstTime == '0600' || it.fcstTime == '1800' ))
-      const rainCode = rains.map(it => it.fcstValue);
+    //사흘간 날씨(비 소식) 구하기22 (오전 오후 6시 기준)
+    const rains = itemList.filter(it => it.category == 'PTY' && (it.fcstTime == '0600' || it.fcstTime == '1800' ))
+    const rainCode = rains.map(it => it.fcstValue);
 
 
 
-      // 맑음0, 흐림1, 비2, 눈3으로 숫자 통일
-      const skyRainList = []
-      let count = 0;
-      skyCode.forEach(sc => {
-        let state = 0 //상태저장
-        if(sc == 3 || sc == 4){ state = 1 }
-        
-        if(rainCode[count] == 3 || rainCode[count] == 7) state = 3;
-        else if(rainCode[count] > 0) state = 2;
-
-        skyRainList.push(state);
-        count++;
-      });
-
-      console.log('날씨코드:', skyCode, '비 여부 코드:', rainCode);
-      console.log('어제, 오늘, 내일 날씨 코드: ', skyRainList);
-      console.log('어제, 오늘, 내일의 최저/최고 온도: ', temp);
-
-      setStateSkyList(skyRainList);
-      setStateTemp(temp);
+    // 맑음0, 흐림1, 비2, 눈3으로 숫자 통일
+    const skyRainList = []
+    let count = 0;
+    skyCode.forEach(sc => {
+      let state = 0 //상태저장
+      if(sc == 3 || sc == 4){ state = 1 }
       
-      // localStorage.setItem('tempData', temp);
-      // localStorage.setItem('skyData', skyRainList);
-      // console.log(localStorage.getItem('tempData'));
-      // console.log(localStorage.getItem('skyData'));
+      if(rainCode[count] == 3 || rainCode[count] == 7) state = 3;
+      else if(rainCode[count] > 0) state = 2;
+
+      skyRainList.push(state);
+      count++;
+    });
+
+    console.log('날씨코드:', skyCode, '비 여부 코드:', rainCode);
+    console.log('어제, 오늘, 내일 날씨 코드: ', skyRainList);
+    console.log('어제, 오늘, 내일의 최저/최고 온도: ', temp);
+
+    setStateSkyList(skyRainList);
+    setStateTemp(temp);
+    
+    // localStorage.setItem('tempData', temp);
+    // localStorage.setItem('skyData', skyRainList);
+    // console.log(localStorage.getItem('tempData'));
+    // console.log(localStorage.getItem('skyData'));
 
     //로딩 완료
     setLoading(false)
 
-  }, [])
+  }
+
+ 
 
   const loadingPage = (
     <div id="loading">

@@ -18,15 +18,30 @@ const MarketList = () => {
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState(getLoginUserInfo().token); //토큰
 
-  const [marketList, setMarketList] = useState([]);
+  // const replaceList = function(start, end) {
+  //   for(let i = 0; i < 12; i++){
+  //     <HomeMarketBody market={marketList[i]} />
+  //   }
+  // }
+
+  const [marketList, setMarketList] = useState([]); //물품 목록 넣는 배열
+  const [moreBtnCount, setMoreBtnCount] = useState(1); //더보기 클릭 횟수 겸 page param
+
+  
+
   useEffect(() => {
+
+    if(!token){
+      alert('회원만 이용할 수 있는 게시판입니다.')
+      redirection('/login')
+    }
 
     const requestHeader = {
       // 'content-type' : 'application/json',
       'Authorization' : 'Bearer ' + token
     };
 
-    fetch(`${API_BASE_URL}/api/market`, {
+    fetch(`${API_BASE_URL}/api/market?page=1&size=${12*moreBtnCount}`, {
       headers : requestHeader
     })
     .then(res => {
@@ -37,15 +52,16 @@ const MarketList = () => {
         return;
       }
   
-      res.json().then(data => { 
+      res.json().then(data => {  //데이터 담기~~
         setMarketList(data.marketItems);
+        console.log('들어온 데이터: ', data.marketItems);
       })
     })
 
     //로딩 완료함!
     setLoading(false)
     
-  }, []) //useEffect END
+  }, [moreBtnCount]) //useEffect END
 
   /*
     const MarketList = [ //임시 데이터
@@ -58,6 +74,14 @@ const MarketList = () => {
       }
     ];
    */
+
+
+    function MoreBtnClick() {
+      setMoreBtnCount(moreBtnCount+ 1); // 버튼 횟수 눌러주기
+    }
+
+
+
 
 
   const loadingPage = (
@@ -73,18 +97,19 @@ const MarketList = () => {
        { loading ? loadingPage : 
           <div className="container market">
             <div className="sub-link">
-              <Link to="/"><HomeIcon/></Link> <span>> </span> 
+              <Link to="/"><HomeIcon/></Link> <span> &gt; </span> 
               <Link to="/market">거래장터</Link>
             </div>
             <h1>거래장터</h1>
             <div className="searchVar">최신순 │ 이런거 │ 들어가지않나 </div>
             <div className="market-list">
+              {/* {replaceList(0,19)} */}
               {marketList.map((ma) => (
                   <HomeMarketBody market={ma} />
               ))}
             </div>
             {/* market-group END */}
-            <Button className="more-btn" type="button" variant="light">
+            <Button className="more-btn" type="button" variant="light" onClick={MoreBtnClick}>
               더 보기
             </Button>
             <hr />

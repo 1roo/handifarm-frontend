@@ -18,15 +18,16 @@ const MarketRegist = () => {
   
   
   const $fileTag = useRef();
-  const [imgFile, setImgFile] = useState(thisItem.imgLinks);
+  const [imgFile, setImgFile] = useState();
   const [token, setToken] = useState(getLoginUserInfo().token); //토큰
   
-  const redirection = useNavigate();
+  
+  const redirection = useNavigate(); //로딩창 설계
   const [loading, setLoading] = useState(true);
   
 
   //클릭 시 이미지 반영하기
-  const showThumbnailHandler = (e) => {
+  const showThumbnailHandler = () => {
     const file = $fileTag.current.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -38,10 +39,10 @@ const MarketRegist = () => {
 
   //전달을 위한 값 저장
   const [marketValue, setMarketValue] = useState({
-    'itemName': thisItem.itemName,     //물품명
+    'itemName': thisItem.itemName,        //물품명
     'itemContent': thisItem.itemContent,  //물품 설명
-    'price': thisItem.price,        //가격
-    'imgLinks': [thisItem.imgLinks]
+    'price': thisItem.price,              //가격
+    'imgLinks': [thisItem.imgLinks[0]]    //이미지 링크 배열
   });
 
   const [correct, setCorrect] = useState({
@@ -158,9 +159,11 @@ const MarketRegist = () => {
     // 이미지 파일과 회원정보 FormData 객체를 활용해서 JSON을 하나로 묶어야 한다.
     const marketFormData = new FormData();
     marketFormData.append('itemInfo', marketJsonBlob)
-    marketFormData.append('itemImgs', $fileTag.current.files[0]);
     console.log('Blob', marketJsonBlob);
-    console.log($fileTag.current.files[0]);
+    if(!!$fileTag.current.files[0]){
+      marketFormData.append('itemImgs', $fileTag.current.files[0]);
+      console.log($fileTag.current.files[0]);
+    }
 
     console.log('FormData: ', marketFormData);
   
@@ -173,9 +176,11 @@ const MarketRegist = () => {
     })
     .then(res => {
       if(res.ok) {
-        alert(console.log('게시글이 수정되었습니다.'));
-        console.log('res: ', res);
-        
+        alert('게시글이 수정되었습니다.');
+        redirection('/marketDetail', {
+          state: { itemNo: thisItem.itemNo }
+        });
+        return;
       } else if(res.status === 403) {
         alert('로그인한 사용자만 접근할 수 있는 페이지입니다.');
         redirection('/');
@@ -194,6 +199,7 @@ const MarketRegist = () => {
         <div className="sub-link">
           <Link to="/"><HomeIcon/></Link> <span> &gt; </span>
           <Link to="/market">거래장터</Link> <span> &gt; </span>
+          <Link to="/marketDetail" state={{ itemNo:thisItem.itemNo }}>상세보기</Link> <span> &gt; </span>
           <Link to="#">물품 수정</Link>
         </div> 
         <h1>거래장터 - 물품 수정</h1>
@@ -281,7 +287,7 @@ const MarketRegist = () => {
           {/* write-content END */}
         </div>
         <div className="btn-center">
-          <Link to="/market">
+          <Link to="/marketDetail" state={{ itemNo:thisItem.itemNo }}>
             <Button
               className="green-btn center return-btn"
               type="button"
