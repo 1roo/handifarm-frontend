@@ -13,7 +13,7 @@ function BoardRegist({ userNick }) {
   const handleTopicChange = (event) => {
     const selectedValue = event.target.value;
     // "관리자"가 아닌 경우 "selectedTopic"을 "all"로 설정하여 "공지" 옵션을 숨깁니다.
-    if (userNick !== "관리자" && selectedValue === "NOTICE") {
+    if (localStorage.getItem("USER_NICK") !== "관리자" && selectedValue === "NOTICE") {
       setSelectedTopic("all");
     } else {
       setSelectedTopic(selectedValue);
@@ -105,7 +105,7 @@ function BoardRegist({ userNick }) {
                 <MenuItem value={"all"}>
                   <em>말머리</em>
                 </MenuItem>
-                {userNick === "관리자" && <MenuItem value={"NOTICE"}>공지</MenuItem>}
+                {localStorage.getItem("USER_NICK") === "관리자" && <MenuItem value={"NOTICE"}>공지</MenuItem>}
                 <MenuItem value={"INFORMATION"}>정보</MenuItem>
                 <MenuItem value={"FREE"}>자유</MenuItem>
               </Select>
