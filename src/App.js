@@ -22,6 +22,7 @@ import MarketModify from "./components/market/MarketModify";
 import SnsList from "./components/snsBoard/SnsList";
 import SnsRegist from "./components/snsBoard/SnsRegist";
 import SnsDetail from "./components/snsBoard/SnsDetail";
+import SnsUserDetail from "./components/snsBoard/SnsUserDetail";
 import Weather from "./components/todayInfo/Weather";
 import Pest from "./components/todayInfo/Pest";
 import Payment from "./components/payment/Payment";
@@ -52,7 +53,8 @@ function App(props) {
           <Route path="/marketModify" element={<MarketModify />} />
           <Route path="/snsBoard" element={<SnsList />} />
           <Route path="/snsBoard/snsRegist" element={<SnsRegist />} />
-          <Route path="/snsBoard/:snsNo" element={<SnsDetail />} />
+          <Route path="/snsBoard/:snsNo/:writer" element={<SnsUserDetail />} />
+          <Route path="/snsBoard/:snsNo/:writer" element={<SnsDetail />} />
           <Route path="/weather" element={<Weather />} />
           <Route path="/pest" element={<Pest />} />
           <Route path="/payment" element={<Payment />} />

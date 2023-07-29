@@ -1,32 +1,66 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
+import "./Sns.scss";
 
-const SnsDetail = () => {
-  const { snsNo } = useParams();
+const SnsDetail = ({ onRequestClose, snsNo, writer }) => {
   const [photo, setPhoto] = useState(null);
 
-
   useEffect(() => {
-    axios
-      .get(`/api/sns/${snsNo}`) // 실제 API 엔드포인트로 변경해야 합니다.
-      .then((response) => {
+    const fetchPhoto = async () => {
+      try {
+        const token = localStorage.getItem("ACCESS_TOKEN");
+        const response = await axios.get(
+          `http://localhost:8181/api/sns/${snsNo}?userNick=${writer}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         setPhoto(response.data);
-      })
-      .catch((error) => {
+        console.log(response.data);
+      } catch (error) {
         console.error("게시물 데이터를 불러오는데 실패했습니다.", error);
         setPhoto(null);
-      });
-  }, [snsNo]);
+      }
+    };
+
+    fetchPhoto();
+  }, [snsNo, writer]);
 
   if (!photo) {
     return <div>해당 사진을 찾을 수 없습니다.</div>;
   }
 
+
+
+
   return (
     <div>
-      <h2>{photo.title}</h2>
-      <img src={photo.imageUrl} alt={photo.title} />
+      <div className="top-of-modal">
+        <Link to={`/snsBoard/${snsNo}/${writer}`} className="moveTo-btn">
+            <p>유저 홈으로 이동</p>
+        </Link>
+        <button className='close-btn'type="button" onClick={onRequestClose}>X</button>
+      </div>
+      <ul className="sns-detail-list">
+        
+        {photo.snsList
+          .filter((snsItem) => snsItem.snsNo === snsNo)
+          .map((sns, index) => (
+            <li key={index}>
+              <img src={sns.snsImgs} alt={`photo-${index}`} />
+              <div className="hashtags">
+                {sns.hashTags.map((tag, idx) => (
+                  <p key={idx}>{tag}</p>
+                ))}
+              </div>
+              <p>{sns.content}</p>
+            </li>
+          ))}
+      </ul>
+      
     </div>
   );
 };
