@@ -25,40 +25,37 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState(getLoginUserInfo().token); //토큰
 
-  
-  //임시 데이터※※※※※※※※
-  const boardList = [{
-      category : '공지',
-      title: '[필독] 게시판 이용 수칙을 꼭 읽어주세요.',
-      userName: '관리자',
-      createDate: '2023.06.28',
-      views: '458'
-    }, {
-      category : '공지',
-      title: '[필독] ㅇ0ㅇ.',
-      userName: '관리자',
-      createDate: '2023.04.28',
-      views: '2410'
-    }, {
-      category : '자유',
-      title: '님들 제가 키우는 강아지 시고르자브종 보고 가실래요?ㅎㅎㅎㅎ',
-      userName: '왈왈이',
-      createDate: '2023.07.02',
-      views: '3'
-    }, {
-      category : '정보',
-      title: 'Hello World!',
-      userName: 'json',
-      createDate: '2023.06.28',
-      views: '15'
-    }, {
-      category : '정보',
-      title: 'Hello World!',
-      userName: 'json',
-      createDate: '2023.06.28',
-      views: '15'
-    }
-  ]
+
+  const [boardList, setBoardList] = useState([]);
+  const [data, setData] = useState({
+    boards: [],
+    totalPages: 0,
+  });
+
+  useEffect(() => {
+    const fetchBoardsByPage = async () => {
+      try {
+        const response = await fetch(
+          `${API_BASE_URL}/api/board`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = await response.json();
+        console.log('API 응답 데이터:', data);
+        setData({
+          boards: data.boards.slice(0, 5), // 5개까지만 끊어서 저장
+          totalPages: data.length,
+        });
+      } catch (error) {
+        console.error('게시글 목록을 불러오는 중 에러 발생:', error);
+      }
+    };
+
+    fetchBoardsByPage();
+  }, [token]);
 
 
 
@@ -160,7 +157,7 @@ const Home = () => {
           <section className='button-box'>
             <Link to='/weather'><Button variant="success">오늘의 정보</Button></Link>
             <Link to='/board'><Button variant="success">게시판</Button></Link>
-            <Link to='#'><Button variant="success">농사일기</Button></Link>
+            <Link to='/snsBoard'><Button variant="success">농사일기</Button></Link>
             <Link to='/market'><Button variant="success">거래장터</Button></Link>
           </section>
 
@@ -177,7 +174,62 @@ const Home = () => {
                 </tr>
               </thead>
               <tbody> {/* 본문 내용 */}
-                {boardList.map(bo =><HomeTableBody board={bo}/>)}
+              {!!data.boards && data.boards.map((row) => (
+                <tr
+                  style={
+                    row.category === "NOTICE"
+                      ? { backgroundColor: "gainsboro" }
+                      : { backgroundColor: "none" }
+                  }
+                  key={row.boardNo}
+                >
+                  <td className="td">
+                    <div
+                      style={
+                        row.category === "NOTICE"
+                          ? { display: "none" }
+                          : { display: "block" }
+                      }
+                    >
+                      {row.category === "INFORMATION" && "정보"}
+                      {row.category === "FREE" && "자유"}
+                    </div>
+                    <div
+                      className="notice-box"
+                      style={
+                        row.category === "NOTICE"
+                          ? { display: "block", color: "red" }
+                          : { display: "none" }
+                      }
+                    >
+                      {row.category === "NOTICE" && "공지"}
+                    </div>
+                  </td>
+                  <td
+                    className="td td-title"
+                    style={
+                      row.category === "NOTICE"
+                        ? { color: "red", fontWeight: "bold" }
+                        : { color: "black" }
+                    }
+                    onClick={() => {
+                      const token = localStorage.getItem('ACCESS_TOKEN');
+                      if (token) {
+                        // 사용자가 로그인한 상태인 경우, 게시판 페이지로 이동합니다.
+                        redirection(`/board/${row.boardNo}`);
+                      } else {
+                        // 사용자가 로그인하지 않은 상태인 경우, 경고창을 보여줍니다.
+                        alert('로그인이 필요한 서비스입니다.');
+                      }
+                    }}
+                  >
+                    {row.title}
+                  </td>
+                  <td className="td">{row.userNick}</td>
+                  <td className="td">{row.createDate}</td>
+                  <td className="td">{row.views}</td>
+                </tr>
+              ))}
               </tbody>
             </Table>
           </section>
