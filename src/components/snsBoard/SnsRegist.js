@@ -4,7 +4,7 @@ import registImg from '../../image/add-image.png';
 import { Container } from "react-bootstrap";
 import { API_BASE_URL as BASE, SNS } from "../../config/host-config";
 
-const SnsRegist = () => {
+const SnsRegist = ({ onRequestClose }) => {
   const [content, setContent] = useState('');
   const [hashTags, setHashTags] = useState([]);
   const [imageFile, setImageFile] = useState(null); // 단일 이미지 파일 상태
@@ -17,25 +17,22 @@ const SnsRegist = () => {
     e.preventDefault();
 
     try {
-      if (!imageFile) {
-        console.error('이미지를 선택해주세요.');
-        return;
-      }
-
+      // 이미지가 없을 때 빈 배열로 설정
       const formData = new FormData();
-    formData.append('content', content);
-    hashTags.forEach((tag) => formData.append('hashTags', tag));
-    formData.append('itemImgs', imageFile);
+      formData.append('content', content);
+      hashTags.forEach((tag) => formData.append('hashTags', tag));
+      formData.append('snsImgs', imageFile || []); // 이미지 파일이 없을 경우 빈 배열로 설정
 
-    const response = await axios.post(API_BASE_URL, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        'Authorization': `Bearer ${token}`,
-      },
-    });
+      const response = await axios.post(API_BASE_URL, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${token}`,
+        },
+      });
 
       console.log(response.data);
-      // 성공 시 응답 데이터 처리 또는 다른 페이지로 리다이렉션 처리
+      alert("게시글이 등록되었습니다.");
+      onRequestClose();
     } catch (error) {
       console.error('폼 제출 중 에러 발생:', error);
       // 에러 처리 또는 사용자에게 에러 메시지 표시
@@ -53,6 +50,7 @@ const SnsRegist = () => {
     <Container maxwidth="300px">
       <form onSubmit={handleFormSubmit}>
         <div>
+          <h2>게시글 등록</h2>
           {imagePreview ? (
             <img
               src={imagePreview}
@@ -87,6 +85,7 @@ const SnsRegist = () => {
               required
             />
           </div>
+          <br/>
           <div>
             <label htmlFor="hashTags">해시태그:</label>
             <input
@@ -98,6 +97,7 @@ const SnsRegist = () => {
           </div>
         </div>
         <button className='regist-btn' type="submit">등록</button>
+        <button className='exit-btn'type="button" onClick={onRequestClose}>취소</button>
       </form>
     </Container>
   );

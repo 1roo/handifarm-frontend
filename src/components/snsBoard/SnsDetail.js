@@ -9,7 +9,7 @@ const SnsDetail = () => {
 
   useEffect(() => {
     axios
-      .get(`/api/cboard/${snsNo}`) // 실제 API 엔드포인트로 변경해야 합니다.
+      .get(`/api/sns/${snsNo}`) // 실제 API 엔드포인트로 변경해야 합니다.
       .then((response) => {
         setPhoto(response.data);
       })
