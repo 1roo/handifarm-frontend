@@ -4,8 +4,7 @@ import SnsRegist from "./SnsRegist";
 import SnsDetail from "./SnsDetail";
 import "./Sns.scss";
 import userImg from "../../image/user.png";
-import { Link } from "react-router-dom";
-import { fontWeight } from "@mui/system";
+import { useNavigate } from "react-router-dom";
 
 const API_URL = "http://localhost:8181/api/sns";
 
@@ -18,6 +17,8 @@ const SnsList = () => {
   const [selectedSns, setSelectedSns] = useState([]); // 선택된 SNS 항목을 저장하는 상태
 
   const token = localStorage.getItem("ACCESS_TOKEN");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     initializeProfileImg();
@@ -64,7 +65,6 @@ const SnsList = () => {
   const handleOpenDetailModal = (sns) => {
     setSelectedSns(sns);
     setDetailModalOpen(true);
-    console.log("snsno:", selectedSns.snsNo);
   };
 
   const handleCloseDetailModal = () => {
@@ -73,18 +73,27 @@ const SnsList = () => {
 
   useEffect(() => {
   }, [selectedSns]);
-  
+
+
+  const handleMoveToMyHome = () => {
+    const userNick = localStorage.getItem("USER_NICK");
+    navigate(`/snsBoard/${userNick}`);
+  };
+
 
   return (
     <div>
-      <h2 className="menu-title">SNS게시판</h2>
+      <h2 className="menu-title">농사일기</h2>
       <div className="user-profile">
         <span>내 정보 </span>
         <img className="profileImg" src={profileImg} />
         <span className="user-nick">{localStorage.getItem("USER_NICK")}</span>
       
-
+        <button className="moveToMy-btn" onClick={handleMoveToMyHome}>
+          내 홈으로 이동
+        </button>
         <button className="modal-btn" onClick={handleOpenRegistModal}>게시글 등록</button>
+
         <Modal
           isOpen={isModalOpen}
           onRequestClose={handleCloseRegistModal}
@@ -96,6 +105,8 @@ const SnsList = () => {
           <SnsRegist onRequestClose={handleCloseRegistModal} />
         </Modal>
       </div>
+      <div className="line" />
+      <p className="sub-title">핸디파머들의 농사일기</p>
       <ul className="sns-list">
         {snsList.map((sns, index) => (
           <li key={index}>
@@ -124,7 +135,7 @@ const SnsList = () => {
         className="modal-detail"
         overlayClassName="modal-overlay"
       >
-        {/* snsNo와 writer를 URL 파라미터로 전달 */}
+        {/* writer를 URL 파라미터로 전달 */}
         <SnsDetail onRequestClose={handleCloseDetailModal} snsNo={selectedSns.snsNo} writer={selectedSns.writer} />
         
       </Modal>

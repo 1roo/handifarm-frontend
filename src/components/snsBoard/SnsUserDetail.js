@@ -1,18 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import userImg from "../../image/user.png";
 import "./Sns.scss";
 
 const SnsUserDetail = () => {
-  const { snsNo, writer } = useParams();
+  const { writer } = useParams();
   const [photo, setPhoto] = useState([]);
+  const [profileImg, setProfileImg] = useState(userImg);
+
+  // 사용자 프로필 이미지 초기화
+  const initializeProfileImg = () => {
+    const userProfileImg = localStorage.getItem("USER_PROFILE_IMG");
+    if (userProfileImg) {
+      setProfileImg(userProfileImg);
+    }
+  };
+
 
   useEffect(() => {
     const fetchPhoto = async () => {
       try {
         const token = localStorage.getItem("ACCESS_TOKEN");
         const response = await axios.get(
-          `http://localhost:8181/api/sns/${snsNo}?userNick=${writer}`,
+          `http://localhost:8181/api/sns/?userNick=${writer}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -28,7 +39,7 @@ const SnsUserDetail = () => {
     };
 
     fetchPhoto();
-  }, [snsNo, writer]);
+  }, [writer]);
 
   if (!photo || photo.length === 0) {
     return <div>해당 사진을 찾을 수 없습니다.</div>;
@@ -39,6 +50,11 @@ const SnsUserDetail = () => {
 
   return (
     <div>
+      <div className="user-title">
+        <img className="profileImg" src={profileImg} />
+        <p className="user-nick">{writer}의 농사일기</p>
+      </div>
+      <div className="line" />
       <ul className="sns-detail-list">
         {photo.snsList.map((sns, index) => (
           <li className="sns-li" key={index}>
