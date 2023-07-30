@@ -77,11 +77,14 @@ const MarketDetail = () => {
 
 
   };
-  const modiBtn = (e) => {    //수정하기 버튼
+  const modiBtn = () => {    //수정하기 버튼
     console.log("수정하기 버튼 클릭!");
 
+    redirection('/marketModify', {
+      state: { thisItem: thisItem }
+    });
   };
-  const delBtn = (e) => {    //삭제하기 버튼
+  const delBtn = () => {    //삭제하기 버튼
     console.log("삭제하기 버튼 클릭!");
 
     if(window.confirm(`'${thisItem.itemName}' 판매를 중단하시겠습니까?\n삭제된 게시글은 복구가 불가능합니다.`)){
@@ -117,9 +120,9 @@ const MarketDetail = () => {
       { loading ? loadingPage : 
         <div className="container market-detail">
           <div className="sub-link">
-            <Link to="/"><HomeIcon/></Link> <span>> </span>
-            <Link to="/market">거래장터</Link> <span>> </span>
-            <Link to="#">상세보기</Link>
+            <Link to="/"><HomeIcon/></Link> <span> &gt; </span>
+            <Link to="/market">거래장터</Link> <span> &gt; </span>
+            <span style={{cursor: 'pointer'}}>상세보기</span>
           </div> 
           <h1>거래장터</h1>
           <hr className="h1-bottom" />
@@ -127,10 +130,10 @@ const MarketDetail = () => {
           <div className="content">
             <Grid className="content-img">
               <article>
-                <img
-                  src={ (thisItem.imgLinks) ? thisItem.imgLinks[0] : require('../../image/no-image.jpg') }
-                  alt="#"
-                />
+                  <img
+                    src={ thisItem.imgLinks ? thisItem.imgLinks[0] : require('../../image/no-image.jpg') }
+                    alt="상품 이미지"
+                  />
               </article>
             </Grid>
             <Grid className="content-content">
@@ -171,17 +174,15 @@ const MarketDetail = () => {
               <div className="btn-center">
                 {thisItem.seller == localStorage.getItem('USER_NICK') ? //기본 구매하기 버튼. 물품 주인은 수정or삭제로 유도. 
                   <> 
-                    <Link to="/marketModify" state={{ thisItem:thisItem }}>
-                      <Button
-                        className="green-btn center buttons"
-                        id="modi-btn"
-                        type="button"
-                        variant="contained"
-                        onClick={modiBtn}
-                      > 
-                        글 수정하기 <ChevronRightIcon />
-                      </Button>
-                    </Link>
+                    <Button
+                      className="green-btn center buttons"
+                      id="modi-btn"
+                      type="button"
+                      variant="contained"
+                      onClick={modiBtn}
+                    > 
+                      글 수정하기 <ChevronRightIcon />
+                    </Button>
                     <Button
                       className="green-btn center buttons"
                       id="del-btn"

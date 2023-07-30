@@ -7,6 +7,7 @@ import WbCloudyIcon from '@mui/icons-material/WbCloudy';  //날씨 구름
 import UmbrellaIcon from '@mui/icons-material/Umbrella';  //날씨 비... 가 없다. 대신 우산.
 import AcUnitIcon from '@mui/icons-material/AcUnit';      //날씨 눈
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
+import StorefrontIcon from '@mui/icons-material/Storefront';  //마켓(판매자) 아이콘
 // mui 아이콘 > 끝!
 // Link용 js파일 > 시작
 import HomeTableBody from './HomeTableBody';
@@ -67,7 +68,7 @@ const Home = () => {
       'Authorization' : 'Bearer ' + token
     };
 
-    fetch(`${API_BASE_URL}/api/market`, {
+    fetch(`${API_BASE_URL}/api/market?page=1&size=8`, {
       headers : requestHeader
     })
     .then(res => {
@@ -251,6 +252,13 @@ const Home = () => {
             <div className='market-group' >
               { marketList.map(ma =><HomeMarketBody market={ma}/>) }
             </div> {/* market-group END */}
+            <div className="link-box">
+              <Link to="/market">
+                <Button className="more-market-btn" variant="success">
+                  <StorefrontIcon />거래품목 더 보러가기 &gt;
+                </Button>
+              </Link>
+            </div>
           </section>
 
       </div>

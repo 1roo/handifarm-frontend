@@ -12,12 +12,12 @@ $main-green: #53A069;
 
 a{
     all: unset !important;
-    cursor: default !important;
+    // cursor: default !important;
     text-decoration: none !important;
 }
 
 .market-img{ //사진+상품설명 전체 한 칸
-    margin: 0 20px 40px;
+    margin: 0 15px 40px;
     padding: 10px 15px 15px;
     box-sizing: content-box; //padding을 적용시키기 위함
     width: 220px; height: 220px;
@@ -26,51 +26,57 @@ a{
     align-items: center;
     flex-direction: column;
 
+    transition: 0.2s;
     cursor: pointer;
-    transition: 0.3s;
+    
+    .market-box{ 
+        padding: 0 10px;
+        // box-sizing: border-box;
 
-
-    figure{ //사진 영역
-        height: 160px;
-        width: 240px;
-        border-radius: 5px;
-        overflow: hidden;
-        transition: 0.3s;
-        @include flex-center();
-        img{
+        figure{ //사진 영역
+            padding: 0 5px;
+            height: 160px;
+            width: 230px;
             border-radius: 5px;
-            margin: 0 auto;
-            height: 100%;
+            overflow: hidden;
             transition: 0.3s;
-        }
-    }
-    .product{ //상품 설명 영역
-        margin-top: 15px;
-        width: 100%;
-
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 3px;
-
-        p{ // 상품 판매자
-            height: fit-content;
-            color: gray;
-            strong{ // 상품명 강조
-                font-size: 1.2em;
-                font-weight: 700;
-                color: black;
-                margin-bottom: 8px;
-                display: inline-block;
+            @include flex-center();
+            img{
+                border-radius: 5px;
+                margin: 0 auto;
+                height: 100%;
+                transition: 0.3s;
             }
-            svg{ margin: 0 2px 5px; font-size: 1.4em;}
         }
-        .price{ font-size: 1.1em; padding-top: 22px;} //가격 폰트크기
+        .product{ //상품 설명 영역
+            margin: 15px 0px 0px;
+            width: 98%;
+    
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 3px;
+    
+            p{ // 상품 판매자
+                height: fit-content;
+                color: gray;
+                strong{ // 상품명 강조
+                    font-size: 1.3em;
+                    font-weight: 700;
+                    color: black;
+                    margin-bottom: 8px;
+                    display: inline-block;
+                }
+                svg{ margin: 0 2px 5px; font-size: 1.4em;}
+            }
+            .price{ font-size: 1.1em; padding-top: 22px;} //가격 폰트크기
+        }
     }
+
 
     &:hover{ //마우스 호버 시 반응
         box-shadow: 2px 3px 13px rgb(218, 218, 218);
-        border-radius: 20px;
+        border-radius: 7px;
         scale: 1.07;
     }
     &:hover figure, &:hover figure img{

@@ -12,20 +12,24 @@ const HomeTableBody = (market) => {
 
   return (
     <>
-    <Link to="/marketDetail" state={{ itemNo:itemNo }}>
       <div className="market-img">
-        <figure>
-          <img src={(imgLinks[0]) ? imgLinks[0] : require('../image/no-image.jpg')} alt="사진이 등록되지 않았습니다."/>
-        </figure>
-        <div className="product">
-          <p>
-            <strong>{itemName}</strong><br/>
-            <StorefrontIcon />{seller}
-          </p>
-          <div className="price">{price}원</div>
+        <Link to="/marketDetail" state={{ itemNo:itemNo }}>
+        <div className='market-box'>
+          <figure>
+            <img src={(imgLinks[0]) ? 
+                imgLinks[0] : require('../image/no-image.jpg')} 
+                alt="사진이 등록되지 않았습니다."/>
+          </figure>
+          <div className="product">
+            <p>
+              <strong>{itemName}</strong><br/>
+              <StorefrontIcon />{seller}
+            </p>
+            <div className="price">{price}원</div>
+          </div>
         </div>
+        </Link>
       </div>
-    </Link>
 
     </>
   );

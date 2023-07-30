@@ -9,6 +9,7 @@ $main-green: #53A069;
 @mixin title-font { /* 타이틀 문구 미리 지정 */
     font-size: 22px;
     font-weight: 700;
+
 }
 
 
@@ -20,6 +21,13 @@ a{
     cursor: pointer !important;
     text-decoration: none !important;
 }
+section > h2{
+    margin: 0 0 30px 150px;
+    font-size: 2em; 
+    color: $main-green; 
+    font-weight: 900;
+} 
+
 
 
 
@@ -105,8 +113,6 @@ section.small-board{
 
     margin-top: 100px;
 
-    h2{ margin: 0 0 20px 180px; @include title-font() } 
-
     .mini-table{
         width: 1040px;
         margin: 0 auto;
@@ -140,7 +146,7 @@ section.small-snsBoard{
 
     margin: 100px auto 0;
 
-    h2{ margin: 0 0 50px 180px; @include title-font() }
+    // h2{ margin: 0 0 50px 180px; @include title-font() }
     .img-list{
         margin-top: 20px;
         display: flex;
@@ -181,33 +187,41 @@ section.small-snsBoard{
 //거래장터
 section.small-market{
 
-    margin: 100px auto 0;
+    margin: 150px auto 0;
 
-    h2{ margin: 0 0 50px 180px; @include title-font() }
+    // h2{ margin: 0 0 50px 180px; @include title-font() }
 
     .market-group{
         margin: 0 auto;
         min-width: min-content;
-        width: 1080px; // 이미지 하나당 220 + 마진 20+패딩20 = 260*4 = 1040px
+        width: 1120px; // 이미지 하나당 230 + 마진 20+패딩20 = 260*4 = 1040px
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;
 
 
         //각 물품에 적용되는 속성은 MarketBody.scss에서 처리함.
+
         // Market.scss 기준이므로 다른 점은 이곳에서 따로 처리.
         .market-img{ //
             margin: 0 15px 40px;
-            padding: 10px 10px 15px;
+            padding: 10px 15px 15px;
 
             &:hover{ //마우스 호버 시 반응
                 box-shadow: 2px 3px 10px rgb(221, 221, 221);
-                border-radius: 15px;
+                border-radius: 10px;
                 scale: 1.04;
             }
         }
     }
-    
+    .link-box{
+        width: 90%;
+        display: flex;
+        justify-content: right;
+        margin-top: 20px;
+        a{ padding-top: 2px;}
+        svg{margin-right: 5px; margin-bottom: 2px;}
+    }
 
 
 }
