@@ -39,7 +39,7 @@ const SnsDetail = ({ onRequestClose, snsNo, writer }) => {
   return (
     <div>
       <div className="top-of-modal">
-        <Link to={`/snsBoard/${snsNo}/${writer}`} className="moveTo-btn">
+        <Link to={`/snsBoard/${writer}`} className="moveTo-btn">
             <p>유저 홈으로 이동</p>
         </Link>
         <button className='close-btn'type="button" onClick={onRequestClose}>X</button>

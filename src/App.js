@@ -53,7 +53,7 @@ function App(props) {
           <Route path="/marketModify" element={<MarketModify />} />
           <Route path="/snsBoard" element={<SnsList />} />
           <Route path="/snsBoard/snsRegist" element={<SnsRegist />} />
-          <Route path="/snsBoard/:snsNo/:writer" element={<SnsUserDetail />} />
+          <Route path="/snsBoard/:writer" element={<SnsUserDetail />} />
           <Route path="/snsBoard/:snsNo/:writer" element={<SnsDetail />} />
           <Route path="/weather" element={<Weather />} />
           <Route path="/pest" element={<Pest />} />
