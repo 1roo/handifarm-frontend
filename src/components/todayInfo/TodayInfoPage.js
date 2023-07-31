@@ -4,15 +4,18 @@ import '../../Custom.scss';
 // mui 아이콘 > 시작
 import HomeIcon from '@mui/icons-material/Home';
 import PlaceIcon from '@mui/icons-material/Place';
+import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import WbSunnySharpIcon from '@mui/icons-material/WbSunnySharp'; //날씨 맑음
 import WbCloudyIcon from '@mui/icons-material/WbCloudy';  //날씨 구름
 import UmbrellaIcon from '@mui/icons-material/Umbrella';  //날씨 비... 가 없다. 대신 우산.
 import AcUnitIcon from '@mui/icons-material/AcUnit';      //날씨 눈
 // mui 아이콘 > 끝!
 import { Link, useLocation } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
 import { FormControl, Grid, InputLabel, MenuItem, Select } from '@mui/material';
-import { } from '@mui/base';
+import { StartFunction } from '../util/WeatherFuntion';
+import { Button } from 'react-bootstrap';
+
+
 
 const TodayInfoPage = () => {
 
@@ -24,7 +27,7 @@ const TodayInfoPage = () => {
   const [weatherIcon, setWeatherIcon] = useState([<WbSunnySharpIcon />, <WbCloudyIcon />, <UmbrellaIcon />, <AcUnitIcon />]);
   const [weatherTypo, setWeatherTypo] = useState(['맑음', '흐림', '비', '눈']);
 
-  const [place, setPlace] = useState('');
+  const [place, setPlace] = useState('7 59 126'); //서울이 기본값
 
    // 오늘의 정보 -> 날짜 정보 구하기 
    function getDate(plusDay) {
@@ -48,9 +51,16 @@ const TodayInfoPage = () => {
 
 
 
+  //select 선택마다 Place 미리 세팅
   const PlaceChangeHandle = function(e) {
-    setPlace(e.target.value);
-    console.log('select로 장소를 선택. place: ', e.target.value);
+    setPlace(e.target.value); 
+  }
+  
+  //서치버튼 클릭 이벤트
+  const searchClickEvent = function() {
+    const placeValue = place.split(" ");
+    console.log('placeValue: ',placeValue);
+    StartFunction(placeValue[1], placeValue[2], 'place'+placeValue[0]);
   }
 
 
@@ -68,8 +78,8 @@ const TodayInfoPage = () => {
         <section className='info-box weather'>
         
           <div className='location-tap'>
-            <span className='title'><PlaceIcon /> 위치</span>
-            <FormControl fullWidth sx={{m:1, maxWidth: 600}}>
+            <span className='title'><PlaceIcon />위치</span>
+            <FormControl fullWidth sx={{m:1, maxWidth: 600, minWidth: 100 }}>
               <InputLabel shrink id="demo-simple-select-label"></InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -79,25 +89,32 @@ const TodayInfoPage = () => {
                 label=""
                 onChange={PlaceChangeHandle}
               >
-                <MenuItem value={'92 130'}>강릉</MenuItem>
-                <MenuItem value={'59 74'}>광주광역시</MenuItem>
-                <MenuItem value={'89 90'}>대구광역시</MenuItem>
-                <MenuItem value={'67 100'}>대전광역시</MenuItem>
-                <MenuItem value={'50 66'}>목포</MenuItem>
-                <MenuItem value={'00 00'}>백령</MenuItem>
-                <MenuItem value={'98 75'}>부산광역시</MenuItem>
-                <MenuItem value={'59 126'}>서울특별시</MenuItem>
-                <MenuItem value={'61 120'}>수원시</MenuItem>
-                <MenuItem value={'91 107'}>안동시</MenuItem>
-                <MenuItem value={'74 65'}>여수시</MenuItem>
-                <MenuItem value={'127 127'}>울릉</MenuItem>
-                <MenuItem value={'102 84'}>울산광역시</MenuItem>
-                <MenuItem value={'63 89'}>전주</MenuItem>
-                <MenuItem value={'51 38'}>제주특별자치도</MenuItem>
-                <MenuItem value={'69 106'}>청주시</MenuItem>
-                <MenuItem value={'73 134'}>춘천시</MenuItem>
+                <MenuItem value={'1 92 130'}>강릉</MenuItem>
+                <MenuItem value={'2 59 74'}>광주광역시</MenuItem>
+                <MenuItem value={'3 89 90'}>대구광역시</MenuItem>
+                <MenuItem value={'4 67 100'}>대전광역시</MenuItem>
+                <MenuItem value={'5 50 66'}>목포</MenuItem>
+                <MenuItem value={'6 98 75'}>부산광역시</MenuItem>
+                <MenuItem value={'7 59 126'}>서울특별시</MenuItem>
+                <MenuItem value={'8 61 120'}>수원시</MenuItem>
+                <MenuItem value={'9 91 107'}>안동시</MenuItem>
+                <MenuItem value={'10 74 65'}>여수시</MenuItem>
+                <MenuItem value={'11 127 127'}>울릉</MenuItem>
+                <MenuItem value={'12 102 84'}>울산광역시</MenuItem>
+                <MenuItem value={'13 63 89'}>전주</MenuItem>
+                <MenuItem value={'14 51 38'}>제주특별자치도</MenuItem>
+                <MenuItem value={'15 69 106'}>청주시</MenuItem>
+                <MenuItem value={'16 73 134'}>춘천시</MenuItem>
               </Select>
             </FormControl>
+            <Button 
+              id='searchBtn'
+              variant="secondary"
+              onClick={searchClickEvent}
+            >
+              <TravelExploreIcon />
+            </Button>
+            
           </div> {/* .location-tap END  */}
           
           <div className='weather-screens'>

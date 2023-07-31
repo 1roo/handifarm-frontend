@@ -103,6 +103,13 @@ section.info-box.weather{
             font-size: 1.1em;
             svg{ font-size: 1.8em; margin-bottom: 3px;}
         }
+        #searchBtn{ 
+            width: 50px; height: 43px;
+            svg{
+                font-size: 1.6em;
+            }
+        
+        }
     }
 
     //날씨 출력 화면
