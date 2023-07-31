@@ -10,7 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { API_BASE_URL } from "../../config/host-config";
 import { getLoginUserInfo } from "../util/login-utils";
-import { loadingPage } from "../util/Loding-util";
+import { loadingPage } from "../util/Loading-util";
 
 const MarketList = () => {
 

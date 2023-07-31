@@ -10,16 +10,14 @@ import AcUnitIcon from '@mui/icons-material/AcUnit';      //날씨 눈
 // mui 아이콘 > 끝!
 import { json } from "react-router-dom";
 import { ENCODING_KEY, WMCODE_KEY } from '../../config/key-config';
-import { loadingPage } from "../util/Loding-util";
+import { loadingPage } from "../util/Loading-util";
 
 
 
 
 /*
   할 일...
-  1. 아이콘 출력하기 (날씨에 따라 1~4로 구분해서 배열을 만들어놨으나 출력이 어려움...)
   2. 데이터 한번만 불러와서 저장하게 하기 (지금 렌더링 한 번당 배열을 1200개 불어옴)
-  3. .........디자인과 출력 기타 등등 페이지 완성 필요
 */
 
 

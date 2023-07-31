@@ -10,7 +10,7 @@ import { StarBorderRounded } from "@mui/icons-material"; //별점 아이콘
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { getLoginUserInfo } from "../util/login-utils";
 import { API_BASE_URL } from "../../config/host-config";
-import { loadingPage } from "../util/Loding-util";
+import { loadingPage } from "../util/Loading-util";
 
 
 
