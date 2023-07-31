@@ -60,7 +60,6 @@ function App(props) {
           <Route path="/payment" element={<Payment />} />
           <Route path="/success" element={<PaymentSuccess />} />
           <Route path="/fail" element={<PaymentFail />} />
-
           <Route path="/*" element={<Error404 />} /> {/* 404 에러 처리 */}
         </Routes>
 
