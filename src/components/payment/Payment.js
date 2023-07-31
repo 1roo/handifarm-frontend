@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { nanoid } from 'nanoid';
-import { loadPaymentWidget } from '@tosspayments/payment-widget-sdk';
+import React, { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { nanoid } from "nanoid";
+import { loadPaymentWidget } from "@tosspayments/payment-widget-sdk";
 import { TOSS_KEY as clientKey } from "../../config/key-config";
 
 const selector = "#payment-widget";
@@ -53,7 +53,7 @@ const MarketPayment = (props) => {
         customerName: "김토스",
         customerEmail: "customer123@gmail.com",
         successUrl: `${window.location.origin}/success`,
-        failUrl: `${window.location.origin}/fail`
+        failUrl: `${window.location.origin}/fail`,
       });
     } catch (error) {
       // handle error
@@ -70,7 +70,9 @@ const MarketPayment = (props) => {
           <input
             type="checkbox"
             onChange={(event) => {
-              setPrice(event.target.checked ? productPrice - 5000 : productPrice);
+              setPrice(
+                event.target.checked ? productPrice - 5000 : productPrice
+              );
             }}
           />
           5,000원 할인 쿠폰 적용
