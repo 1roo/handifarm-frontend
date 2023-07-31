@@ -10,6 +10,7 @@ import AcUnitIcon from '@mui/icons-material/AcUnit';      //날씨 눈
 // mui 아이콘 > 끝!
 import { json } from "react-router-dom";
 import { ENCODING_KEY, WMCODE_KEY } from '../../config/key-config';
+import { loadingPage } from "../util/Loding-util";
 
 
 
@@ -55,6 +56,9 @@ const Weather = () => {
     return {dateString, month, day, time, dayName};
   }
 
+  // setInterval(function() { 
+  //   console.log('하하');
+  //  }, 6000); //10초
 
   //조회 후 코드 시작
   useEffect(() => {  StartFunction();  }, [])
@@ -152,16 +156,8 @@ const Weather = () => {
 
  
 
-  const loadingPage = (
-    <div id="loading">
-      <h2>로딩창 로고 이용한 gif로 교체하고싶다</h2>
-      <img id="loadingElement" 
-          src="https://cdn-icons-png.flaticon.com/512/189/189768.png"/>
-    </div>   
-  )
-
   return(
-  <>
+    <>
     { loading ? loadingPage : 
     <section className='weather-box'>
         <div className='title'><h2>서울<br/>날씨</h2></div>

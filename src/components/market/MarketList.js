@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Market.scss";
 import "../.././Custom.scss";
 import HomeMarketBody from "../HomeMarketBody";
@@ -10,7 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { API_BASE_URL } from "../../config/host-config";
 import { getLoginUserInfo } from "../util/login-utils";
-import { useEffect } from "react";
+import { loadingPage } from "../util/Loding-util";
 
 const MarketList = () => {
 
@@ -79,17 +79,6 @@ const MarketList = () => {
     function MoreBtnClick() {
       setMoreBtnCount(moreBtnCount+ 1); // 버튼 횟수 눌러주기
     }
-
-
-
-
-
-  const loadingPage = (
-    <div id="loading">
-      <img id="loadingElement" 
-          src="https://cdn-icons-png.flaticon.com/512/189/189768.png"/>
-    </div>   
-  )
 
 
   return (
