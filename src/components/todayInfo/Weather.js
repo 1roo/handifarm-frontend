@@ -8,18 +8,14 @@ import WbCloudyIcon from '@mui/icons-material/WbCloudy';  //날씨 구름
 import UmbrellaIcon from '@mui/icons-material/Umbrella';  //날씨 비... 가 없다. 대신 우산.
 import AcUnitIcon from '@mui/icons-material/AcUnit';      //날씨 눈
 // mui 아이콘 > 끝!
-import { json } from "react-router-dom";
 import { ENCODING_KEY, WMCODE_KEY } from '../../config/key-config';
 import { loadingPage } from "../util/Loading-util";
-
-
 
 
 /*
   할 일...
   2. 데이터 한번만 불러와서 저장하게 하기 (지금 렌더링 한 번당 배열을 1200개 불어옴)
 */
-
 
 
 const Weather = () => {
@@ -30,8 +26,6 @@ const Weather = () => {
   const [stateSkyList, setStateSkyList] = useState()
 
   const [weatherIcon, setWeatherIcon] = useState([<WbSunnySharpIcon />, <WbCloudyIcon />, <UmbrellaIcon />, <AcUnitIcon />]);
-  // const [weatherIconNum, setWeatherIconNum] = useState([0,0,0,0,0,0]);
-
 
 
   //날짜 정보 구하기
@@ -58,11 +52,23 @@ const Weather = () => {
   //   console.log('하하');
   //  }, 6000); //10초
 
-  //조회 후 코드 시작
+  //조회 후 코드 시작 
   useEffect(() => {  StartFunction();  }, [])
   const StartFunction = async() => {
-    //일통계 조회
     
+
+    //만약 이미 오늘의 값을 구했다면 fetch문이 또 발동하지 않도록 처리.
+    if(localStorage.getItem('skyData') && localStorage.getItem('tempData')){
+      //문자열 리턴이라 다시 배열에 담아주어야 함.
+      setStateSkyList(localStorage.getItem('skyData').split(",")); 
+      setStateTemp(localStorage.getItem('tempData').split(","));
+      setLoading(false)
+      return;
+    }
+    
+
+    /////////////////일통계 조회 시작!!
+
     const stYmd = getDate(0).dateString; //오늘 날짜
     const stYesterdayYmd = getDate(-1).dateString; //어제 날짜 확인용 (오늘)
     // const $stTime = (getDate(-plusDay).time-1)+'00';
@@ -103,14 +109,14 @@ const Weather = () => {
 
     // 최고, 최저온도 구하기
     const temps = itemList.filter(it => it.category === 'TMN' || it.category === 'TMX');
-    const temp = temps.map(it => it.fcstValue);
+    const temp = temps.map(it => it.fcstValue.replace('.0', ''));
     itemList2.forEach(it => {  //오늘 최저기온 구하기 1
       if(it.category == 'TMN'){
-        temp.unshift(it.fcstValue);
+        temp.unshift(it.fcstValue.replace('.0', ''));
         return;
       }
     });
-
+    
     // 사흘간 날씨(구름 소식) 구하기 (오전 오후 6시 기준)
     const skys = itemList.filter(it => it.category == 'SKY' && (it.fcstTime == '0600' || it.fcstTime == '1800' ))
     const skyCode = skys.map(it => it.fcstValue);
@@ -141,11 +147,8 @@ const Weather = () => {
 
     setStateSkyList(skyRainList);
     setStateTemp(temp);
-    
-    // localStorage.setItem('tempData', temp);
-    // localStorage.setItem('skyData', skyRainList);
-    // console.log(localStorage.getItem('tempData'));
-    // console.log(localStorage.getItem('skyData'));
+    localStorage.setItem('tempData', temp);
+    localStorage.setItem('skyData', skyRainList);
 
     //로딩 완료
     setLoading(false)
