@@ -10,6 +10,7 @@ import { StarBorderRounded } from "@mui/icons-material"; //별점 아이콘
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { getLoginUserInfo } from "../util/login-utils";
 import { API_BASE_URL } from "../../config/host-config";
+import { loadingPage } from "../util/Loading-util";
 
 
 
@@ -64,12 +65,6 @@ const MarketDetail = () => {
   }, []) //useEffect END
 
 
-  const loadingPage = (
-    <div id="loading">
-      <img id="loadingElement" 
-          src="https://cdn-icons-png.flaticon.com/512/189/189768.png"/>
-    </div>   
-  )
 
 
   const buyBtn = (e) => {    //구매버튼

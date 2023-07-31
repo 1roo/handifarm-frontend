@@ -17,36 +17,6 @@ a{
 }
 
 
-//로딩창
-#loadingElement {
-    animation: 1s linear infinite rotateLoadingElement;
-}
-@keyframes rotateLoadingElement {
-    from {
-    transform:translate(-50%,-50%) rotate(0deg);
-    }
-    to {
-    transform:translate(-50%,-50%) rotate(360deg);
-    }
-}
-
-
-// #root:not(:empty) ~ #loading {
-//     display: none;
-// }
-  
-#loading {
-    background-color: #f9f9f9;
-    width: 100vw;
-    height: 100vh;
-    img{
-        position:absolute; width:100px; top:50%; left:50%;
-    }
-}
-
-
-
-
 
 
 // 날씨 알림창 (weather-box)
