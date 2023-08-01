@@ -15,6 +15,7 @@ import { Button } from 'react-bootstrap';
 import { FormControl, Grid, InputLabel, MenuItem, Select } from '@mui/material';
 import { StartFunction } from '../util/WeatherFuntion';
 import { loadingPage, loadingSmallPage } from "../util/Loading-util";
+import { WeatherPlace } from './util/WeatherPlace';
 
 
 const TodayInfoPage = () => {
@@ -26,13 +27,14 @@ const TodayInfoPage = () => {
   const [stateTemp, setStateTemp] = useState(location.state.temp)
   const [stateSkyList, setStateSkyList] = useState(location.state.sky)
   
+  const [place, setPlace] = useState(WeatherPlace.place7); //서울이 기본값
+
   const [weatherIcon, setWeatherIcon] = useState([<WbSunnySharpIcon />, <WbCloudyIcon />, <UmbrellaIcon />, <AcUnitIcon />]);
   const [weatherImage, setWeatherImage] = useState(['weatherIcons_sun.gif', 'weatherIcons_cloud.gif', 'weatherIcons_rain.gif', 'weatherIcons_snow.gif']);
   const [weatherMainImage, setWeatherMainImage] = useState(['mainIcons_sun.gif', 'weatherIcons_cloud.gif', 'weatherIcons_rain.gif', 'weatherIcons_snow.gif']);
   const [weatherTypo, setWeatherTypo] = useState(['맑음', '흐림', '비', '눈']);
 
 
-  const [place, setPlace] = useState(['7', '59', '126']); //서울이 기본값
 
   const [selPlaceNum, setSelPlaceNum] = useState('7');
   const placeName = [ //목록 등록
@@ -69,13 +71,15 @@ const TodayInfoPage = () => {
   //select 선택마다 Place 미리 세팅
   const PlaceChangeHandle = function(e) {
     setPlace((e.target.value).split(" ")); 
+    document.querySelector('.search-complete').style.opacity = 0;
+    document.querySelector('.search-complete').style.padding = '5px 30px 5px 120px';
   }
   
   //서치버튼 클릭 이벤트
   const searchClickEvent = function() {
 
     setLoading(true);
-
+    
     console.log('\n\n버튼이 클릭됨! place: ',place);
     const weatherData = StartFunction(place[1], place[2], 'place'+place[0]);
 
@@ -89,7 +93,11 @@ const TodayInfoPage = () => {
       setSelPlaceNum(place[0])
 
       //로딩 완료
-      if(data) setLoading(false);
+      if(data) {
+        setLoading(false);
+        document.querySelector('.search-complete').style.opacity = 1;
+        document.querySelector('.search-complete').style.padding = '5px 12px';
+      }
     })
 
   }
@@ -149,6 +157,7 @@ const TodayInfoPage = () => {
           </div> {/* .location-tap END  */}
           
           <div className='weather-screens'>
+            <h3 className='search-complete'>검색이 완료되었습니다 &nbsp; ✔</h3>
             <div className='today'>
               <div className='text'>
                 <h6 className='place'> <PlaceIcon /> {placeName[(selPlaceNum)-1]} </h6>

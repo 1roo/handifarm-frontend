@@ -23,10 +23,10 @@ function getDate(plusDay) {
 }
 
 
+//날씨 fetch 날리기 함수
 export const StartFunction = async(nX, nY, place) => {
     
   console.log('똑똑 값이 있나요.getItem: place', JSON.parse(localStorage.getItem(place)));
-
 
   //만약 이미 오늘의 값을 구했다면 fetch문이 또 발동하지 않도록 처리.
   if(JSON.parse(localStorage.getItem(place))){ 

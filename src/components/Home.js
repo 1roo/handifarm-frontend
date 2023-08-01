@@ -22,6 +22,7 @@ import { API_BASE_URL } from '../config/host-config';
 import { loadingPage } from "./util/Loading-util";
 import { ENCODING_KEY } from '../config/key-config';
 import { StartFunction } from './util/WeatherFuntion';
+import { WeatherPlace } from './util/WeatherPlace';
 
 
 const Home = () => {
@@ -38,11 +39,17 @@ const Home = () => {
     totalPages: 0,
   });
 
+  //거래장터 글 목록 저장
+  const [marketList, setMarketList] = useState([]);
+
 
   const [stateTemp, setStateTemp] = useState()
   const [stateSkyList, setStateSkyList] = useState()
 
+  const [place, setPlace] = useState(WeatherPlace.place7); //서울이 기본값
 
+
+  // 게시글 목록을 불러오는 콜백 함수
   useEffect(() => {
     const fetchBoardsByPage = async () => {
       try {
@@ -69,12 +76,10 @@ const Home = () => {
   }, [token]);
 
 
-
-  const [marketList, setMarketList] = useState([]);
+  //거래장터 목록을 불러오는 콜백 함수
   useEffect(() => {
 
     const requestHeader = {
-      // 'content-type' : 'application/json',
       'Authorization' : 'Bearer ' + token
     };
 
@@ -89,15 +94,13 @@ const Home = () => {
         return;
       }
   
-      res.json().then(data => { 
-        setMarketList(data.marketItems);
-      })
+      res.json().then(data => { setMarketList(data.marketItems); })
     })
-
     //로딩 완료함!
     setLoading(false)
     
   }, []) //useEffect END
+
 
 
 
@@ -122,96 +125,22 @@ const Home = () => {
     return {dateString, month, day, time, dayName};
   }
 
+
   //조회 후 코드 시작 
-  useEffect(() => {  StartFunction();  }, [])
-  const StartFunction = async() => {
+  useEffect(() => {  GetWeatherData();  }, [])
+  const GetWeatherData = async() => {
+    console.log('place: ', place);
+    const weatherData = StartFunction(place[1], place[2], 'place'+place[0]);
+    console.log('weatherData: ', weatherData);
 
-    //만약 이미 오늘의 값을 구했다면 fetch문이 또 발동하지 않도록 처리.
-    if(localStorage.getItem('skyData') && localStorage.getItem('tempData')){
-      //문자열 리턴이라 다시 배열에 담아주어야 함.
-      setStateSkyList(localStorage.getItem('skyData').split(",")); 
-      setStateTemp(localStorage.getItem('tempData').split(","));
-      setWeatherLoading(false);
-      return;
-    }
-    
+    weatherData.then(data => {
+      console.log('weatherData에서 들어온 data: ', data);
+      setStateSkyList(data.sky);
+      setStateTemp(data.temp);
 
-    /////////////////일통계 조회 시작!!
-
-    const stYmd = getDate(0).dateString; //오늘 날짜
-    const stYesterdayYmd = getDate(-1).dateString; //어제 날짜 확인용 (오늘)
-    const stTime = '0500';
-    let nX = '59'; //서울 좌표
-    let nY = '126';
-    
-    
-    //단기예보 
-    const resWeather = await fetch('http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey='+ENCODING_KEY
-      +'&numOfRows=1000&pageNo=1&dataType=JSON&base_date='+stYmd+'&base_time='+stTime+'&nx='+nX+'&ny='+nY);
-    const resYesterWeather = await fetch('http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey='+ENCODING_KEY
-      +'&numOfRows=400&pageNo=1&dataType=JSON&base_date='+stYesterdayYmd+'&base_time='+stTime+'&nx='+nX+'&ny='+nY);
-      
-    const data = await resWeather.json();
-    const data2 = await resYesterWeather.json();
-
-    if(data.response.header.resultCode !== '00'){ //정상처리되지 않았을 경우
-      console.log('잘못된 요청입니다.');
-      return;
-    }
-
-    const itemList = data.response.body.items.item;
-    const itemList2 = data2.response.body.items.item;
-
-    // 최고, 최저온도 구하기
-    const temps = itemList.filter(it => it.category === 'TMN' || it.category === 'TMX');
-    const temp = temps.map(it => it.fcstValue.replace('.0', ''));
-    itemList2.forEach(it => {  //오늘 최저기온 구하기 1
-      if(it.category == 'TMN'){
-        temp.unshift(it.fcstValue.replace('.0', ''));
-        return;
-      }
-    });
-    
-    // 사흘간 날씨(구름 소식) 구하기 (오전 오후 6시 기준)
-    const skys = itemList.filter(it => it.category == 'SKY' && (it.fcstTime == '0600' || it.fcstTime == '1800' ))
-    const skyCode = skys.map(it => it.fcstValue);
-
-    //사흘간 날씨(비 소식) 구하기22 (오전 오후 6시 기준)
-    const rains = itemList.filter(it => it.category == 'PTY' && (it.fcstTime == '0600' || it.fcstTime == '1800' ))
-    const rainCode = rains.map(it => it.fcstValue);
-
-
-
-    // 맑음0, 흐림1, 비2, 눈3으로 숫자 통일
-    const skyRainList = []
-    let count = 0;
-    skyCode.forEach(sc => {
-      let state = 0 //상태저장
-      if(sc == 3 || sc == 4){ state = 1 }
-      
-      if(rainCode[count] == 3 || rainCode[count] == 7) state = 3;
-      else if(rainCode[count] > 0) state = 2;
-
-      skyRainList.push(state);
-      count++;
-    });
-
-    console.log('어제, 오늘, 내일 날씨 코드: ', skyRainList);
-    console.log('어제, 오늘, 내일의 최저/최고 온도: ', temp);
-
-    setStateSkyList(skyRainList);
-    setStateTemp(temp);
-    localStorage.setItem('tempData', temp);
-    localStorage.setItem('skyData', skyRainList);
-
-    // const weatherData = StartFunction(59, 127, 'place7');
-    // console.log('Home weatherData: ', weatherData);
-    // // setStateSkyList(weatherData.);
-    // // setStateTemp(temp);
-
-    //로딩 완료
-    setWeatherLoading(false);
-
+      //로딩 완료
+      if(data) { setWeatherLoading(false); }
+    })
   }
 
 
@@ -221,6 +150,7 @@ const Home = () => {
   return (
     <>
     { loading && weatherLoading ? loadingPage : 
+
       <div className='container home'>
         <div className="sub-link">
           <Link to="/"></Link>
@@ -230,6 +160,7 @@ const Home = () => {
 
         {/* 날씨 박스 */}
           <Weather temp={stateTemp} sky={stateSkyList}/>
+          
           
           <section className='button-box'>
             <Link to='/todayInfo' 
@@ -341,8 +272,6 @@ const Home = () => {
               </Link>
             </div>
           </section>
-
-
       </div>
     }
     </>
