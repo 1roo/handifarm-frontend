@@ -21,6 +21,7 @@ import { getLoginUserInfo } from './util/login-utils';
 import { API_BASE_URL } from '../config/host-config';
 import { loadingPage } from "./util/Loading-util";
 import { ENCODING_KEY } from '../config/key-config';
+import { StartFunction } from './util/WeatherFuntion';
 
 
 const Home = () => {
@@ -124,7 +125,6 @@ const Home = () => {
   //조회 후 코드 시작 
   useEffect(() => {  StartFunction();  }, [])
   const StartFunction = async() => {
-    
 
     //만약 이미 오늘의 값을 구했다면 fetch문이 또 발동하지 않도록 처리.
     if(localStorage.getItem('skyData') && localStorage.getItem('tempData')){
@@ -203,6 +203,11 @@ const Home = () => {
     setStateTemp(temp);
     localStorage.setItem('tempData', temp);
     localStorage.setItem('skyData', skyRainList);
+
+    // const weatherData = StartFunction(59, 127, 'place7');
+    // console.log('Home weatherData: ', weatherData);
+    // // setStateSkyList(weatherData.);
+    // // setStateTemp(temp);
 
     //로딩 완료
     setWeatherLoading(false);

@@ -3,11 +3,11 @@ import "./Market.scss";
 import "../.././Custom.scss";
 // mui 아이콘 > 시작
 import HomeIcon from '@mui/icons-material/Home';
+import { StarBorderRounded } from "@mui/icons-material"; //별점 아이콘
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 // mui 아이콘 > 끝!
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button, Grid, Rating } from "@mui/material";
-import { StarBorderRounded } from "@mui/icons-material"; //별점 아이콘
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { getLoginUserInfo } from "../util/login-utils";
 import { API_BASE_URL } from "../../config/host-config";
 import { loadingPage } from "../util/Loading-util";

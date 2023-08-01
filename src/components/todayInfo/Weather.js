@@ -20,7 +20,7 @@ import { loadingPage } from "../util/Loading-util";
 
 const Weather = ({temp, sky}) => {
 
-  console.log('props로 들어온 값: ', temp,'     ',  sky);
+  // console.log('props로 들어온 값: ', temp,'     ',  sky);
 
   const [loading, setLoading] = useState(true);
 

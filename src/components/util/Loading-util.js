@@ -5,3 +5,9 @@ export const loadingPage = (
         <img src={require("../../image/handifarm_75fps.gif")} alt="로딩창" />
     </div>   
 )
+
+export const loadingSmallPage = (
+    <div id="loading" className="small">
+        <img src={require("../../image/handifarm_75fps.gif")} alt="로딩창" />
+    </div>   
+)

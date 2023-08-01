@@ -125,7 +125,7 @@ section.info-box.weather{
 
             .text{
                 flex: 1;
-                margin-top: 20px;
+                min-width: 105px;
                 margin-left: 15%;
                 font-family: 'Pretendard-Regular';
 
@@ -151,9 +151,11 @@ section.info-box.weather{
             }
             .icon{
                 flex: 1;
+                width: 200px;
                 svg{ 
+                    width: 100%;
                     margin: 0 auto;
-                    font-size: 180px;
+                    font-size: 200px;
                     color: skyblue;
                 }
             }

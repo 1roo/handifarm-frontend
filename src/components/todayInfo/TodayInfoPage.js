@@ -11,15 +11,18 @@ import UmbrellaIcon from '@mui/icons-material/Umbrella';  //날씨 비... 가 �
 import AcUnitIcon from '@mui/icons-material/AcUnit';      //날씨 눈
 // mui 아이콘 > 끝!
 import { Link, useLocation } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 import { FormControl, Grid, InputLabel, MenuItem, Select } from '@mui/material';
 import { StartFunction } from '../util/WeatherFuntion';
-import { Button } from 'react-bootstrap';
+import { loadingPage, loadingSmallPage } from "../util/Loading-util";
 
 
 
 const TodayInfoPage = () => {
 
   const location = useLocation();
+
+  const [loading, setLoading] = useState(false);
   
   const [stateTemp, setStateTemp] = useState(location.state.temp)
   const [stateSkyList, setStateSkyList] = useState(location.state.sky)
@@ -27,7 +30,18 @@ const TodayInfoPage = () => {
   const [weatherIcon, setWeatherIcon] = useState([<WbSunnySharpIcon />, <WbCloudyIcon />, <UmbrellaIcon />, <AcUnitIcon />]);
   const [weatherTypo, setWeatherTypo] = useState(['맑음', '흐림', '비', '눈']);
 
-  const [place, setPlace] = useState('7 59 126'); //서울이 기본값
+
+  const [place, setPlace] = useState(['7', '59', '126']); //서울이 기본값
+
+  const [selPlaceNum, setSelPlaceNum] = useState('7');
+  const placeName = [ //목록 등록
+    '강릉', '광주광역시', '대구광역시', '대전광역시', '목포'
+    , '부산광역시', '서울특별시', '수원시', '안동시', '여수시'
+    , '울릉', '울산광역시', '전주', '제주특별자치도', '천주시'
+    , '춘천시'
+  ]
+
+
 
    // 오늘의 정보 -> 날짜 정보 구하기 
    function getDate(plusDay) {
@@ -47,27 +61,43 @@ const TodayInfoPage = () => {
     const dayName = today.toLocaleDateString('ko-KR', { weekday: 'long' }).replace('요일', '');
 
     return {dateString, month, day, time, dayName};
-  }
+  }  // getDate END 
 
 
 
   //select 선택마다 Place 미리 세팅
   const PlaceChangeHandle = function(e) {
-    setPlace(e.target.value); 
+    setPlace((e.target.value).split(" ")); 
   }
   
   //서치버튼 클릭 이벤트
   const searchClickEvent = function() {
-    const placeValue = place.split(" ");
-    console.log('placeValue: ',placeValue);
-    StartFunction(placeValue[1], placeValue[2], 'place'+placeValue[0]);
-  }
 
+    setLoading(true);
+
+    console.log('\n\n버튼이 클릭됨! place: ',place);
+    const weatherData = StartFunction(place[1], place[2], 'place'+place[0]);
+
+    console.log('버튼 클릭시 null인지 아닌지 확인', localStorage.getItem('place'+place[0])); 
+    console.log('weatherData: ', weatherData);
+
+    weatherData.then(data => {
+      console.log('data: ', data);
+      setStateTemp(data.temp);
+      setStateSkyList(data.sky);
+      setSelPlaceNum(place[0])
+
+      //로딩 완료
+      if(data) setLoading(false);
+    })
+
+  }
 
 
 
   return (
     <>
+      { loading ? loadingSmallPage : '' }
       <div className='contain info-box'>
         <div className="sub-link">
           <Link to="/"><HomeIcon/></Link> <span> &gt; </span> 
@@ -84,27 +114,27 @@ const TodayInfoPage = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="place-select"
-                value={place || ''}
+                value={place[0]+' '+place[1]+' '+place[2] || ''}
                 fullWidth
                 label=""
                 onChange={PlaceChangeHandle}
               >
-                <MenuItem value={'1 92 130'}>강릉</MenuItem>
-                <MenuItem value={'2 59 74'}>광주광역시</MenuItem>
-                <MenuItem value={'3 89 90'}>대구광역시</MenuItem>
-                <MenuItem value={'4 67 100'}>대전광역시</MenuItem>
-                <MenuItem value={'5 50 66'}>목포</MenuItem>
-                <MenuItem value={'6 98 75'}>부산광역시</MenuItem>
-                <MenuItem value={'7 59 126'}>서울특별시</MenuItem>
-                <MenuItem value={'8 61 120'}>수원시</MenuItem>
-                <MenuItem value={'9 91 107'}>안동시</MenuItem>
-                <MenuItem value={'10 74 65'}>여수시</MenuItem>
-                <MenuItem value={'11 127 127'}>울릉</MenuItem>
-                <MenuItem value={'12 102 84'}>울산광역시</MenuItem>
-                <MenuItem value={'13 63 89'}>전주</MenuItem>
-                <MenuItem value={'14 51 38'}>제주특별자치도</MenuItem>
-                <MenuItem value={'15 69 106'}>청주시</MenuItem>
-                <MenuItem value={'16 73 134'}>춘천시</MenuItem>
+                <MenuItem value={'1 92 130'}>{placeName[0]}</MenuItem>
+                <MenuItem value={'2 59 74'}>{placeName[1]}</MenuItem>
+                <MenuItem value={'3 89 90'}>{placeName[2]}</MenuItem>
+                <MenuItem value={'4 67 100'}>{placeName[3]}</MenuItem>
+                <MenuItem value={'5 50 66'}>{placeName[4]}</MenuItem>
+                <MenuItem value={'6 98 75'}>{placeName[5]}</MenuItem>
+                <MenuItem value={'7 59 126'}>{placeName[6]}</MenuItem>
+                <MenuItem value={'8 61 120'}>{placeName[7]}</MenuItem>
+                <MenuItem value={'9 91 107'}>{placeName[8]}</MenuItem>
+                <MenuItem value={'10 74 65'}>{placeName[9]}</MenuItem>
+                <MenuItem value={'11 127 127'}>{placeName[10]}</MenuItem>
+                <MenuItem value={'12 102 84'}>{placeName[11]}</MenuItem>
+                <MenuItem value={'13 63 89'}>{placeName[12]}</MenuItem>
+                <MenuItem value={'14 51 38'}>{placeName[13]}</MenuItem>
+                <MenuItem value={'15 69 106'}>{placeName[14]}</MenuItem>
+                <MenuItem value={'16 73 134'}>{placeName[15]}</MenuItem>
               </Select>
             </FormControl>
             <Button 
@@ -120,9 +150,9 @@ const TodayInfoPage = () => {
           <div className='weather-screens'>
             <div className='today'>
               <div className='text'>
-                <h6 className='place'> <PlaceIcon /> 어디어디 </h6>
-                <h4 className='temp-on'>{stateTemp[1]}˚</h4>
-                <h5>{weatherTypo[stateSkyList[1]]}</h5>
+                <h6 className='place'> <PlaceIcon /> {placeName[(selPlaceNum)-1]} </h6>
+                <h4 className='temp-on'>{stateTemp[0]}˚ {stateTemp[1]}˚</h4>
+                <h5> {weatherTypo[stateSkyList[0]]} <span style={{color:'skyBlue'}}>/</span> {weatherTypo[stateSkyList[1]]}</h5>
               </div>
               <div className='icon'>
               {weatherIcon[stateSkyList[1]]}
