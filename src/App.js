@@ -76,7 +76,9 @@ function App(props) {
             <Route path="/success" element={<PaymentSuccess />} />
             <Route path="/fail" element={<PaymentFail />} />
           
-          {/* >> 404 에러 처리 >>  */} <Route path="/*" element={<Error404 />} /> 
+          {/* >> 404 에러 처리 >>  */}
+            <Route path="/*" element={<Error404 />} />
+
         </Routes>
 
         <Footer />
