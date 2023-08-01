@@ -6,6 +6,12 @@
   font-weight: 400;
   font-style: normal;
 }
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
 body{ font-family: 'SUITE-Regular' !important; } /* 글씨체 지정 */
 
 .container{ /* 컨테이너 설정 */
@@ -69,4 +75,24 @@ a{
 .sub-link svg{
   padding-bottom: 2px;
   margin-bottom: 2.5px;
+}
+
+
+/* 로딩창 */
+#loading {
+  background-color: rgb(249, 249, 249);
+  width: 100vw;
+  height: 100vh;
+}
+#loading.small {
+  position: absolute;
+  background-color: rgba(249, 249, 249, 0.6);
+  width: 100vw;
+  height: 100vh;
+  top: -12%;
+}
+#loading img{
+  position:absolute; 
+  width: 300px; height: 300px;
+  top:50%; left:50%; transform: translate(-50%, -50%);
 }
