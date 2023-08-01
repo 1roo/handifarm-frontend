@@ -13,17 +13,23 @@ import StorefrontIcon from '@mui/icons-material/Storefront';  //마켓(판매자
 import HomeTableBody from './HomeTableBody';
 import HomeMarketBody from './HomeMarketBody';
 import SnsBoardCarousel from './SnsBoardCarousel';
+import Weather from './todayInfo/Weather';
 // Link용 js파일 > 끝!
 import { Button, Stack, Table } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { getLoginUserInfo } from './util/login-utils';
 import { API_BASE_URL } from '../config/host-config';
+import { loadingPage } from "./util/Loading-util";
+import { ENCODING_KEY } from '../config/key-config';
+import { StartFunction } from './util/WeatherFuntion';
+import { WeatherPlace } from './util/WeatherPlace';
 
 
 const Home = () => {
 
   const redirection = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [weatherLoading, setWeatherLoading] = useState(true);
   const [token, setToken] = useState(getLoginUserInfo().token); //토큰
 
 
@@ -33,6 +39,17 @@ const Home = () => {
     totalPages: 0,
   });
 
+  //거래장터 글 목록 저장
+  const [marketList, setMarketList] = useState([]);
+
+
+  const [stateTemp, setStateTemp] = useState()
+  const [stateSkyList, setStateSkyList] = useState()
+
+  const [place, setPlace] = useState(WeatherPlace.place7); //서울이 기본값
+
+
+  // 게시글 목록을 불러오는 콜백 함수
   useEffect(() => {
     const fetchBoardsByPage = async () => {
       try {
@@ -59,12 +76,10 @@ const Home = () => {
   }, [token]);
 
 
-
-  const [marketList, setMarketList] = useState([]);
+  //거래장터 목록을 불러오는 콜백 함수
   useEffect(() => {
 
     const requestHeader = {
-      // 'content-type' : 'application/json',
       'Authorization' : 'Bearer ' + token
     };
 
@@ -79,84 +94,81 @@ const Home = () => {
         return;
       }
   
-      res.json().then(data => { 
-        setMarketList(data.marketItems);
-      })
+      res.json().then(data => { setMarketList(data.marketItems); })
     })
-
     //로딩 완료함!
     setLoading(false)
     
   }, []) //useEffect END
 
 
-  const imgs = [ 
-    {img:'https://static6.depositphotos.com/1046511/631/i/600/depositphotos_6310141-stock-photo-bountiful-harvest.jpg'},
-    {img:'https://www.nongmin.com/-/raw/srv-nongmin/data2/content/image/2022/06/16/.cache/512/20220616196317.jpg'},
-    {img:'https://src.hidoc.co.kr/image/lib/2021/9/3/1630652987056_0.jpg'},
-    {img:'https://cdn.mkhealth.co.kr/news/photo/202212/61768_65496_2151.jpg'},
-    {img:'https://shop.shouse.garden/data/goods/302/2022/06/_tmp_f2fe2dc5b4ce8345ecd5133bf984c2e89119view.jpg'}
-  ];
-  //임시 데이터※ ※ ※※※※※※
+
+
+
+  // 오늘의 정보 -> 날짜 정보 구하기 
+  function getDate(plusDay) {
+
+    const today = new Date();
+    today.setDate(today.getDate() + plusDay); //오늘, 내일, 모레 여부
+
+    const year = today.getFullYear();
+    const month = today.getMonth()+1;
+    const day = today.getDate();
+    const time = today.getHours();
+
+    //yyMMdd 구하기
+    const dateString = year+(("00"+month.toString()).slice(-2))+(("00"+day.toString()).slice(-2));
+    
+    //요일 구하기
+    const dayName = today.toLocaleDateString('ko-KR', { weekday: 'long' }).replace('요일', '');
+
+    return {dateString, month, day, time, dayName};
+  }
+
+
+  //조회 후 코드 시작 
+  useEffect(() => {  GetWeatherData();  }, [])
+  const GetWeatherData = async() => {
+    console.log('place: ', place);
+    const weatherData = StartFunction(place[1], place[2], 'place'+place[0]);
+    console.log('weatherData: ', weatherData);
+
+    weatherData.then(data => {
+      console.log('weatherData에서 들어온 data: ', data);
+      setStateSkyList(data.sky);
+      setStateTemp(data.temp);
+
+      //로딩 완료
+      if(data) { setWeatherLoading(false); }
+    })
+  }
+
+
 
 
 
   return (
     <>
+    { loading && weatherLoading ? loadingPage : 
+
       <div className='container home'>
         <div className="sub-link">
           <Link to="/"></Link>
         </div>
 
-          <Link to='/pest'>Pest 이동</Link>
-          {/* 날씨 박스 */}
-          <section className='weather-box'>
-          <div className='title'><h2>제주<br/>날씨</h2></div>
+        {/* <Link to='/pest'>Pest 이동</Link> */}
 
-              <div className='weather D0'>
-                <div>
-                  <div className='day'><h3>오늘</h3><span>7/5</span></div>
-                  <div className='icon'>
-                    <span className='am'>오전</span><i><WbSunnySharpIcon /></i>
-                    <span className='pm'>오후</span><i><WbCloudyIcon /></i>
-                  </div>
-                </div>
-                <div className='temp'>
-                  <span>25℃</span><hr/><span>28℃</span>
-                </div>
-              </div> {/* weather D-0 END */}
-              
-              <div className='weather D1'>
-                <div>
-                  <div className='day'><h3>내일</h3><span>7/6</span></div>
-                  <div className='icon'>
-                    <span className='am'>오전</span><i><WbSunnySharpIcon /></i>
-                    <span className='pm'>오후</span><i><WbSunnySharpIcon /></i>
-                  </div>
-                </div>
-                <div className='temp'>
-                  <span>25℃</span><hr/><span>28℃</span>
-                </div>
-              </div> {/* weather D+1 END */}
-
-              <div className='weather D2'>
-                <div>
-                  <div className='day'><h3>모레</h3><span>7/7</span></div>
-                  <div className='icon'>
-                    <span className='am'>오전</span><i><WbSunnySharpIcon /></i>
-                    <span className='pm'>오후</span><i><WbCloudyIcon /></i>
-                  </div>
-                </div>
-                <div className='temp'>
-                  <span>25℃</span><hr/><span>28℃</span>
-                </div>
-              </div> {/* weather D+2 END */}
-
-          </section>
-          {/* 날씨 박스 끝  */}
-
+        {/* 날씨 박스 */}
+          <Weather temp={stateTemp} sky={stateSkyList}/>
+          
+          
           <section className='button-box'>
-            <Link to='/weather'><Button variant="success">오늘의 정보</Button></Link>
+            <Link to='/todayInfo' 
+                  state={{ 
+                    temp: stateTemp, 
+                    sky: stateSkyList,
+                   }}
+              ><Button variant="success">오늘의 정보</Button></Link>
             <Link to='/board'><Button variant="success">게시판</Button></Link>
             <Link to='/snsBoard'><Button variant="success">농사일기</Button></Link>
             <Link to='/market'><Button variant="success">거래장터</Button></Link>
@@ -260,14 +272,8 @@ const Home = () => {
               </Link>
             </div>
           </section>
-
       </div>
-
-
-
-
-        
-    
+    }
     </>
   )
 }
