@@ -17,7 +17,6 @@ import { StartFunction } from '../util/WeatherFuntion';
 import { loadingPage, loadingSmallPage } from "../util/Loading-util";
 
 
-
 const TodayInfoPage = () => {
 
   const location = useLocation();
@@ -26,8 +25,10 @@ const TodayInfoPage = () => {
   
   const [stateTemp, setStateTemp] = useState(location.state.temp)
   const [stateSkyList, setStateSkyList] = useState(location.state.sky)
-
+  
   const [weatherIcon, setWeatherIcon] = useState([<WbSunnySharpIcon />, <WbCloudyIcon />, <UmbrellaIcon />, <AcUnitIcon />]);
+  const [weatherImage, setWeatherImage] = useState(['weatherIcons_sun.gif', 'weatherIcons_cloud.gif', 'weatherIcons_rain.gif', 'weatherIcons_snow.gif']);
+  const [weatherMainImage, setWeatherMainImage] = useState(['mainIcons_sun.gif', 'weatherIcons_cloud.gif', 'weatherIcons_rain.gif', 'weatherIcons_snow.gif']);
   const [weatherTypo, setWeatherTypo] = useState(['맑음', '흐림', '비', '눈']);
 
 
@@ -152,10 +153,10 @@ const TodayInfoPage = () => {
               <div className='text'>
                 <h6 className='place'> <PlaceIcon /> {placeName[(selPlaceNum)-1]} </h6>
                 <h4 className='temp-on'>{stateTemp[0]}˚ {stateTemp[1]}˚</h4>
-                <h5> {weatherTypo[stateSkyList[0]]} <span style={{color:'skyBlue'}}>/</span> {weatherTypo[stateSkyList[1]]}</h5>
+                <h5> {weatherTypo[stateSkyList[0]]} <span style={{color:'lightGray'}}>/</span> {weatherTypo[stateSkyList[1]]}</h5>
               </div>
               <div className='icon'>
-              {weatherIcon[stateSkyList[1]]}
+                <img src={require(`../../image/${weatherMainImage[stateSkyList[0]]}`)} alt="main weather icon" />
               </div>
             </div>
 
@@ -163,13 +164,19 @@ const TodayInfoPage = () => {
               <div className='D1'>
                 <p className='Num-date'>{("00"+getDate(1).month).slice(-2)}/{("00"+getDate(1).day).slice(-2)}</p>
                 <p className='kor-date'>내일</p>
-                <p className='icon-date'>{weatherIcon[stateSkyList[2]]} {weatherIcon[stateSkyList[3]]}</p>
+                <p className='icon-date'>
+                  <img src={require(`../../image/${weatherImage[stateSkyList[2]]}`)} alt="weather icon" />
+                  <img src={require(`../../image/${weatherImage[stateSkyList[3]]}`)} alt="weather icon" />
+                </p>
                 <p className='text-date'><span>{stateTemp[2]}˚</span>&nbsp;&nbsp;<span>{stateTemp[3]}˚</span></p>
               </div>
               <div className='D2'>
                 <p className='Num-date'>{("00"+getDate(2).month).slice(-2)}/{("00"+getDate(2).day).slice(-2)}</p>
                 <p className='kor-date'>모레</p>
-                <p className='icon-date'>{weatherIcon[stateSkyList[4]]} {weatherIcon[stateSkyList[5]]}</p>
+                <p className='icon-date'>
+                  <img src={require(`../../image/${weatherImage[stateSkyList[4]]}`)} alt="weather icon" />
+                  <img src={require(`../../image/${weatherImage[stateSkyList[5]]}`)} alt="weather icon" />
+                </p>
                 <p className='text-date'><span>{stateTemp[4]}˚</span>&nbsp;&nbsp;<span>{stateTemp[5]}˚</span></p>
               </div>
             </div>

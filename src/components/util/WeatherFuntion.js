@@ -97,7 +97,7 @@ export const StartFunction = async(nX, nY, place) => {
       count++;
     });
   
-    console.log('하하: ', temp, skyRainList);
+    console.log('fetch문 끝: ', temp, skyRainList);
   
   
     weatherData ={ temp: temp, sky: skyRainList };

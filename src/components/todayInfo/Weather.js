@@ -28,6 +28,7 @@ const Weather = ({temp, sky}) => {
   const [stateSkyList, setStateSkyList] = useState(sky)
 
   const [weatherIcon, setWeatherIcon] = useState([<WbSunnySharpIcon />, <WbCloudyIcon />, <UmbrellaIcon />, <AcUnitIcon />]);
+  const [weatherImage, setWeatherImage] = useState(['weatherIcons_sun.gif', 'weatherIcons_cloud.gif', 'weatherIcons_rain.gif', 'weatherIcons_snow.gif']);
 
 
   //날짜 정보 구하기
@@ -60,8 +61,8 @@ const Weather = ({temp, sky}) => {
           <div>
             <div className='day'><h3>오늘</h3><span>{getDate(0).month}/{getDate(0).day} {getDate(0).dayName}</span></div>
             <div className='icon'>
-              <span className='am'>오전</span> <i>{weatherIcon[stateSkyList[0]]}</i>
-              <span className='pm'>오후</span> <i>{weatherIcon[stateSkyList[1]]}</i>
+              <span className='am'>오전</span> <i><img src={require(`../../image/${weatherImage[stateSkyList[0]]}`)} alt="weather icon" /></i>
+              <span className='pm'>오후</span> <i><img src={require(`../../image/${weatherImage[stateSkyList[1]]}`)} alt="weather icon" /></i>
             </div>
           </div>
           <div className='temp'>
@@ -73,8 +74,8 @@ const Weather = ({temp, sky}) => {
           <div>
             <div className='day'><h3>내일</h3><span>{getDate(1).month}/{getDate(1).day} {getDate(1).dayName}</span></div>
             <div className='icon'>
-              <span className='am'>오전</span>  <i>{weatherIcon[stateSkyList[2]]}</i>
-              <span className='pm'>오후</span>  <i>{weatherIcon[stateSkyList[3]]}</i>
+              <span className='am'>오전</span>  <i><img src={require(`../../image/${weatherImage[stateSkyList[2]]}`)} alt="weather icon" /></i>
+              <span className='pm'>오후</span>  <i><img src={require(`../../image/${weatherImage[stateSkyList[3]]}`)} alt="weather icon" /></i>
             </div>
           </div>
           <div className='temp'>
@@ -86,8 +87,8 @@ const Weather = ({temp, sky}) => {
           <div>
             <div className='day'><h3>모레</h3><span>{getDate(2).month}/{getDate(2).day} {getDate(2).dayName}</span></div>
             <div className='icon'>
-              <span className='am'>오전</span> <i>{weatherIcon[stateSkyList[4]]}</i>
-              <span className='pm'>오후</span> <i>{weatherIcon[stateSkyList[5]]}</i>
+              <span className='am'>오전</span> <i><img src={require(`../../image/${weatherImage[stateSkyList[4]]}`)} alt="weather icon" /></i>
+              <span className='pm'>오후</span> <i><img src={require(`../../image/${weatherImage[stateSkyList[5]]}`)} alt="weather icon" /></i>
             </div>
           </div>
           <div className='temp'>
