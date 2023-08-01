@@ -2,18 +2,71 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { TOSS_SECRET_KEY as secretKey } from "../../config/key-config";
+import { API_BASE_URL } from "../../config/host-config";
+import { getLoginUserInfo } from "../util/login-utils";
 
 export function PaymentSuccess() {
   const [searchParams] = useSearchParams();
   console.log(searchParams);
 
+  const [token, setToken] = useState(getLoginUserInfo().token); //토큰
+
   const [paymentData, setPaymentData] = useState(null);
   const orderId = searchParams.get("orderId");
   console.log(orderId);
 
+  // const authContext = useContext(AuthContext);
+  const userNick = localStorage.getItem("USER_NICK");
+
+  // buyer와 seller를 URL 매개변수로 받아오기
+
+  const seller = searchParams.get("seller");
+
+  const sendPaymentDataToServer = async () => {
+    if (!paymentData) {
+      console.log("Payment data is not available yet.");
+      return;
+    }
+
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify({
+        orderId: searchParams.get("orderId"),
+        amount: Number(searchParams.get("amount")),
+        buyer: userNick,
+        seller: seller,
+        orderName: paymentData.orderName,
+      }),
+    };
+
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/api/market/savePaymentData`,
+        requestOptions
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok.");
+      }
+      // const responseData = await response.json();
+      // console.log(responseData); // 서버로부터 받은 응답 (선택사항)
+    } catch (error) {
+      console.error("전송 실패", error);
+    }
+  };
+
   useEffect(() => {
     fetchPaymentInfo();
   }, []);
+
+  useEffect(() => {
+    if (paymentData) {
+      sendPaymentDataToServer();
+    }
+  }, [paymentData]);
 
   const fetchPaymentInfo = async () => {
     try {
@@ -44,6 +97,8 @@ export function PaymentSuccess() {
         searchParams.get("amount")
       ).toLocaleString()}원`}</div>
 
+      <div>{`구매자: ${userNick}`}</div>
+      <div>{`판매자: ${seller}`}</div>
       <div>{paymentData.orderName}</div>
     </div>
   );

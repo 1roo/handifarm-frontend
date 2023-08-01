@@ -11,6 +11,8 @@ const MarketPayment = (props) => {
   const location = useLocation();
   const productName = location.state.productName;
   const productPrice = location.state.productPrice;
+  const buyer = location.state.buyer;
+  const seller = location.state.seller;
 
   const paymentWidgetRef = useRef(null);
   const paymentMethodsWidgetRef = useRef(null);
@@ -52,7 +54,7 @@ const MarketPayment = (props) => {
         orderName: productName,
         customerName: "김토스",
         customerEmail: "customer123@gmail.com",
-        successUrl: `${window.location.origin}/success`,
+        successUrl: `${window.location.origin}/success?seller=${seller}`,
         failUrl: `${window.location.origin}/fail`,
       });
     } catch (error) {

@@ -217,7 +217,6 @@ const MarketDetail = () => {
                       productName: thisItem.itemName,
                       productPrice: thisItem.price,
                       seller: thisItem.seller,
-                      buyer: thisItem.buyer,
                     }}
                   >
                     <Button
