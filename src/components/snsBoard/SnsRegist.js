@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import registImg from '../../image/add-image.png';
 import { Container } from "react-bootstrap";
 import { API_BASE_URL as BASE, SNS } from "../../config/host-config";
+import { useNavigate } from 'react-router';
 
 const SnsRegist = ({ onRequestClose }) => {
   const [content, setContent] = useState('');
@@ -12,6 +13,14 @@ const SnsRegist = ({ onRequestClose }) => {
 
   const API_BASE_URL = `${BASE}${SNS}`;
   const token = localStorage.getItem("ACCESS_TOKEN");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(!token){
+      alert('로그인이 필요한 서비스입니다.')
+      navigate('/login')
+    }
+  });
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();

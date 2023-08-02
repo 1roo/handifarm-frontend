@@ -25,8 +25,8 @@ const MarketDetail = () => {
 
   useEffect(() => {
     if (!token) {
-      alert("로그인한 사용자만 접근할 수 있는 페이지입니다.");
-      redirection("/");
+      alert('로그인이 필요한 서비스입니다.')
+      redirection('/login')
       return;
     }
 
@@ -124,7 +124,7 @@ const MarketDetail = () => {
             </Link>{" "}
             <span> &gt; </span>
             <Link to="/market">거래장터</Link> <span> &gt; </span>
-            <span style={{ cursor: "pointer" }}>상세보기</span>
+            <span style={{ cursor: "pointer" }}>상세보기: {thisItem.itemName}</span>
           </div>
           <h1>거래장터</h1>
           <hr className="h1-bottom" />

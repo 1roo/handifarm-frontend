@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Market.scss";
 import "../.././Custom.scss";
 // mui 아이콘 > 시작
@@ -192,6 +192,15 @@ const MarketRegist = () => {
     })
     
   };
+
+  
+  useEffect(() => {
+    if(!token){ //회원에게만 서비스를 제공.
+      alert('로그인이 필요한 서비스입니다.')
+      redirection('/login')
+    }
+  })
+
 
   return (
     <>

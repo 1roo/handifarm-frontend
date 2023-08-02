@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 const API_URL = "http://localhost:8181/api/sns";
 
 const SnsList = () => {
+
   const [isModalOpen, setModalOpen] = useState(false);
   const [isDetailModalOpen, setDetailModalOpen] = useState(false);
   const [snsList, setSnsList] = useState([]);
@@ -17,10 +18,14 @@ const SnsList = () => {
   const [selectedSns, setSelectedSns] = useState([]); // 선택된 SNS 항목을 저장하는 상태
 
   const token = localStorage.getItem("ACCESS_TOKEN");
-
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!token) {
+      alert('로그인이 필요한 서비스입니다.')
+      navigate('/login')
+      return;
+    }
     initializeProfileImg();
     fetchPhotos();
   }, [page]);

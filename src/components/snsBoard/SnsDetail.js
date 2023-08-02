@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import "./Sns.scss";
 
 const SnsDetail = ({ onRequestClose, snsNo, writer }) => {
   const [photo, setPhoto] = useState(null);
+  const token = localStorage.getItem("ACCESS_TOKEN");
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if(!token){
+      alert('로그인이 필요한 서비스입니다.')
+      navigate('/login')
+    }
+
     const fetchPhoto = async () => {
       try {
         const token = localStorage.getItem("ACCESS_TOKEN");

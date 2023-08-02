@@ -74,7 +74,6 @@ const Home = () => {
 
   //거래장터 목록을 불러오는 콜백 함수
   useEffect(() => {
-
     const requestHeader = {
       'Authorization' : 'Bearer ' + token
     };
@@ -121,7 +120,7 @@ const Home = () => {
 
     ////////////////// 날짜 구하기 & 날짜에 따른 세팅 종료.
 
-
+    
 
     console.log('place: ', place);
     const weatherData = StartFunction(place[1], place[2], 'place'+place[0]);
@@ -140,11 +139,9 @@ const Home = () => {
 
 
 
-
   return (
     <>
-    { loading && weatherLoading ? loadingPage : 
-
+    { !loading && !weatherLoading ? 
       <div className='container home'>
         <div className="sub-link">
           <Link to="/"></Link>
@@ -154,7 +151,6 @@ const Home = () => {
 
         {/* 날씨 박스 */}
           <Weather temp={stateTemp} sky={stateSkyList}/>
-          
           
           <section className='button-box'>
             <Link to='/todayInfo' 
@@ -267,7 +263,7 @@ const Home = () => {
             </div>
           </section>
       </div>
-    }
+    : loadingPage }
     </>
   )
 }

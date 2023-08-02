@@ -31,6 +31,7 @@ a{
     
     .market-box{ 
         padding: 0 10px;
+        position: relative;
         // box-sizing: border-box;
 
         figure{ //사진 영역
@@ -47,6 +48,22 @@ a{
                 height: 100%;
                 transition: 0.3s;
             }
+        }
+        .green-btn[disabled]{ //판매 여부 버튼 영역
+            height: fit-content;
+            padding: 0 15px;
+            // border-bottom: 3px double rgb(184, 184, 184);
+            border-bottom: 1px solid rgb(184, 184, 184);
+            
+            position: absolute;
+            right: 0px;
+            top: 10px;
+            
+            color: white;
+            font-weight: 600;
+            font-family: 'SUITE-Regular';
+
+            &.red{ background-color: orangered !important; }
         }
         .product{ //상품 설명 영역
             margin: 15px 0px 0px;

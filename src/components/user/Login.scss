@@ -32,6 +32,7 @@ $main-green: #53A069;
     }
 
     .sns-list {
+        width: 100%;
         display: flex;
         margin: 0 auto;
         justify-content: center;
@@ -46,6 +47,15 @@ $main-green: #53A069;
             cursor: pointer;
         }
     }
+}
+
+#link-join-question{
+    margin: 10px;
+    display: block !important;
+
+    color: $main-green;
+    font-style: italic; text-decoration: underline;
+    text-align: right;
 }
 
 

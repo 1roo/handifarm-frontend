@@ -28,10 +28,8 @@ const MarketList = () => {
   const [moreBtnCount, setMoreBtnCount] = useState(1); //더보기 클릭 횟수 겸 page param
 
   
-
   useEffect(() => {
-
-    if(!token){
+    if(!token){ //회원에게만 서비스를 제공.
       alert('로그인이 필요한 서비스입니다.')
       redirection('/login')
     }

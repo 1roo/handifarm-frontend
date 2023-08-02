@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import userImg from "../../image/user.png";
 import "./Sns.scss";
 
 const SnsUserDetail = () => {
+  const token = localStorage.getItem("ACCESS_TOKEN");
+  const navigate = useNavigate();
+
   const { writer } = useParams();
   const [photo, setPhoto] = useState([]);
   const [profileImg, setProfileImg] = useState(userImg);
+  
 
   // 사용자 프로필 이미지 초기화
   const initializeProfileImg = () => {
@@ -19,6 +23,11 @@ const SnsUserDetail = () => {
 
 
   useEffect(() => {
+    if(!token){ //회원에게만 서비스를 제공.
+      alert('로그인이 필요한 서비스입니다.')
+      navigate('/login')
+    }
+
     const fetchPhoto = async () => {
       try {
         const token = localStorage.getItem("ACCESS_TOKEN");

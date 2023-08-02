@@ -16,7 +16,12 @@ function BoardDetail() {
 
   useEffect(() => {
     const token = localStorage.getItem("ACCESS_TOKEN");
-
+    if (!token) {
+      alert('로그인이 필요한 서비스입니다.')
+      redirection('/login')
+      return;
+    }
+    
     fetch(API_BASE_URL, {
       headers: {
         Authorization: `Bearer ${token}`,
