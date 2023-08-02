@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './TodayInfo.scss';
 import '../../Custom.scss';
 // mui 아이콘 > 시작
@@ -22,25 +22,14 @@ const TodayInfoPage = () => {
 
   const location = useLocation();
   const redirection = useNavigate();
-  if(!!location.state){
-    alert('오늘의 정보 페이지는 Home 페이지를 통해서만 접근할 수 있습니다.');
-    redirection('/');
-  }
   
   const [loading, setLoading] = useState(false);
   
+ 
   const [stateTemp, setStateTemp] = useState(location.state.temp)
   const [stateSkyList, setStateSkyList] = useState(location.state.sky)
   
   const [place, setPlace] = useState(WeatherPlace.place7); //서울이 기본값
-
-  const [weatherIcon, setWeatherIcon] = useState([<WbSunnySharpIcon />, <WbCloudyIcon />, <UmbrellaIcon />, <AcUnitIcon />]);
-  const [weatherImage, setWeatherImage] = useState(['weatherIcons_sun.gif', 'weatherIcons_cloud.gif', 'weatherIcons_rain.gif', 'weatherIcons_snow.gif']);
-  const [weatherMainImage, setWeatherMainImage] = useState(['mainIcons_sun.gif', 'weatherIcons_cloud.gif', 'weatherIcons_rain.gif', 'weatherIcons_snow.gif']);
-  const [weatherTypo, setWeatherTypo] = useState(['맑음', '흐림', '비', '눈']);
-
-
-
   const [selPlaceNum, setSelPlaceNum] = useState('7');
   const placeName = [ //목록 등록
     '강릉', '광주광역시', '대구광역시', '대전광역시', '목포'
@@ -48,6 +37,20 @@ const TodayInfoPage = () => {
     , '울릉', '울산광역시', '전주', '제주특별자치도', '천주시'
     , '춘천시'
   ]
+
+  const weatherIcon = [<WbSunnySharpIcon />, <WbCloudyIcon />, <UmbrellaIcon />, <AcUnitIcon />];
+  const weatherImage = ['weatherIcons_sun.gif', 'weatherIcons_cloud.gif', 'weatherIcons_rain.gif', 'weatherIcons_snow.gif'];
+  const weatherMainImage = ['mainIcons_sun.gif', 'weatherIcons_cloud.gif', 'weatherIcons_rain.gif', 'weatherIcons_snow.gif'];
+  const weatherTypo = ['맑음', '흐림', '비', '눈'];
+
+  //temp가 없으면 위에서 에러가 터져서 접근이 안됨 + if문을 위에 놓으면 useState가 작동이 안됨
+  if(!location.state.temp){
+    alert('오늘의 정보 페이지는 Home 페이지를 통해서만 접근할 수 있습니다.');
+    redirection('/market');
+    return;
+  }
+
+ 
 
 
 
