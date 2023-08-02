@@ -32,7 +32,10 @@ function BoardList() {
   // API 호출을 통해 게시글 목록을 가져오는 함수
   const fetchBoardsByPage = async () => {
     try {
-      console.log("API 호출 URL:", `${API_BASE_URL}?page=${currentPage}&size=${pageSize}&category=${selectedTopic}&condition=${selectedCondition}`);
+      console.log(
+        "API 호출 URL:",
+        `${API_BASE_URL}?page=${currentPage}&size=${pageSize}&category=${selectedTopic}&condition=${selectedCondition}`
+      );
       const response = await fetch(
         `${API_BASE_URL}?page=${currentPage}&size=${pageSize}&category=${selectedTopic}&condition=${selectedCondition}`,
         {
@@ -54,7 +57,7 @@ function BoardList() {
     //   alert('로그인이 필요한 서비스입니다.')
     //   navigate('/login')
     // }
-    
+
     // 페이지가 변경되거나 "Topic" 또는 "Search Condition"이 변경되면 API 호출을 수행하여 데이터 업데이트.
     fetchBoardsByPage();
   }, [currentPage, pageSize, token]);
@@ -64,34 +67,29 @@ function BoardList() {
   const [boards, setBoards] = useState([]);
 
   useEffect(() => {
-    const noticeBoards = data.boards && data.boards.filter((board) => board.category === "NOTICE");
-    const otherBoards = data.boards && data.boards.filter((board) => board.category !== "NOTICE");
+    const noticeBoards =
+      data.boards && data.boards.filter((board) => board.category === "NOTICE");
+    const otherBoards =
+      data.boards && data.boards.filter((board) => board.category !== "NOTICE");
 
     setNoticeBoards(noticeBoards || []);
     setBoards(otherBoards || []);
   }, [data]);
-
-
 
   // 페이지 변경 시 호출되는 콜백 함수
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage);
   };
 
-
-
-
-
-
-
-
   const [searchKeyword, setSearchKeyword] = useState("");
-
 
   // API 호출을 통해 게시물 검색하는 함수
   const searchBoardList = async (category, condition, searchWord) => {
     try {
-      console.log('검색 요청 URL : ', `${API_BASE_URL}/search?category=${selectedTopic}&condition=${selectedCondition}&searchWord=${searchKeyword}`)
+      console.log(
+        "검색 요청 URL : ",
+        `${API_BASE_URL}/search?category=${selectedTopic}&condition=${selectedCondition}&searchWord=${searchKeyword}`
+      );
       const response = await fetch(
         `${API_BASE_URL}/search?category=${selectedTopic}&condition=${selectedCondition}&searchWord=${searchKeyword}`,
         {
@@ -103,14 +101,13 @@ function BoardList() {
       const responseData = await response.json();
       setData({
         boards: responseData,
-        totalPages: [...responseData].length/20,
+        totalPages: [...responseData].length / 20,
       });
       console.log("data: ", data);
     } catch (error) {
       console.error("검색 중 에러 발생:", error);
     }
   };
-
 
   // 검색 버튼을 클릭할 때 호출되는 함수
   const handleSearchButtonClick = async () => {
@@ -120,19 +117,12 @@ function BoardList() {
       setCurrentPage(1);
 
       searchBoardList(selectedTopic, selectedCondition, searchKeyword);
-    }
-    catch (error) {
+    } catch (error) {
       console.error("게시글 목록을 불러오는 중 에러 발생:", error);
     }
   };
 
-
   useEffect(() => {}, [selectedTopic, selectedCondition]);
-
-
-
-
-
 
   return (
     <>
@@ -182,12 +172,16 @@ function BoardList() {
             </FormControl>
           </Grid>
           <Grid>
-            <TextField variant="outlined"
+            <TextField
+              variant="outlined"
               value={searchKeyword}
-              onChange={(e) => setSearchKeyword(e.target.value)} />
-            <Button className="searchBtn"
+              onChange={(e) => setSearchKeyword(e.target.value)}
+            />
+            <Button
+              className="searchBtn"
               variant="contained"
-              onClick={handleSearchButtonClick}>
+              onClick={handleSearchButtonClick}
+            >
               검색
             </Button>
           </Grid>
@@ -207,56 +201,57 @@ function BoardList() {
               </tr>
             </thead>
             <tbody>
-              {!!data.boards && data.boards.map((row) => (
-                <tr
-                  style={
-                    row.category === "NOTICE"
-                      ? { backgroundColor: "gainsboro" }
-                      : { backgroundColor: "none" }
-                  }
-                  key={row.boardNo}
-                >
-                  <td className="td">{row.boardNo}</td>
-                  <td className="td">
-                    <div
-                      style={
-                        row.category === "NOTICE"
-                          ? { display: "none" }
-                          : { display: "block" }
-                      }
-                    >
-                      {row.category === "INFORMATION" && "정보"}
-                      {row.category === "FREE" && "자유"}
-                    </div>
-                    <div
-                      className="notice-box"
-                      style={
-                        row.category === "NOTICE"
-                          ? { display: "block", color: "red" }
-                          : { display: "none" }
-                      }
-                    >
-                      {row.category === "NOTICE" && "공지"}
-                    </div>
-                  </td>
-                  <td
-                    className="td td-title"
+              {!!data.boards &&
+                data.boards.map((row) => (
+                  <tr
                     style={
                       row.category === "NOTICE"
-                        ? { color: "red", fontWeight: "bold" }
-                        : { color: "black" }
+                        ? { backgroundColor: "gainsboro" }
+                        : { backgroundColor: "none" }
                     }
-                    onClick={() => {
-                      navigate(`/board/${row.boardNo}`);
-                    }}
+                    key={row.boardNo}
                   >
-                    {row.title}
-                  </td>
-                  <td className="td">{row.userNick}</td>
-                  <td className="td">{row.createDate}</td>
-                  <td className="td">{row.views}</td>
-                </tr>
-              ))}
+                    <td className="td">{row.boardNo}</td>
+                    <td className="td">
+                      <div
+                        style={
+                          row.category === "NOTICE"
+                            ? { display: "none" }
+                            : { display: "block" }
+                        }
+                      >
+                        {row.category === "INFORMATION" && "정보"}
+                        {row.category === "FREE" && "자유"}
+                      </div>
+                      <div
+                        className="notice-box"
+                        style={
+                          row.category === "NOTICE"
+                            ? { display: "block", color: "red" }
+                            : { display: "none" }
+                        }
+                      >
+                        {row.category === "NOTICE" && "공지"}
+                      </div>
+                    </td>
+                    <td
+                      className="td td-title"
+                      style={
+                        row.category === "NOTICE"
+                          ? { color: "red", fontWeight: "bold" }
+                          : { color: "black" }
+                      }
+                      onClick={() => {
+                        navigate(`/board/${row.boardNo}`);
+                      }}
+                    >
+                      {row.title}
+                    </td>
+                    <td className="td">{row.userNick}</td>
+                    <td className="td">{row.createDate}</td>
+                    <td className="td">{row.views}</td>
+                  </tr>
+                ))}
             </tbody>
           </Table>
           <div className="regist-btn-div">

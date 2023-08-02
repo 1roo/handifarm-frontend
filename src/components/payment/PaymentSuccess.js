@@ -15,12 +15,15 @@ export function PaymentSuccess() {
   const orderId = searchParams.get("orderId");
   console.log(orderId);
 
-  // const authContext = useContext(AuthContext);
-  const userNick = localStorage.getItem("USER_NICK");
+  const itemNo = searchParams.get("itemNo");
+  console.log(itemNo);
 
   // buyer와 seller를 URL 매개변수로 받아오기
 
   const seller = searchParams.get("seller");
+  const buyer = searchParams.get("buyer");
+
+  const amount = Number(searchParams.get("amount"));
 
   const sendPaymentDataToServer = async () => {
     if (!paymentData) {
@@ -35,9 +38,10 @@ export function PaymentSuccess() {
         Authorization: "Bearer " + token,
       },
       body: JSON.stringify({
-        orderId: searchParams.get("orderId"),
-        amount: Number(searchParams.get("amount")),
-        buyer: userNick,
+        itemNo: itemNo,
+        orderId: orderId,
+        price: amount,
+        buyer: buyer,
         seller: seller,
         orderName: paymentData.orderName,
       }),
@@ -92,12 +96,9 @@ export function PaymentSuccess() {
   return (
     <div>
       <h1>결제 성공</h1>
-      <div>{`주문 아이디: ${searchParams.get("orderId")}`}</div>
-      <div>{`결제 금액: ${Number(
-        searchParams.get("amount")
-      ).toLocaleString()}원`}</div>
-
-      <div>{`구매자: ${userNick}`}</div>
+      <div>{`주문 아이디: ${orderId}`}</div>
+      <div>{`결제 금액: ${amount.toLocaleString()}원`}</div>
+      <div>{`구매자: ${buyer}`}</div>
       <div>{`판매자: ${seller}`}</div>
       <div>{paymentData.orderName}</div>
     </div>
