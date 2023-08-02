@@ -20,7 +20,7 @@ import { loadingPage } from "../util/Loading-util";
 
 const Weather = ({temp, sky}) => {
 
-  // console.log('props로 들어온 값: ', temp,'     ',  sky);
+  console.log('props로 들어온 값: ', temp,'     ',  sky);
 
   const [loading, setLoading] = useState(true);
 
@@ -51,9 +51,13 @@ const Weather = ({temp, sky}) => {
     return {dateString, month, day, time, dayName};
   }
 
+  // useEffect(() => {
+  //   if(!!stateTemp && !!stateSkyList) { setLoading(false); }
+  // }, [])
 
   return(
     <>
+    {/* { loading ? loadingPage :  */}
     <section className='weather-box'>
         <div className='title'><h2>서울<br/>날씨</h2></div>
 
@@ -66,7 +70,7 @@ const Weather = ({temp, sky}) => {
             </div>
           </div>
           <div className='temp'>
-            <span>{stateTemp[0]}℃</span> <hr/> <span>{stateTemp[1]}℃</span>
+            <span>{stateTemp[0]}˚</span> <hr/> <span>{stateTemp[1]}˚</span>
           </div>
         </div> {/* weather D-0 END */}
         
@@ -79,7 +83,7 @@ const Weather = ({temp, sky}) => {
             </div>
           </div>
           <div className='temp'>
-            <span>{stateTemp[2]}℃</span> <hr/> <span>{stateTemp[3]}℃</span>
+            <span>{stateTemp[2]}˚</span> <hr/> <span>{stateTemp[3]}˚</span>
           </div>
         </div> {/* weather D+1 END */}
 
@@ -92,12 +96,12 @@ const Weather = ({temp, sky}) => {
             </div>
           </div>
           <div className='temp'>
-            <span>{stateTemp[4]}℃</span> <hr/> <span>{stateTemp[5]}℃</span>
+            <span>{stateTemp[4]}˚</span> <hr/> <span>{stateTemp[5]}˚</span>
           </div>
         </div> {/* weather D+2 END */}
 
     </section>
-    
+   {/* }  */}
   </>
   )
 };

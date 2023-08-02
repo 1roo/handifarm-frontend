@@ -15,7 +15,7 @@ import { Button } from 'react-bootstrap';
 import { FormControl, Grid, InputLabel, MenuItem, Select } from '@mui/material';
 import { StartFunction } from '../util/WeatherFuntion';
 import { loadingPage, loadingSmallPage } from "../util/Loading-util";
-import { WeatherPlace } from './util/WeatherPlace';
+import { WeatherPlace } from '../util/WeatherPlace';
 
 
 const TodayInfoPage = () => {
