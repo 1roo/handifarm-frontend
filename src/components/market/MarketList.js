@@ -32,7 +32,7 @@ const MarketList = () => {
   useEffect(() => {
 
     if(!token){
-      alert('회원만 이용할 수 있는 게시판입니다.')
+      alert('로그인이 필요한 서비스입니다.')
       redirection('/login')
     }
 

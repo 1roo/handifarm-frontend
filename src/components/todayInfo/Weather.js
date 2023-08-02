@@ -45,15 +45,13 @@ const Weather = ({temp, sky}) => {
     return {dateString, month, day, time, dayName};
   }
 
-  // useEffect(() => {
-  //   window.onload 
-  //   setLoading(false);
-    
-  // }, [])
+  useEffect(() => {
+    setLoading(false);
+  }, [stateTemp])
 
   return(
     <>
-    {/* { loading ? loadingSmallPage :  */}
+    { loading ? loadingPage : 
     <section className='weather-box'>
         <div className='title'><h2>서울<br/>날씨</h2></div>
 
@@ -97,7 +95,7 @@ const Weather = ({temp, sky}) => {
         </div> {/* weather D+2 END */}
 
     </section>
-   {/* } */}
+   }
   </>
   )
 };

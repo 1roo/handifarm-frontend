@@ -84,7 +84,7 @@ const Home = () => {
     })
     .then(res => {
       if(!res.ok) {
-        if(res.status === 403) alert('로그인한 사용자만 접근할 수 있는 페이지입니다.');
+        if(res.status === 403) alert('로그인이 필요한 서비스입니다.');
         else alert('로딩 중 문제가 발생하였습니다. 관리자에게 문의바랍니다.')
         redirection('/');
         return;
