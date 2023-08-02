@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Market.scss";
 import "../.././Custom.scss";
 // mui 아이콘 > 시작
-import HomeIcon from '@mui/icons-material/Home';
+import HomeIcon from "@mui/icons-material/Home";
 import { StarBorderRounded } from "@mui/icons-material"; //별점 아이콘
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 // mui 아이콘 > 끝!
@@ -16,6 +16,8 @@ import { loadingPage } from "../util/Loading-util";
 const MarketDetail = () => {
   const location = useLocation();
   const itemNo = location.state.itemNo; //상세보기 요청한 아이템 번호
+  const buyer = localStorage.getItem("USER_NICK");
+  const customerName = localStorage.getItem("USER_NAME");
 
   const redirection = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -25,8 +27,8 @@ const MarketDetail = () => {
 
   useEffect(() => {
     if (!token) {
-      alert('로그인이 필요한 서비스입니다.')
-      redirection('/login')
+      alert("로그인이 필요한 서비스입니다.");
+      redirection("/login");
       return;
     }
 
@@ -215,9 +217,12 @@ const MarketDetail = () => {
                   <Link
                     to={"/payment"}
                     state={{
+                      itemNo: itemNo,
                       productName: thisItem.itemName,
                       productPrice: thisItem.price,
                       seller: thisItem.seller,
+                      buyer: buyer,
+                      customerName: customerName,
                     }}
                   >
                     <Button

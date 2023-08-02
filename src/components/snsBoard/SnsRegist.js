@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import registImg from '../../image/add-image.png';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import registImg from "../../image/add-image.png";
 import { Container } from "react-bootstrap";
 import { API_BASE_URL as BASE, SNS } from "../../config/host-config";
-import { useNavigate } from 'react-router';
+import { useNavigate } from "react-router";
 
 const SnsRegist = ({ onRequestClose }) => {
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState("");
   const [hashTags, setHashTags] = useState([]);
   const [imageFile, setImageFile] = useState(null); // 단일 이미지 파일 상태
   const [imagePreview, setImagePreview] = useState(null); // 이미지 미리보기를 위한 상태
@@ -16,9 +16,9 @@ const SnsRegist = ({ onRequestClose }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(!token){
-      alert('로그인이 필요한 서비스입니다.')
-      navigate('/login')
+    if (!token) {
+      alert("로그인이 필요한 서비스입니다.");
+      navigate("/login");
     }
   });
 
@@ -28,14 +28,19 @@ const SnsRegist = ({ onRequestClose }) => {
     try {
       // 이미지가 없을 때 빈 배열로 설정
       const formData = new FormData();
-      formData.append('content', content);
-      hashTags.forEach((tag) => formData.append('hashTags', tag));
-      formData.append('snsImgs', imageFile || []); // 이미지 파일이 없을 경우 빈 배열로 설정
+      // formData.append('content', content);
+      // hashTags.forEach((tag) => formData.append('hashTags', tag));
+      const snsContent = {
+        content: content,
+        hashTags: hashTags,
+      };
+      formData.append("snsContent");
+      formData.append("snsImgs", imageFile || []); // 이미지 파일이 없을 경우 빈 배열로 설정
 
       const response = await axios.post(API_BASE_URL, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${token}`,
+          // "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -43,7 +48,7 @@ const SnsRegist = ({ onRequestClose }) => {
       alert("게시글이 등록되었습니다.");
       onRequestClose();
     } catch (error) {
-      console.error('폼 제출 중 에러 발생:', error);
+      console.error("폼 제출 중 에러 발생:", error);
       // 에러 처리 또는 사용자에게 에러 메시지 표시
     }
   };
@@ -64,14 +69,18 @@ const SnsRegist = ({ onRequestClose }) => {
             <img
               src={imagePreview}
               alt="이미지 미리보기"
-              style={{ width: '200px', height: '200px', margin: '0 40px 20px' }}
+              style={{ width: "200px", height: "200px", margin: "0 40px 20px" }}
             />
           ) : (
-            <label htmlFor="itemImg" style={{ cursor: 'pointer' }}>
+            <label htmlFor="itemImg" style={{ cursor: "pointer" }}>
               <img
                 src={registImg}
                 alt="이미지 아이콘"
-                style={{ width: '200px', height: '200px', margin: '0 40px 20px' }}
+                style={{
+                  width: "200px",
+                  height: "200px",
+                  margin: "0 40px 20px",
+                }}
               />
             </label>
           )}
@@ -80,10 +89,10 @@ const SnsRegist = ({ onRequestClose }) => {
             id="itemImg"
             onChange={handleFileInputChange}
             accept="image/*" // 이미지 파일만 선택 가능하도록 지정
-            style={{ display: 'none' }}
+            style={{ display: "none" }}
           />
         </div>
-        <div className='regist-content'>
+        <div className="regist-content">
           <div>
             <label htmlFor="content">내용:</label>
             <input
@@ -94,19 +103,23 @@ const SnsRegist = ({ onRequestClose }) => {
               required
             />
           </div>
-          <br/>
+          <br />
           <div>
             <label htmlFor="hashTags">해시태그:</label>
             <input
               type="text"
               id="hashTags"
-              value={hashTags.join(',')}
-              onChange={(e) => setHashTags(e.target.value.split(','))}
+              value={hashTags.join(",")}
+              onChange={(e) => setHashTags(e.target.value.split(","))}
             />
           </div>
         </div>
-        <button className='regist-btn' type="submit">등록</button>
-        <button className='exit-btn'type="button" onClick={onRequestClose}>취소</button>
+        <button className="regist-btn" type="submit">
+          등록
+        </button>
+        <button className="exit-btn" type="button" onClick={onRequestClose}>
+          취소
+        </button>
       </form>
     </Container>
   );
