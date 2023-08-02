@@ -27,15 +27,18 @@ const SnsList = () => {
       return;
     }
     initializeProfileImg();
+    // setProfileImg(localStorage.getItem("USER_PROFILE_IMG"));
+    console.log(profileImg);
     fetchPhotos();
   }, [page]);
 
   // 사용자 프로필 이미지 초기화
   const initializeProfileImg = () => {
     const userProfileImg = localStorage.getItem("USER_PROFILE_IMG");
-    if (userProfileImg) {
+    if (!userProfileImg) {
       setProfileImg(userProfileImg);
     }
+    console.log(profileImg);
   };
 
   // 사진 데이터 가져오기
@@ -91,7 +94,7 @@ const SnsList = () => {
       <h2 className="menu-title">농사일기</h2>
       <div className="user-profile">
         <span>내 정보 </span>
-        <img className="profileImg" src={profileImg} />
+        <img className="profileImg" src={profileImg != null ? profileImg : userImg} />
         <span className="user-nick">{localStorage.getItem("USER_NICK")}</span>
       
         <button className="moveToMy-btn" onClick={handleMoveToMyHome}>

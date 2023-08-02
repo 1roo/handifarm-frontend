@@ -43,10 +43,21 @@ export const StartFunction = async(nX, nY, place) => {
   } else{
 
     /////////////////일통계 조회 시작!!
-    const stYmd = getDate(0).dateString; //오늘 날짜
-    const stYesterdayYmd = getDate(-1).dateString; //어제 날짜 확인용 (오늘)
+    // 현재 시간 가져오기
+    const now = new Date();
+    const currentHour = now.getHours();
+
+    // 현재 시간이 00시에서 05시 사이라면 하루를 빼기
+    let stYmd, stYesterdayYmd;
+    if (currentHour >= 0 && currentHour < 5) {
+      const modifiedDate = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+      stYmd = getDate(0, modifiedDate).dateString; // 오늘 날짜
+      stYesterdayYmd = getDate(-1, modifiedDate).dateString; // 어제 날짜 확인용 (오늘 또는 그저께)
+    } else {
+      stYmd = getDate(0).dateString; // 오늘 날짜
+      stYesterdayYmd = getDate(-1).dateString; // 어제 날짜 확인용 (오늘 또는 그저께)
+    }
     const stTime = '0500';
-    
   
     //단기예보 
     const resWeather = await fetch('http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey='+ENCODING_KEY
