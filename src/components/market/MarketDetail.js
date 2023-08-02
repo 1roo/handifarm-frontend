@@ -25,8 +25,8 @@ const MarketDetail = () => {
 
   useEffect(() => {
     if (!token) {
-      alert("로그인한 사용자만 접근할 수 있는 페이지입니다.");
-      redirection("/");
+      alert('로그인이 필요한 서비스입니다.')
+      redirection('/login')
       return;
     }
 

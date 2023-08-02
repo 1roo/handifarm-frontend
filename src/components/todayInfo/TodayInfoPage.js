@@ -52,8 +52,6 @@ const TodayInfoPage = () => {
 
  
 
-
-
    // 오늘의 정보 -> 날짜 정보 구하기 
    function getDate(plusDay) {
 
@@ -91,8 +89,8 @@ const TodayInfoPage = () => {
     console.log('\n\n버튼이 클릭됨! place: ',place);
     const weatherData = StartFunction(place[1], place[2], 'place'+place[0]);
 
-    console.log('버튼 클릭시 null인지 아닌지 확인', localStorage.getItem('place'+place[0])); 
-    console.log('weatherData: ', weatherData);
+    // console.log('버튼 클릭시 null인지 아닌지 확인', localStorage.getItem('place'+place[0])); 
+    // console.log('weatherData: ', weatherData);
 
     weatherData.then(data => {
       console.log('data: ', data);

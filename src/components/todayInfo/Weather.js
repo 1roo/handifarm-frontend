@@ -14,15 +14,16 @@ import { loadingPage, loadingSmallPage } from "../util/Loading-util";
 
 const Weather = ({temp, sky}) => {
 
-  console.log('props로 들어온 값: ', temp,'     ',  sky);
+  // console.log('props로 들어온 값: ', temp,'     ',  sky);
 
   const [loading, setLoading] = useState(true);
 
   const [stateTemp, setStateTemp] = useState(temp)
   const [stateSkyList, setStateSkyList] = useState(sky)
+  console.log('state 값 확인: ', stateTemp, stateSkyList);
 
-  const [weatherIcon, setWeatherIcon] = useState([<WbSunnySharpIcon />, <WbCloudyIcon />, <UmbrellaIcon />, <AcUnitIcon />]);
-  const [weatherImage, setWeatherImage] = useState(['weatherIcons_sun.gif', 'weatherIcons_cloud.gif', 'weatherIcons_rain.gif', 'weatherIcons_snow.gif']);
+  const weatherIcon = [<WbSunnySharpIcon />, <WbCloudyIcon />, <UmbrellaIcon />, <AcUnitIcon />];
+  const weatherImage = ['weatherIcons_sun.gif', 'weatherIcons_cloud.gif', 'weatherIcons_rain.gif', 'weatherIcons_snow.gif'];
 
 
   //날짜 정보 구하기
@@ -45,13 +46,10 @@ const Weather = ({temp, sky}) => {
     return {dateString, month, day, time, dayName};
   }
 
-  useEffect(() => {
-    setLoading(false);
-  }, [stateTemp])
 
   return(
     <>
-    { loading ? loadingPage : 
+    {/* { loading ? loadingPage :  */}
     <section className='weather-box'>
         <div className='title'><h2>서울<br/>날씨</h2></div>
 
@@ -95,7 +93,7 @@ const Weather = ({temp, sky}) => {
         </div> {/* weather D+2 END */}
 
     </section>
-   }
+   {/* } */}
   </>
   )
 };
