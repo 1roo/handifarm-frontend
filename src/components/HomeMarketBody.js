@@ -9,7 +9,6 @@ import { Button } from "@mui/material";
 // 판매자 아이콘 후보
 
 const HomeTableBody = (market) => {
-  console.log(market);
   const { seller, itemName, price, imgLinks, itemNo, done } = market.market;
 
   return (

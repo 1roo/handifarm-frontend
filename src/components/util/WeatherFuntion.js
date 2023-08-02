@@ -109,3 +109,29 @@ export const StartFunction = async(nX, nY, place) => {
   return weatherData;
 
 }
+
+
+
+
+export const WrnInfoFunction = async(stPlace) => {
+  console.log('WrnInfoFunction 진입 성공. ', stPlace);
+
+  const stYmd = getDate(0).dateString; //오늘 날짜
+
+  const wrnFetch = await fetch(
+    'http://apis.data.go.kr/1360000/WthrWrnInfoService/getWthrPwn?serviceKey='+ENCODING_KEY
+  +'&numOfRows=10&pageNo=1&dataType=JSON&stnId='+stPlace+'&fromTmFc='+stYmd+'&toTmFc='+stYmd);
+
+  const data = await wrnFetch.json();
+  console.log(data);
+  
+  if(data.response.header.resultCode != '00'){
+    console.log('통신오류 발생!, ', data.response.header.resultCode);
+    return null;
+  } else{
+    const wrnItem = data.response.body.items.item;
+    return wrnItem;
+  }
+
+
+}
