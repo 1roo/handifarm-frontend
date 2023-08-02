@@ -9,7 +9,7 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { API_BASE_URL as BASE, USER } from "../../config/host-config";
 import AuthContext from "../util/AuthContext";
 
@@ -204,8 +204,9 @@ const Login = () => {
                   </Grid>
                 </Grid>
               </form>
+            <div id="link-join-question"><Link to="/join">회원이 아니신가요?</Link></div>
             </Box>
-          </Box>
+          </Box> {/* column BOX END */}
         </Container>
       </ThemeProvider>
     </>

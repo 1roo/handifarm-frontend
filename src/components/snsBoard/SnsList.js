@@ -18,7 +18,6 @@ const SnsList = () => {
   const [selectedSns, setSelectedSns] = useState([]); // 선택된 SNS 항목을 저장하는 상태
 
   const token = localStorage.getItem("ACCESS_TOKEN");
-
   const navigate = useNavigate();
 
   useEffect(() => {

@@ -4,8 +4,11 @@ import { Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 const BoardReply = ({ boardNo, onReplySubmitted }) => {
+
   const API_BASE_URL = `${BASE}${BOARD}/${boardNo}/boardReply`;
   const redirection = useNavigate();
+  const token = localStorage.getItem("ACCESS_TOKEN");
+
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
   const [data, setData] = useState({
@@ -38,7 +41,6 @@ const BoardReply = ({ boardNo, onReplySubmitted }) => {
   };
 
   const fetchRegistPost = () => {
-    const token = localStorage.getItem("ACCESS_TOKEN");
 
     const requestData = {
       reply: replyValues[boardNo] ? replyValues[boardNo].reply : "",
@@ -74,7 +76,6 @@ const BoardReply = ({ boardNo, onReplySubmitted }) => {
   };
 
   const fetchBoardReplies = async () => {
-    const token = localStorage.getItem("ACCESS_TOKEN");
     try {
       // 페이지 번호와 사이즈를 설정하여 댓글 목록을 요청합니다.
       const response = await fetch(
@@ -93,6 +94,11 @@ const BoardReply = ({ boardNo, onReplySubmitted }) => {
   };
 
   useEffect(() => {
+    if(!token){ //로그인한 회원에게만 서비스 제공
+      alert('로그인이 필요한 서비스입니다.')
+      redirection('/login')
+    }
+
     // 페이지 번호가 변경될 때마다 해당 페이지에 맞는 댓글 목록을 가져오도록 수정합니다.
     fetchBoardReplies();
   }, [boardNo, currentPage, pageSize]);
@@ -123,7 +129,6 @@ const BoardReply = ({ boardNo, onReplySubmitted }) => {
     }
 
     const API_BASE_URL = `${BASE}${BOARD}/${boardNo}/boardReply/${replyNo}`;
-    const token = localStorage.getItem("ACCESS_TOKEN");
 
     const requestData = {
       reply: replyValues[replyNo] ? replyValues[replyNo].reply : replyToUpdate.reply,
@@ -156,7 +161,6 @@ const BoardReply = ({ boardNo, onReplySubmitted }) => {
 
   // 댓글 삭제와 관련된 코드
   const deleteReplyHandler = (replyNo) => {
-    const token = localStorage.getItem("ACCESS_TOKEN");
 
     fetch(`${API_BASE_URL}/${replyNo}`, {
       method: "DELETE",

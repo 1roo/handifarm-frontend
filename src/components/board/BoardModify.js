@@ -9,9 +9,16 @@ function BoardRegist() {
   const [board, setBoard] = useState(null);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  
+  const token = localStorage.getItem("ACCESS_TOKEN");
   const redirection = useNavigate();
 
   useEffect(() => {
+    if(!token){ //회원에게만 서비스를 제공.
+      alert('로그인이 필요한 서비스입니다.')
+      redirection('/login')
+    }
+
     if (boardNo) { // boardNo가 존재할 때만 fetch 요청
       const token = localStorage.getItem("ACCESS_TOKEN");
       const API_BASE_URL = `${BASE}${BOARD}/${boardNo}`;

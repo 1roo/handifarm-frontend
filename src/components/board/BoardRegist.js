@@ -1,13 +1,14 @@
 // BoardRegist.js
 
 import "./Board.scss";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MenuItem, Grid, CssBaseline, FormControl, Select, Container, TextField, Button } from "@mui/material";
 import { API_BASE_URL as BASE, BOARD } from "../../config/host-config";
 import { useNavigate } from "react-router-dom";
 
 function BoardRegist({ userNick }) {
   const redirection = useNavigate();
+  const token = localStorage.getItem("ACCESS_TOKEN");
 
   const [selectedTopic, setSelectedTopic] = useState("all");
   const handleTopicChange = (event) => {
@@ -85,6 +86,16 @@ function BoardRegist({ userNick }) {
   const cancelButtonClickHandler = () => {
     redirection("/board");
   };
+
+
+  useEffect(() => {
+    if(!token){
+      alert('로그인이 필요한 서비스입니다.')
+      redirection('/login')
+    }
+  });
+
+
 
   return (
     <>

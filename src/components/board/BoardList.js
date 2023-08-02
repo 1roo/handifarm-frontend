@@ -50,6 +50,11 @@ function BoardList() {
   };
 
   useEffect(() => {
+    // if(!token){ //회원에게만 서비스를 제공.
+    //   alert('로그인이 필요한 서비스입니다.')
+    //   navigate('/login')
+    // }
+    
     // 페이지가 변경되거나 "Topic" 또는 "Search Condition"이 변경되면 API 호출을 수행하여 데이터 업데이트.
     fetchBoardsByPage();
   }, [currentPage, pageSize, token]);
