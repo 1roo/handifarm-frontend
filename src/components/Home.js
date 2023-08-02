@@ -99,32 +99,30 @@ const Home = () => {
 
 
 
-
-
-  // 오늘의 정보 -> 날짜 정보 구하기 
-  function getDate(plusDay) {
-
-    const today = new Date();
-    today.setDate(today.getDate() + plusDay); //오늘, 내일, 모레 여부
-
-    const year = today.getFullYear();
-    const month = today.getMonth()+1;
-    const day = today.getDate();
-    const time = today.getHours();
-
-    //yyMMdd 구하기
-    const dateString = year+(("00"+month.toString()).slice(-2))+(("00"+day.toString()).slice(-2));
-    
-    //요일 구하기
-    const dayName = today.toLocaleDateString('ko-KR', { weekday: 'long' }).replace('요일', '');
-
-    return {dateString, month, day, time, dayName};
-  }
-
-
   //조회 후 코드 시작 
   useEffect(() => {  GetWeatherData();  }, [])
   const GetWeatherData = async() => {
+
+
+    //저장된 날짜 구하기
+    const localSaveDate = localStorage.getItem('today');
+
+    //오늘의 날짜 구하기
+    const today = new Date(); 
+    const dateString = today.getFullYear() 
+                      +(("00"+(today.getMonth()+1).toString()).slice(-2))
+                      +(("00"+today.getDate().toString()).slice(-2));                  
+
+    //현재 today localStorage가 있으면서 새로 생성한 dateString과 값이 다를 경우 place??를 모두 삭제한다.
+    if(localSaveDate && localSaveDate != dateString){ 
+        for (let i = 1; i <= 16; i++) { localStorage.removeItem('place'+i); }
+    }
+    localStorage.setItem('today', dateString);
+
+    ////////////////// 날짜 구하기 & 날짜에 따른 세팅 종료.
+
+
+
     console.log('place: ', place);
     const weatherData = StartFunction(place[1], place[2], 'place'+place[0]);
     console.log('weatherData: ', weatherData);

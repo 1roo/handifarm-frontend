@@ -10,7 +10,7 @@ import WbCloudyIcon from '@mui/icons-material/WbCloudy';  //날씨 구름
 import UmbrellaIcon from '@mui/icons-material/Umbrella';  //날씨 비... 가 없다. 대신 우산.
 import AcUnitIcon from '@mui/icons-material/AcUnit';      //날씨 눈
 // mui 아이콘 > 끝!
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import { FormControl, Grid, InputLabel, MenuItem, Select } from '@mui/material';
 import { StartFunction } from '../util/WeatherFuntion';
@@ -21,7 +21,12 @@ import { WeatherPlace } from '../util/WeatherPlace';
 const TodayInfoPage = () => {
 
   const location = useLocation();
-
+  const redirection = useNavigate();
+  if(!!location.state){
+    alert('오늘의 정보 페이지는 Home 페이지를 통해서만 접근할 수 있습니다.');
+    redirection('/');
+  }
+  
   const [loading, setLoading] = useState(false);
   
   const [stateTemp, setStateTemp] = useState(location.state.temp)
