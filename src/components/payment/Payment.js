@@ -9,8 +9,10 @@ const customerKey = "YbX2HuSlsC9uVJW6NMRMj";
 
 const MarketPayment = (props) => {
   const location = useLocation();
+  const itemNo = location.state.itemNo;
   const productName = location.state.productName;
   const productPrice = location.state.productPrice;
+  const customerName = location.state.customerName;
   const buyer = location.state.buyer;
   const seller = location.state.seller;
 
@@ -52,9 +54,9 @@ const MarketPayment = (props) => {
       await paymentWidget?.requestPayment({
         orderId: nanoid(),
         orderName: productName,
-        customerName: "김토스",
+        customerName: customerName,
         customerEmail: "customer123@gmail.com",
-        successUrl: `${window.location.origin}/success?seller=${seller}`,
+        successUrl: `${window.location.origin}/success?itemNo=${itemNo}&seller=${seller}&buyer=${buyer}`,
         failUrl: `${window.location.origin}/fail`,
       });
     } catch (error) {
