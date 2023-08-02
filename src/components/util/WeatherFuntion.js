@@ -26,19 +26,20 @@ function getDate(plusDay) {
 //날씨 fetch 날리기 함수
 export const StartFunction = async(nX, nY, place) => {
     
-  console.log('똑똑 값이 있나요.getItem: place', JSON.parse(localStorage.getItem(place)));
+  // console.log('똑똑 값이 있나요.getItem: place', JSON.parse(localStorage.getItem(place)));
 
   //만약 이미 오늘의 값을 구했다면 fetch문이 또 발동하지 않도록 처리.
   if(JSON.parse(localStorage.getItem(place))){ 
     console.log('이미 등록된 데이터입니다.');
-    // console.log(localStorage.getItem('tempData'), localStorage.getItem('skyData'));
+    console.log(JSON.parse(localStorage.getItem(place)));
 
     //문자열 리턴이라 다시 배열에 담아주어야 함.
     weatherData ={ 
-      temp: localStorage.getItem('tempData').split(","), 
-      sky: localStorage.getItem('skyData').split(",") 
+      temp: JSON.parse(localStorage.getItem(place)).temp, 
+      sky: JSON.parse(localStorage.getItem(place)).sky 
     };
-    localStorage.setItem(place, JSON.stringify(weatherData)); //가져온 데이터로 다시 등록해주기
+    console.log('function 진행중 weatherData: ', weatherData);
+    // localStorage.setItem(place, JSON.stringify(weatherData)); //가져온 데이터로 다시 등록해주기
   } else{
 
     /////////////////일통계 조회 시작!!

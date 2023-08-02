@@ -9,13 +9,7 @@ import UmbrellaIcon from '@mui/icons-material/Umbrella';  //날씨 비... 가 �
 import AcUnitIcon from '@mui/icons-material/AcUnit';      //날씨 눈
 // mui 아이콘 > 끝!
 import { ENCODING_KEY, WMCODE_KEY } from '../../config/key-config';
-import { loadingPage } from "../util/Loading-util";
-
-
-/*
-  할 일...
-  2. 데이터 한번만 불러와서 저장하게 하기 (지금 렌더링 한 번당 배열을 1200개 불어옴)
-*/
+import { loadingPage, loadingSmallPage } from "../util/Loading-util";
 
 
 const Weather = ({temp, sky}) => {
@@ -52,12 +46,14 @@ const Weather = ({temp, sky}) => {
   }
 
   // useEffect(() => {
-  //   if(!!stateTemp && !!stateSkyList) { setLoading(false); }
+  //   window.onload 
+  //   setLoading(false);
+    
   // }, [])
 
   return(
     <>
-    {/* { loading ? loadingPage :  */}
+    {/* { loading ? loadingSmallPage :  */}
     <section className='weather-box'>
         <div className='title'><h2>서울<br/>날씨</h2></div>
 
@@ -101,7 +97,7 @@ const Weather = ({temp, sky}) => {
         </div> {/* weather D+2 END */}
 
     </section>
-   {/* }  */}
+   {/* } */}
   </>
   )
 };
