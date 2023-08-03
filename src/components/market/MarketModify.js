@@ -166,7 +166,7 @@ const MarketRegist = () => {
     }
 
     console.log('FormData: ', marketFormData);
-  
+
 
 
     fetch(`${API_BASE_URL}/api/market/${thisItem.itemNo}`, {

@@ -13,7 +13,7 @@ import { getLoginUserInfo } from "../util/login-utils";
 
 const MarketRegist = () => {
   const $fileTag = useRef();
-  const [imgFile, setImgFile] = useState([]);
+  const [imgFile, setImgFile] = useState();
   const [token, setToken] = useState(getLoginUserInfo().token); //토큰
 
   const redirection = useNavigate();
