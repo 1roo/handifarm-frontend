@@ -4,6 +4,7 @@ import registImg from "../../image/add-image.png";
 import { Container } from "react-bootstrap";
 import { API_BASE_URL as BASE, SNS } from "../../config/host-config";
 import { useNavigate } from "react-router";
+import { TextField } from "@mui/material";
 
 const SnsRegist = ({ onRequestClose }) => {
   const [content, setContent] = useState("");
@@ -67,26 +68,23 @@ const SnsRegist = ({ onRequestClose }) => {
   };
 
   return (
-    <Container maxwidth="300px">
-      <form onSubmit={handleFormSubmit}>
-        <div>
-          <h2>게시글 등록</h2>
+    <Container className="container">
+      <form onSubmit={handleFormSubmit} className="sns-regist-form">
+        
+        <h2>게시글 등록</h2>
+        <div className="image-content">
           {imagePreview ? (
-            <img
-              src={imagePreview}
-              alt="이미지 미리보기"
-              style={{ width: "200px", height: "200px", margin: "0 40px 20px" }}
-            />
+            <label htmlFor="itemImg" style={{ cursor: "pointer" }}>
+              <img
+                src={imagePreview}
+                alt="이미지 미리보기"
+              />
+            </label>
           ) : (
             <label htmlFor="itemImg" style={{ cursor: "pointer" }}>
               <img
                 src={registImg}
                 alt="이미지 아이콘"
-                style={{
-                  width: "200px",
-                  height: "200px",
-                  margin: "0 40px 20px",
-                }}
               />
             </label>
           )}
@@ -97,35 +95,54 @@ const SnsRegist = ({ onRequestClose }) => {
             accept="image/*" // 이미지 파일만 선택 가능하도록 지정
             style={{ display: "none" }}
           />
-        </div>
+        </div> {/* image-content */}
+
         <div className="regist-content">
           <div>
-            <label htmlFor="content">내용:</label>
-            <input
+            <label htmlFor="content">내용</label>
+            {/* <TextField
+              placeholder="내용을 작성해주세요."
               type="text"
               id="content"
               value={content}
               onChange={(e) => setContent(e.target.value)}
+              // required
+              multiline
+              rows={2}
+              className="content-box"
+            /> */}
+
+            <input
+              placeholder="내용을 작성해주세요."
+              type="text"
+              id="content"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              multiline
               required
             />
           </div>
           <br />
           <div>
-            <label htmlFor="hashTags">해시태그:</label>
+            <label htmlFor="hashTags">해시태그</label>
             <input
+              placeholder="#농사, #즐거움, #힐링"
               type="text"
               id="hashTags"
               value={hashTags.join(",")}
               onChange={(e) => setHashTags(e.target.value.split(","))}
             />
           </div>
+        </div> {/* regist-content */}
+
+        <div className="sns-btn">
+          <button className="regist-btn sns-btn" type="submit">
+            등록
+          </button>
+          <button className="exit-btn sns-btn" type="button" onClick={onRequestClose}>
+            취소
+          </button>
         </div>
-        <button className="regist-btn" type="submit">
-          등록
-        </button>
-        <button className="exit-btn" type="button" onClick={onRequestClose}>
-          취소
-        </button>
       </form>
     </Container>
   );

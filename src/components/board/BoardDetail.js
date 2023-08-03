@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+// mui 아이콘 > 시작
+import HomeIcon from '@mui/icons-material/Home';
+// mui 아이콘 > 끝!
+import { Link, useParams } from "react-router-dom";
 import { API_BASE_URL as BASE, BOARD } from "../../config/host-config";
 import { Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -82,6 +85,12 @@ function BoardDetail() {
   };
 
   return (
+    <>
+    <div className="sub-link sns-board-sub">
+      <Link to="/"><HomeIcon/></Link> <span> &gt; </span> 
+      <Link to="/board">게시판</Link> <span> &gt; </span> 
+      <span style={{ cursor: "pointer" }}> {board.userNick}님의 게시글</span>
+    </div>
     <Container maxwidth="sm">
       <div className="cateTitle">
         <div className="category">{board.category === "NOTICE" && "[공지]"}</div>
@@ -119,6 +128,7 @@ function BoardDetail() {
         onReplySubmitted={handleReplySubmission} // 댓글 등록 시 콜백 함수를 전달합니다.
       />
     </Container>
+    </>
   );
 }
 
