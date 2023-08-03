@@ -1,6 +1,9 @@
 import { MenuItem, Grid, CssBaseline, FormControl, Select, Container, TextField, Button } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+// mui 아이콘 > 시작
+import HomeIcon from '@mui/icons-material/Home';
+// mui 아이콘 > 끝!
+import { Link, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { API_BASE_URL as BASE, BOARD } from "../../config/host-config";
 
@@ -102,6 +105,11 @@ function BoardRegist() {
 
   return (
     <>
+    <div className="sub-link sns-board-sub">
+      <Link to="/"><HomeIcon/></Link> <span> &gt; </span> 
+      <Link to="/board">게시판</Link> <span> &gt; </span> 
+      <span style={{ cursor: "pointer" }}>게시글 수정</span>
+    </div>
       <p className="menu-title">게시글 수정</p>
       <Container component="main" maxWidth="ml">
         <CssBaseline />

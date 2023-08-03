@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
+// mui 아이콘 > 시작
+import HomeIcon from '@mui/icons-material/Home';
+// mui 아이콘 > 끝!
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { Button } from "react-bootstrap";
 import axios from "axios";
 import "./Sns.scss";
 
-const SnsDetail = ({ onRequestClose, snsNo, writer }) => {
+const SnsDetail = ({ onRequestClose, snsNo, writer, regDate }) => {
   const [photo, setPhoto] = useState(null);
   const token = localStorage.getItem("ACCESS_TOKEN");
   const navigate = useNavigate();
@@ -44,26 +48,35 @@ const SnsDetail = ({ onRequestClose, snsNo, writer }) => {
 
 
   return (
-    <div>
+    <div className="sns-detail-box">
+
       <div className="top-of-modal">
-        <Link to={`/snsBoard/${writer}`} className="moveTo-btn">
-            <p>유저 홈으로 이동</p>
-        </Link>
+        <div className="link-box moveTo-btn"> {/* 방문 버튼*/}
+          <Link to={`/snsBoard/${writer}`} >
+            <Button className="write-link-btn" variant="success">
+             '{writer}'의 농사일기 방문하기&nbsp; &gt;
+            </Button>
+          </Link> </div> 
         <button className='close-btn'type="button" onClick={onRequestClose}>X</button>
       </div>
+
+
       <ul className="sns-detail-list">
-        
         {photo.snsList
           .filter((snsItem) => snsItem.snsNo === snsNo)
           .map((sns, index) => (
             <li key={index}>
-              <img src={sns.snsImgs} alt={`photo-${index}`} />
-              <div className="hashtags">
-                {sns.hashTags.map((tag, idx) => (
-                  <p key={idx}>{tag}</p>
-                ))}
-              </div>
-              <p>{sns.content}</p>
+              <frame>
+                <img src={sns.snsImgs} alt={`photo-${index}`} />
+              </frame>
+                <p className="sns-content">{sns.content}</p>
+                <div className="hashtags">
+                  <p className="hash-box"># &nbsp;</p>
+                  {sns.hashTags.map((tag, idx) => (
+                    <p key={idx}>{tag}</p>
+                  ))}
+                </div>
+                <em>{writer}이(가) {sns.regDate} 에 작성</em>
             </li>
           ))}
       </ul>

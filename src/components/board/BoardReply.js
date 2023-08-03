@@ -234,28 +234,32 @@ const BoardReply = ({ boardNo, onReplySubmitted }) => {
             ) : (
               // 일반 모드일 때
               <div className="reply-info">
-                <div className="nick-time">
-                  <span className="user-nick">{reply.userNick}</span>
-                  <span className="reg-time">
-                    {reply.updateDate ? reply.updateDate : reply.createDate}
-                  </span>
+                <div className="reply-info-top">
+                  <div className="nick-time">
+                    <span className="user-nick">{reply.userNick}</span>
+                    <span className="reg-time">
+                      {reply.updateDate ? reply.updateDate : reply.createDate}
+                    </span>
+                  </div>
+
+                  <div>
+                    <button
+                      className="reply-edit-btn"
+                      onClick={() => handleEditClick(reply.replyNo)}
+                    >
+                      수정
+                    </button>
+                    <button
+                      className="reply-delete-btn"
+                      onClick={() => handleDeleteClick(reply.replyNo)}
+                    >
+                      삭제
+                    </button>
+                  </div>
                 </div>
-                <div className="margin-div">
+
+                <div className="reply-content">
                   <span className="reply-content">{reply.reply}</span>
-                </div>
-                <div>
-                  <button
-                    className="reply-edit-btn"
-                    onClick={() => handleEditClick(reply.replyNo)}
-                  >
-                    수정
-                  </button>
-                  <button
-                    className="reply-delete-btn"
-                    onClick={() => handleDeleteClick(reply.replyNo)}
-                  >
-                    삭제
-                  </button>
                 </div>
               </div>
             )}

@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+// mui 아이콘 > 시작
+import HomeIcon from '@mui/icons-material/Home';
+// mui 아이콘 > 끝!
 import userImg from "../../image/user.png";
 import "./Sns.scss";
 
@@ -51,6 +54,12 @@ const SnsUserDetail = () => {
 
   return (
     <div>
+      <div className="sub-link sns-board-sub">
+        <Link to="/"><HomeIcon/></Link> <span> &gt; </span> 
+        <Link to="/snsBoard">농사일기</Link> <span> &gt; </span> 
+        <span style={{ cursor: "pointer" }}> {writer}의 농사일기</span>
+      </div>
+
       <div className="user-title">
         <img
           className="profileImg"
@@ -58,18 +67,26 @@ const SnsUserDetail = () => {
           alt="프로필 이미지"
         />
         <p className="user-nick">{writer}의 농사일기</p>
-      </div>
+      </div> {/* user-title */}
+
       <div className="line" />
+
       <ul className="sns-detail-list">
-        {photo.snsList.map((sns, index) => (
-          <li className="sns-li" key={index}>
-            <img src={sns.snsImgs} alt={`photo-${index}`} />
-            <div className="hashtags">
-              {sns.hashTags.map((tag, idx) => (
-                <p key={idx}>{tag}</p>
-              ))}
+        {photo.snsList
+        .map((sns, index) => (
+          <li className="sns-user-li" key={index}>
+            <frame>
+              <img src={sns.snsImgs} alt={`photo-${index}`} />
+            </frame>
+            <div className="sns-text-box">
+              <p className="sns-content">{sns.content}</p>
+              <div className="hashtags">
+                <p className="hash-box"># &nbsp;</p>
+                {sns.hashTags.map((tag, idx) => (
+                  <p key={idx}>{tag}</p>
+                ))}
+              </div> {/* hachtag END */}
             </div>
-            <p>{sns.content}</p>
           </li>
         ))}
       </ul>

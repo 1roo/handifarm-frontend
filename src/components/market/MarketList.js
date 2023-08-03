@@ -88,7 +88,7 @@ const MarketList = () => {
               <Link to="/market">거래장터</Link>
             </div>
             <h1>거래장터</h1>
-            <div className="searchVar"> <span>○</span>판매 중인 품목만 보기 </div>
+            <div className="searchVar"> <span>○</span>판매중인 품목만 보기 </div>
             <div className="market-list">
               {/* {replaceList(0,19)} */}
               {marketList.map((ma) => (
