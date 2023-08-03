@@ -51,6 +51,7 @@ const SnsRegist = ({ onRequestClose }) => {
 
       console.log(response.data);
       alert("게시글이 등록되었습니다.");
+
       onRequestClose();
     } catch (error) {
       console.error("폼 제출 중 에러 발생:", error);

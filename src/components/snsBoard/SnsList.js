@@ -45,7 +45,7 @@ const SnsList = () => {
         throw new Error("API로부터 데이터를 가져오는데 실패했습니다.");
       }
       const data = await response.json();
-      setSnsList((prevSnsList) => [...prevSnsList, ...data.snsList]);
+      setSnsList(() => [...data.snsList]);
     } catch (error) {
       console.error("사진 데이터를 가져오는데 실패했습니다:", error);
     }
@@ -58,6 +58,7 @@ const SnsList = () => {
 
   // 모달 닫기
   const handleCloseRegistModal = () => {
+    fetchPhotos();
     setModalOpen(false);
   };
 

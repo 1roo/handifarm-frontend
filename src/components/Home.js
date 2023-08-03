@@ -77,7 +77,7 @@ const Home = () => {
       Authorization: "Bearer " + token,
     };
 
-    fetch(`${API_BASE_URL}/api/sns?page=1&size=6`, {
+    fetch(`${API_BASE_URL}/api/sns?page=1&size=3`, {
       headers: requestHeader,
     }).then((res) => {
       if (!res.ok) {
