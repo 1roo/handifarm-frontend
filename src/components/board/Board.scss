@@ -60,16 +60,14 @@ table {
 
     tr:hover{
         background-color: rgb(240, 240, 240);
+        .td-title{
+            font-weight: 700;
+        }
     }
 
     .td-title {
         text-align: left;
         cursor: pointer;
-    }
-
-    .td-title:hover {
-        // font-size: 1.1em;
-        font-weight: 700;
     }
 
     td.td {
@@ -146,7 +144,7 @@ textArea:focus {
 .cateTitle {
     display: flex;
     padding-left: 20px;
-    margin-top: 50px;
+    margin-top: 80px;
     font-size: 1.6em;
 
     div.category {
@@ -204,29 +202,41 @@ textArea:focus {
 
     .reply-info {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         justify-content: space-between;
+        margin: 10px 0;
+        padding: 15px 20px 7px;
+        background-color: rgb(245, 245, 245);
+        border-radius: 5px;
+
+        .reply-info-top{
+            display: flex;
+            justify-content: space-between;
+
+            .user-nick {
+                font-weight: bold;
+                margin-right: 8px;
+            }
+            .reg-time {
+                font-size: 0.8em;
+            }
+
+            button {
+                background: none;
+                border: none;
+                padding: 0;
+                margin-right: 10px;
+                color: inherit;
+                cursor: pointer;
+                outline: inherit;
+        
+            }
+        }
+        .reply-content{
+            margin: 10px 0;
+        }
         
 
-    
-        .user-nick {
-            font-weight: bold;
-            margin-right: 5px;
-        }
-        .reg-time {
-            font-size: 0.8em;
-        }
-
-        button {
-            background: none;
-            border: none;
-            padding: 0;
-            margin-right: 10px;
-            color: inherit;
-            cursor: pointer;
-            outline: inherit;
-    
-        }
     }
 
     .reply-content {
@@ -240,17 +250,21 @@ textArea:focus {
     margin: 20px auto;
     border: 1px solid gainsboro;
     border-radius: 10px;
-    padding: 10px ;
+    padding: 10px;
 
     input.reply-content {
+        margin-top: 15px;
         border: none;
+        width: 80%;
+        padding: 7px 0;
+        text-indent: 3px;
     }
 
     button {
+        margin-right: 15px;
         background: none;
         border: none;
         padding: 0;
-        margin-top: 50px;
         color: inherit;
         cursor: pointer;
         outline: inherit;

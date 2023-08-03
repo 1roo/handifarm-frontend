@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
+import HomeIcon from "@mui/icons-material/Home";
 import {
   FormControl,
   Grid,
@@ -11,7 +12,7 @@ import {
   Stack,
 } from "@mui/material";
 import { API_BASE_URL as BASE, BOARD } from "../../config/host-config";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CustomPagination from "./CustomPagination";
 
 function BoardList() {
@@ -126,6 +127,10 @@ function BoardList() {
 
   return (
     <>
+      <div className="sub-link sns-board-sub">
+        <Link to="/"><HomeIcon/></Link> <span> &gt; </span> 
+        <Link to="/board">게시판</Link>
+      </div>
       <p className="menu-title">게시판</p>
       <Container maxwidth="ml">
         <Grid

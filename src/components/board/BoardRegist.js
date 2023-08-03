@@ -1,10 +1,13 @@
 // BoardRegist.js
 
-import "./Board.scss";
 import React, { useEffect, useState } from "react";
+import "./Board.scss";
+// mui 아이콘 > 시작
+import HomeIcon from '@mui/icons-material/Home';
+// mui 아이콘 > 끝!
 import { MenuItem, Grid, CssBaseline, FormControl, Select, Container, TextField, Button } from "@mui/material";
 import { API_BASE_URL as BASE, BOARD } from "../../config/host-config";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function BoardRegist({ userNick }) {
   const redirection = useNavigate();
@@ -99,6 +102,11 @@ function BoardRegist({ userNick }) {
 
   return (
     <>
+      <div className="sub-link sns-board-sub">
+        <Link to="/"><HomeIcon/></Link> <span> &gt; </span> 
+        <Link to="/board">게시판</Link> <span> &gt; </span> 
+        <span style={{ cursor: "pointer" }}> 게시글 작성</span>
+      </div>
       <p className="menu-title">게시글 작성</p>
       <Container component="main" maxWidth="ml">
         <CssBaseline />
