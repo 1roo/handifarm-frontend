@@ -9,37 +9,29 @@ import { useNavigate } from "react-router-dom";
 const API_URL = "http://localhost:8181/api/sns";
 
 const SnsList = () => {
-
   const [isModalOpen, setModalOpen] = useState(false);
   const [isDetailModalOpen, setDetailModalOpen] = useState(false);
   const [snsList, setSnsList] = useState([]);
   const [page, setPage] = useState(1);
-  const [profileImg, setProfileImg] = useState(userImg);
   const [selectedSns, setSelectedSns] = useState([]); // 선택된 SNS 항목을 저장하는 상태
 
   const token = localStorage.getItem("ACCESS_TOKEN");
   const navigate = useNavigate();
 
+  const [userProfileImg, setUserProfileImg] = useState("");
+  const localProfileImg = localStorage.getItem("USER_PROFILE_IMG");
+
   useEffect(() => {
     if (!token) {
-      alert('로그인이 필요한 서비스입니다.')
-      navigate('/login')
+      alert("로그인이 필요한 서비스입니다.");
+      navigate("/login");
       return;
     }
-    initializeProfileImg();
-    // setProfileImg(localStorage.getItem("USER_PROFILE_IMG"));
-    console.log(profileImg);
+
+    setUserProfileImg(localProfileImg);
+
     fetchPhotos();
   }, [page]);
-
-  // 사용자 프로필 이미지 초기화
-  const initializeProfileImg = () => {
-    const userProfileImg = localStorage.getItem("USER_PROFILE_IMG");
-    if (!userProfileImg) {
-      setProfileImg(userProfileImg);
-    }
-    console.log(profileImg);
-  };
 
   // 사진 데이터 가져오기
   const fetchPhotos = async () => {
@@ -79,28 +71,30 @@ const SnsList = () => {
     setDetailModalOpen(false);
   };
 
-  useEffect(() => {
-  }, [selectedSns]);
-
+  useEffect(() => {}, [selectedSns]);
 
   const handleMoveToMyHome = () => {
     const userNick = localStorage.getItem("USER_NICK");
     navigate(`/snsBoard/${userNick}`);
   };
 
-
   return (
     <div>
       <h2 className="menu-title">농사일기</h2>
       <div className="user-profile">
         <span>내 정보 </span>
-        <img className="profileImg" src={profileImg != null ? profileImg : userImg} />
+        <img
+          className="profileImg"
+          src={userProfileImg !== "null" ? userProfileImg : userImg}
+        />
         <span className="user-nick">{localStorage.getItem("USER_NICK")}</span>
-      
+
         <button className="moveToMy-btn" onClick={handleMoveToMyHome}>
           내 홈으로 이동
         </button>
-        <button className="modal-btn" onClick={handleOpenRegistModal}>게시글 등록</button>
+        <button className="modal-btn" onClick={handleOpenRegistModal}>
+          게시글 등록
+        </button>
 
         <Modal
           isOpen={isModalOpen}
@@ -118,7 +112,9 @@ const SnsList = () => {
       <ul className="sns-list">
         {snsList.map((sns, index) => (
           <li key={index}>
-            <div onClick={() => handleOpenDetailModal(sns)}> {/* 클릭 핸들러 추가 */}
+            <div onClick={() => handleOpenDetailModal(sns)}>
+              {" "}
+              {/* 클릭 핸들러 추가 */}
               {sns.snsImgs.map((img, imgIndex) => (
                 <div key={imgIndex}>
                   <img src={img} alt={`photo-${index}-${imgIndex}`} />
@@ -135,20 +131,23 @@ const SnsList = () => {
 
       {/* SnsDetail 모달 열기 */}
       {selectedSns && (
-      <Modal
-        isOpen={isDetailModalOpen} // isDetailModalOpen 상태를 사용하여 모달의 열림/닫힘을 제어합니다.
-        onRequestClose={handleCloseDetailModal}
-        ariaHideApp={false}
-        contentLabel="게시글 상세 모달"
-        className="modal-detail"
-        overlayClassName="modal-overlay"
-      >
-        {/* writer를 URL 파라미터로 전달 */}
-        <SnsDetail onRequestClose={handleCloseDetailModal} snsNo={selectedSns.snsNo} writer={selectedSns.writer} />
-        
-      </Modal>
-    )}
-  </div>
+        <Modal
+          isOpen={isDetailModalOpen} // isDetailModalOpen 상태를 사용하여 모달의 열림/닫힘을 제어합니다.
+          onRequestClose={handleCloseDetailModal}
+          ariaHideApp={false}
+          contentLabel="게시글 상세 모달"
+          className="modal-detail"
+          overlayClassName="modal-overlay"
+        >
+          {/* writer를 URL 파라미터로 전달 */}
+          <SnsDetail
+            onRequestClose={handleCloseDetailModal}
+            snsNo={selectedSns.snsNo}
+            writer={selectedSns.writer}
+          />
+        </Modal>
+      )}
+    </div>
   );
 };
 
