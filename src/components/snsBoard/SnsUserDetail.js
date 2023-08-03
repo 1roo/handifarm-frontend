@@ -31,7 +31,7 @@ const SnsUserDetail = () => {
   const fetchPhoto = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8181/api/sns/?userNick=${writer}`,
+        `http://localhost:8181/api/sns/0?userNick=${writer}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

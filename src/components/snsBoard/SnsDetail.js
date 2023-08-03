@@ -13,9 +13,9 @@ const SnsDetail = ({ onRequestClose, snsNo, writer, regDate }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(!token){
-      alert('로그인이 필요한 서비스입니다.')
-      navigate('/login')
+    if (!token) {
+      alert("로그인이 필요한 서비스입니다.");
+      navigate("/login");
     }
 
     const fetchPhoto = async () => {
@@ -43,9 +43,6 @@ const SnsDetail = ({ onRequestClose, snsNo, writer, regDate }) => {
   if (!photo) {
     return <div>해당 사진을 찾을 수 없습니다.</div>;
   }
-
-
-
 
   return (
     <div className="sns-detail-box">
@@ -80,7 +77,6 @@ const SnsDetail = ({ onRequestClose, snsNo, writer, regDate }) => {
             </li>
           ))}
       </ul>
-      
     </div>
   );
 };
