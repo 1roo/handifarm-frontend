@@ -114,24 +114,25 @@ export const StartFunction = async(nX, nY, place) => {
 
 
 export const WrnInfoFunction = async(stPlace) => {
-  console.log('WrnInfoFunction 진입 성공. ', stPlace);
 
   const stYmd = getDate(0).dateString; //오늘 날짜
-
   const wrnFetch = await fetch(
-    'http://apis.data.go.kr/1360000/WthrWrnInfoService/getWthrPwn?serviceKey='+ENCODING_KEY
-  +'&numOfRows=10&pageNo=1&dataType=JSON&stnId='+stPlace+'&fromTmFc='+stYmd+'&toTmFc='+stYmd);
+    'http://apis.data.go.kr/1360000/WthrWrnInfoService/getWthrWrnMsg?serviceKey='+ENCODING_KEY
+    +'&numOfRows=10&pageNo=1&dataType=JSON'
+    +'&fromTmFc='+stYmd+'&toTmFc='+stYmd+'&stnId='+stPlace);
 
   const data = await wrnFetch.json();
-  console.log(data);
-  
+  console.log('fetch -> json 변환 data', data);
+
+  console.log('특보코드: ', data.response.header.resultCode);
   if(data.response.header.resultCode != '00'){
-    console.log('통신오류 발생!, ', data.response.header.resultCode);
+    console.log('!!!!!!!!!!!!!!!!!!!!!! 통신오류 발생!, 코드: ', data.response.header.resultCode);
     return null;
   } else{
-    const wrnItem = data.response.body.items.item;
+    console.log('※ 성공적으로 데이터 전달 완료! 페이지로 돌아가는 중...');
+    const wrnItem = data.response.body.items.item[0].t6;
     return wrnItem;
   }
-
+  
 
 }

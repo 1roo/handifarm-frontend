@@ -24,6 +24,7 @@ const TodayInfoPage = () => {
   const redirection = useNavigate();
   
   const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
   
  
   const [stateTemp, setStateTemp] = useState(location.state.temp)
@@ -44,10 +45,13 @@ const TodayInfoPage = () => {
   const weatherTypo = ['맑음', '흐림', '비', '눈'];
 
   const [wrnItemList, setWrnItemList] = useState({
-    pwnText: '',
-    remText: '',
-    tmFc: '',
-    tmSeq: '',
+    // title: '',
+    // t2: '',
+    // t3: '',
+    // t4: '',
+    // time: '',
+    t6: null,
+    // t7: '',
   });
 
 
@@ -92,10 +96,14 @@ const TodayInfoPage = () => {
   
   // //// 서치버튼 클릭 이벤트
   const searchClickEvent = function() {
-
+    
     setLoading(true);
+
+
     console.log('\n\n버튼이 클릭됨! place: ', place);
+
     const weatherData = StartFunction(place[1], place[2], 'place'+place[0]);
+    const wrnItem = WrnInfoFunction(place[3]);
 
     weatherData.then(data => {
       setStateTemp(data.temp);
@@ -103,41 +111,41 @@ const TodayInfoPage = () => {
       setSelPlaceNum(place[0])
 
       //로딩 완료
-      if(data) {
+      if(data) { 
         setLoading(false);
         document.querySelector('.search-complete').style.opacity = 1;
-        document.querySelector('.search-complete').style.padding = '5px 12px';
+        document.querySelector('.search-complete').style.padding = '5px 12px'; 
+        document.getElementById('wrn-text').style.opacity = 1;
       }
     })
+
+    wrnItem.then(res => {
+      if(!res){
+        console.log('특보 검색 fetch문이 null로 돌아옴.');
+        setWrnItemList({ t6: null })
+        return;
+      } else {
+        // 'o '를 토대로 배열로 끊은 뒤, 각 배열 당OO주의보 등의 단어만 추출.
+        const t6 = []
+        res.substring(2).split('o ').forEach(t => { 
+          t6.push(t.substring(0, t.indexOf(':')-1))
+        });
+        setWrnItemList({t6: t6})
+      }
+
+      if(res) { 
+        setLoading2(false);
+       }
+    }); 
+
+
   } // 서치 클릭 이벤트 종료!
-
-
-  //
-  const WrnClick = function() {
-    console.log('특보 가져오기 버튼 클릭! 참 잘했다');
-    const wrnItem = WrnInfoFunction(place[3]);
-    console.log('wrnItem: ', wrnItem);
-
-    if(!wrnItem){
-      console.log('데이터 통신에 실패하였습니다.');
-      return;
-    } else{
-      wrnItem.then(res => {
-        setWrnItemList({ pwn: res[0].pwn, rem: res[0].rem, 
-                         tmFc: res[0].tmFc, tmSeq: res[0].tmSeq,
-        })
-      });
-    }
-    console.log('담긴 정보: ', wrnItemList);
-    
-  } 
-
 
 
 
   return (
     <>
-      { loading ? loadingSmallPage : '' }
+      { loading || loading2 ? loadingSmallPage : '' }
       <div className='contain info-box'>
         <div className="sub-link">
           <Link to="/"><HomeIcon/></Link> <span> &gt; </span> 
@@ -191,10 +199,24 @@ const TodayInfoPage = () => {
               <div className='text'>
                 <h6 className='place'> <PlaceIcon /> {placeName[(selPlaceNum)-1]} </h6>
                 <h4 className='temp-on'>{stateTemp[0]}˚ {stateTemp[1]}˚</h4>
-                <h5> {weatherTypo[stateSkyList[0]]} <span style={{color:'lightGray'}}>/</span> {weatherTypo[stateSkyList[1]]}</h5>
+                <h5> 
+                <span className='h5-sv'>오전</span> {weatherTypo[stateSkyList[0]]} <span style={{color:'lightGray'}}>/&nbsp;</span> 
+                <span className='h5-sv'>오후</span> {weatherTypo[stateSkyList[1]]}
+                </h5>
+                <p id='wrn-text'>
+                  {wrnItemList.t6 ? 
+                    <><span className='wrnIcon'>⚠</span> 
+                    현재 <span className='wrnText'>{(wrnItemList.t6.map(t => t+' '))}</span>가 내린 지역입니다.</>
+                  :
+                    <><span className='wrnIcon'>⚠</span> 
+                    현재 {placeName[(selPlaceNum)-1]}에 내린 특보가 없습니다.</>
+                  }
+                </p>
               </div>
               <div className='icon'>
-                <img src={require(`../../image/${weatherMainImage[stateSkyList[0]]}`)} alt="main weather icon" />
+                <img 
+                  src={require(`../../image/${weatherMainImage[stateSkyList[(getDate(0).time < 12 ? 0 : 1 )]]}`)} 
+                  alt="main weather icon" />
               </div>
             </div>
 
@@ -218,17 +240,6 @@ const TodayInfoPage = () => {
                 <p className='text-date'><span>{stateTemp[4]}˚</span>&nbsp;&nbsp;<span>{stateTemp[5]}˚</span></p>
               </div>
             </div>
-
-            <h2 onClick={WrnClick} style={{backgroundColor:'tomato', width: 'fit-content'}}>
-              특보 가져오기 버튼
-            </h2>
-            <p id='wrn-text'>
-              pwn: {wrnItemList.pwn} <br /><br />
-              rem: {wrnItemList.rem} <br /><br />
-              tmFc: {wrnItemList.tmFc} <br /><br />
-              tmSeq: {wrnItemList.tmSeq} <br /><br />
-            </p>
-
           </div> {/* weather-screens END */}
         </section>
       </div>
