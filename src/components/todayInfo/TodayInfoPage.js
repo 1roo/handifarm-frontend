@@ -13,7 +13,7 @@ import AcUnitIcon from '@mui/icons-material/AcUnit';      //날씨 눈
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import { FormControl, Grid, InputLabel, MenuItem, Select } from '@mui/material';
-import { StartFunction } from '../util/WeatherFuntion';
+import { StartFunction, WrnInfoFunction } from '../util/WeatherFuntion';
 import { loadingPage, loadingSmallPage } from "../util/Loading-util";
 import { WeatherPlace } from '../util/WeatherPlace';
 
@@ -24,6 +24,7 @@ const TodayInfoPage = () => {
   const redirection = useNavigate();
   
   const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
   
  
   const [stateTemp, setStateTemp] = useState(location.state.temp)
@@ -42,6 +43,18 @@ const TodayInfoPage = () => {
   const weatherImage = ['weatherIcons_sun.gif', 'weatherIcons_cloud.gif', 'weatherIcons_rain.gif', 'weatherIcons_snow.gif'];
   const weatherMainImage = ['mainIcons_sun.gif', 'weatherIcons_cloud.gif', 'weatherIcons_rain.gif', 'weatherIcons_snow.gif'];
   const weatherTypo = ['맑음', '흐림', '비', '눈'];
+
+  const [wrnItemList, setWrnItemList] = useState({
+    // title: '',
+    // t2: '',
+    // t3: '',
+    // t4: '',
+    // time: '',
+    t6: null,
+    // t7: '',
+  });
+
+
 
   //temp가 없으면 위에서 에러가 터져서 접근이 안됨 + if문을 위에 놓으면 useState가 작동이 안됨
   if(!location.state.temp){
@@ -74,54 +87,72 @@ const TodayInfoPage = () => {
 
 
 
-  //select 선택마다 Place 미리 세팅
+  // ////// select 선택마다 Place 미리 세팅
   const PlaceChangeHandle = function(e) {
-    setPlace((e.target.value).split(" ")); 
+    setPlace(e.target.value); 
     document.querySelector('.search-complete').style.opacity = 0;
     document.querySelector('.search-complete').style.padding = '5px 30px 5px 120px';
   }
   
-  //서치버튼 클릭 이벤트
+  // //// 서치버튼 클릭 이벤트
   const searchClickEvent = function() {
-
-    setLoading(true);
     
-    console.log('\n\n버튼이 클릭됨! place: ',place);
-    const weatherData = StartFunction(place[1], place[2], 'place'+place[0]);
+    setLoading(true);
 
-    // console.log('버튼 클릭시 null인지 아닌지 확인', localStorage.getItem('place'+place[0])); 
-    // console.log('weatherData: ', weatherData);
+
+    console.log('\n\n버튼이 클릭됨! place: ', place);
+
+    const weatherData = StartFunction(place[1], place[2], 'place'+place[0]);
+    const wrnItem = WrnInfoFunction(place[3]);
 
     weatherData.then(data => {
-      console.log('data: ', data);
       setStateTemp(data.temp);
       setStateSkyList(data.sky);
       setSelPlaceNum(place[0])
 
       //로딩 완료
-      if(data) {
+      if(data) { 
         setLoading(false);
         document.querySelector('.search-complete').style.opacity = 1;
-        document.querySelector('.search-complete').style.padding = '5px 12px';
+        document.querySelector('.search-complete').style.padding = '5px 12px'; 
+        document.getElementById('wrn-text').style.opacity = 1;
       }
     })
 
-  }
+    wrnItem.then(res => {
+      if(!res){
+        console.log('특보 검색 fetch문이 null로 돌아옴.');
+        setWrnItemList({ t6: null })
+        return;
+      } else {
+        // 'o '를 토대로 배열로 끊은 뒤, 각 배열 당OO주의보 등의 단어만 추출.
+        const t6 = []
+        res.substring(2).split('o ').forEach(t => { 
+          t6.push(t.substring(0, t.indexOf(':')-1))
+        });
+        setWrnItemList({t6: t6})
+      }
+
+      if(res) { 
+        setLoading2(false);
+       }
+    }); 
+
+
+  } // 서치 클릭 이벤트 종료!
 
 
 
   return (
     <>
-      { loading ? loadingSmallPage : '' }
+      { loading || loading2 ? loadingSmallPage : '' }
       <div className='contain info-box'>
         <div className="sub-link">
           <Link to="/"><HomeIcon/></Link> <span> &gt; </span> 
-          <span style={{cursor: 'pointer'}}>오늘의 정보</span> <span> &gt; </span> 
-          <span style={{cursor: 'pointer'}}>날씨</span>
+          <span style={{cursor: 'pointer'}}>오늘의 날씨</span>
         </div>
         <h1 className='title'>날씨 정보</h1>
         <section className='info-box weather'>
-        
           <div className='location-tap'>
             <span className='title'><PlaceIcon />위치</span>
             <FormControl fullWidth sx={{m:1, maxWidth: 600, minWidth: 100 }}>
@@ -129,27 +160,27 @@ const TodayInfoPage = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="place-select"
-                value={place[0]+' '+place[1]+' '+place[2] || ''}
+                value={place}
                 fullWidth
                 label=""
                 onChange={PlaceChangeHandle}
               >
-                <MenuItem value={'1 92 130'}>{placeName[0]}</MenuItem>
-                <MenuItem value={'2 59 74'}>{placeName[1]}</MenuItem>
-                <MenuItem value={'3 89 90'}>{placeName[2]}</MenuItem>
-                <MenuItem value={'4 67 100'}>{placeName[3]}</MenuItem>
-                <MenuItem value={'5 50 66'}>{placeName[4]}</MenuItem>
-                <MenuItem value={'6 98 75'}>{placeName[5]}</MenuItem>
-                <MenuItem value={'7 59 126'}>{placeName[6]}</MenuItem>
-                <MenuItem value={'8 61 120'}>{placeName[7]}</MenuItem>
-                <MenuItem value={'9 91 107'}>{placeName[8]}</MenuItem>
-                <MenuItem value={'10 74 65'}>{placeName[9]}</MenuItem>
-                <MenuItem value={'11 127 127'}>{placeName[10]}</MenuItem>
-                <MenuItem value={'12 102 84'}>{placeName[11]}</MenuItem>
-                <MenuItem value={'13 63 89'}>{placeName[12]}</MenuItem>
-                <MenuItem value={'14 51 38'}>{placeName[13]}</MenuItem>
-                <MenuItem value={'15 69 106'}>{placeName[14]}</MenuItem>
-                <MenuItem value={'16 73 134'}>{placeName[15]}</MenuItem>
+                <MenuItem value={WeatherPlace.place1}>{placeName[0]}</MenuItem>
+                <MenuItem value={WeatherPlace.place2}>{placeName[1]}</MenuItem>
+                <MenuItem value={WeatherPlace.place3}>{placeName[2]}</MenuItem>
+                <MenuItem value={WeatherPlace.place4}>{placeName[3]}</MenuItem>
+                <MenuItem value={WeatherPlace.place5}>{placeName[4]}</MenuItem>
+                <MenuItem value={WeatherPlace.place6}>{placeName[5]}</MenuItem>
+                <MenuItem value={WeatherPlace.place7}>{placeName[6]}</MenuItem>
+                <MenuItem value={WeatherPlace.place8}>{placeName[7]}</MenuItem>
+                <MenuItem value={WeatherPlace.place9}>{placeName[8]}</MenuItem>
+                <MenuItem value={WeatherPlace.place10}>{placeName[9]}</MenuItem>
+                <MenuItem value={WeatherPlace.place11}>{placeName[10]}</MenuItem>
+                <MenuItem value={WeatherPlace.place12}>{placeName[11]}</MenuItem>
+                <MenuItem value={WeatherPlace.place13}>{placeName[12]}</MenuItem>
+                <MenuItem value={WeatherPlace.place14}>{placeName[13]}</MenuItem>
+                <MenuItem value={WeatherPlace.place15}>{placeName[14]}</MenuItem>
+                <MenuItem value={WeatherPlace.place16}>{placeName[15]}</MenuItem>
               </Select>
             </FormControl>
             <Button 
@@ -168,10 +199,24 @@ const TodayInfoPage = () => {
               <div className='text'>
                 <h6 className='place'> <PlaceIcon /> {placeName[(selPlaceNum)-1]} </h6>
                 <h4 className='temp-on'>{stateTemp[0]}˚ {stateTemp[1]}˚</h4>
-                <h5> {weatherTypo[stateSkyList[0]]} <span style={{color:'lightGray'}}>/</span> {weatherTypo[stateSkyList[1]]}</h5>
+                <h5> 
+                <span className='h5-sv'>오전</span> {weatherTypo[stateSkyList[0]]} <span style={{color:'lightGray'}}>/&nbsp;</span> 
+                <span className='h5-sv'>오후</span> {weatherTypo[stateSkyList[1]]}
+                </h5>
+                <p id='wrn-text'>
+                  {wrnItemList.t6 ? 
+                    <><span className='wrnIcon'>⚠</span> 
+                    현재 <span className='wrnText'>{(wrnItemList.t6.map(t => t+' '))}</span>가 내린 지역입니다.</>
+                  :
+                    <><span className='wrnIcon'>⚠</span> 
+                    현재 {placeName[(selPlaceNum)-1]}에 내린 특보가 없습니다.</>
+                  }
+                </p>
               </div>
               <div className='icon'>
-                <img src={require(`../../image/${weatherMainImage[stateSkyList[0]]}`)} alt="main weather icon" />
+                <img 
+                  src={require(`../../image/${weatherMainImage[stateSkyList[(getDate(0).time < 12 ? 0 : 1 )]]}`)} 
+                  alt="main weather icon" />
               </div>
             </div>
 
@@ -195,7 +240,6 @@ const TodayInfoPage = () => {
                 <p className='text-date'><span>{stateTemp[4]}˚</span>&nbsp;&nbsp;<span>{stateTemp[5]}˚</span></p>
               </div>
             </div>
-
           </div> {/* weather-screens END */}
         </section>
       </div>

@@ -126,11 +126,9 @@ const MarketDetail = () => {
             </Link>{" "}
             <span> &gt; </span>
             <Link to="/market">거래장터</Link> <span> &gt; </span>
-            <span style={{ cursor: "pointer" }}>
-              상세보기: {thisItem.itemName}
-            </span>
+            <span style={{ cursor: "pointer" }}>물품 보기: {thisItem.itemName}</span>
           </div>
-          <h1>거래장터</h1>
+          <h1><Link to="/market">거래장터</Link></h1>
           <hr className="h1-bottom" />
 
           <div className="content">

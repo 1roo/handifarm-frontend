@@ -58,13 +58,18 @@ $main-green: #53A069;
 table {
     text-align: center;
 
+    tr:hover{
+        background-color: rgb(240, 240, 240);
+    }
+
     .td-title {
         text-align: left;
         cursor: pointer;
     }
 
     .td-title:hover {
-        font-size: 1.1em;
+        // font-size: 1.1em;
+        font-weight: 700;
     }
 
     td.td {
