@@ -8,7 +8,7 @@ import StorefrontIcon from "@mui/icons-material/Storefront"; //마켓(판매자)
 // Link용 js파일 > 시작
 import HomeTableBody from "./HomeTableBody";
 import HomeMarketBody from "./HomeMarketBody";
-import SnsBoardCarousel from "./SnsBoardCarousel";
+import SnsBoardCarousel from "./snsBoard/SnsBoardCarousel";
 import Weather from "./todayInfo/Weather";
 // Link용 js파일 > 끝!
 import { Button, Stack, Table } from "react-bootstrap";

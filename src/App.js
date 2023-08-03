@@ -39,46 +39,44 @@ function App(props) {
         <Header />
 
         <Routes>
-
           <Route exact path="/" element={<Home />} />
 
           {/* >> User (회원가입, 로그인, 마이페이지) */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/join" element={<Join />} />
-            <Route path="/mypage" element={<Mypage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/join" element={<Join />} />
+          <Route path="/mypage" element={<Mypage />} />
 
           {/* >> Board 게시판 */}
-            <Route path="/board" element={<BoardList />} />
-            <Route path="/boardRegist" element={<BoardRegist />} />
-            <Route path="/board/:boardNo" element={<BoardDetail />} />
-            <Route path="/boardModify/:boardNo" element={<BoardModify />} />
-            <Route path="/board/:boardNo/boardReply" element={<BoardReply />} />
+          <Route path="/board" element={<BoardList />} />
+          <Route path="/boardRegist" element={<BoardRegist />} />
+          <Route path="/board/:boardNo" element={<BoardDetail />} />
+          <Route path="/boardModify/:boardNo" element={<BoardModify />} />
+          <Route path="/board/:boardNo/boardReply" element={<BoardReply />} />
 
           {/* >> Market 거래장터 */}
-            <Route path="/market" element={<MarketList />} />
-            <Route path="/marketRegist" element={<MarketRegist />} />
-            <Route path="/marketDetail" element={<MarketDetail />} />
-            <Route path="/marketModify" element={<MarketModify />} />
+          <Route path="/market" element={<MarketList />} />
+          <Route path="/marketRegist" element={<MarketRegist />} />
+          <Route path="/marketDetail" element={<MarketDetail />} />
+          <Route path="/marketModify" element={<MarketModify />} />
 
           {/* >> SNS Board 농사일기 */}
-            <Route path="/snsBoard" element={<SnsList />} />
-            <Route path="/snsBoard/snsRegist" element={<SnsRegist />} />
-            <Route path="/snsBoard/:writer" element={<SnsUserDetail />} />
-            <Route path="/snsBoard/:snsNo/:writer" element={<SnsDetail />} />
+          <Route path="/snsBoard" element={<SnsList />} />
+          <Route path="/snsBoard/snsRegist" element={<SnsRegist />} />
+          <Route path="/snsBoard/:writer" element={<SnsUserDetail />} />
+          <Route path="/snsBoard/:snsNo/:writer" element={<SnsDetail />} />
 
           {/* >> TodayInfo오늘의 정보 */}
-            <Route path="/weather" element={<Weather />} />
-            <Route path="/todayInfo" element={<TodayInfoPage />} />
-            <Route path="/pest" element={<Pest />} />
+          <Route path="/weather" element={<Weather />} />
+          <Route path="/todayInfo" element={<TodayInfoPage />} />
+          <Route path="/pest" element={<Pest />} />
 
           {/* 기타 */}
-            <Route path="/payment" element={<Payment />} />
-            <Route path="/success" element={<PaymentSuccess />} />
-            <Route path="/fail" element={<PaymentFail />} />
-          
-          {/* >> 404 에러 처리 >>  */}
-            <Route path="/*" element={<Error404 />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/success" element={<PaymentSuccess />} />
+          <Route path="/fail" element={<PaymentFail />} />
 
+          {/* >> 404 에러 처리 >>  */}
+          <Route path="/*" element={<Error404 />} />
         </Routes>
 
         <Footer />
