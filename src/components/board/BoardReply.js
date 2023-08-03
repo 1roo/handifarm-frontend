@@ -197,28 +197,29 @@ const BoardReply = ({ boardNo, onReplySubmitted }) => {
             {editingState[reply.replyNo] ? (
               // 수정 모드일 때
               <div className="reply-info">
-                <div>
-                  <div className="reply-info">
-                    <div className="nick-time">
-                      <span className="user-nick">{reply.userNick}</span>
-                      <span className="reg-time">{reply.updateDate}</span>
-                    </div>
-                    <div className="save-cancel">
-                      <button
-                        className="reply-save-btn"
-                        onClick={() => handleSaveEdit(reply.replyNo)}
-                      >
-                        저장
-                      </button>
-                      <button
-                        className="reply-cancel-btn"
-                        onClick={() => handleCancelEdit(reply.replyNo)}
-                      >
-                        취소
-                      </button>
-                    </div>
+                <div className="reply-info-top">
+                  <div className="nick-time">
+                    <span className="user-nick">{reply.userNick}</span>
+                    <span className="reg-time">{reply.updateDate}</span>
                   </div>
-                  <div className="margin-div">
+
+                  <div>
+                    <button
+                      className="reply-save-btn"
+                      onClick={() => handleSaveEdit(reply.replyNo)}
+                    >
+                      저장
+                    </button>
+                    <button
+                      className="reply-cancel-btn"
+                      onClick={() => handleCancelEdit(reply.replyNo)}
+                    >
+                      취소
+                    </button>
+                  </div> 
+                </div> {/* reply-info-top END */}
+
+                  <div className="reply-content margin-div">
                     <input
                       type="text"
                       value={
@@ -227,14 +228,16 @@ const BoardReply = ({ boardNo, onReplySubmitted }) => {
                           : reply.reply
                       }
                       onChange={(e) => replyHandler(e, reply.replyNo)}
+                      className="reply-input-box"
                     />
                   </div>
+
                 </div>
-              </div>
             ) : (
               // 일반 모드일 때
               <div className="reply-info">
                 <div className="reply-info-top">
+
                   <div className="nick-time">
                     <span className="user-nick">{reply.userNick}</span>
                     <span className="reg-time">
@@ -259,7 +262,7 @@ const BoardReply = ({ boardNo, onReplySubmitted }) => {
                 </div>
 
                 <div className="reply-content">
-                  <span className="reply-content">{reply.reply}</span>
+                  <span>{reply.reply}</span>
                 </div>
               </div>
             )}
