@@ -98,6 +98,7 @@ const TodayInfoPage = () => {
   const searchClickEvent = function() {
     
     setLoading(true);
+    document.body.style.overflow= 'hidden';
 
 
     console.log('\n\n버튼이 클릭됨! place: ', place);
@@ -113,6 +114,7 @@ const TodayInfoPage = () => {
       //로딩 완료
       if(data) { 
         setLoading(false);
+        document.body.style.overflow= 'auto';
         document.querySelector('.search-complete').style.opacity = 1;
         document.querySelector('.search-complete').style.padding = '5px 12px'; 
         document.getElementById('wrn-text').style.opacity = 1;

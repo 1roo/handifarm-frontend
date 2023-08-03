@@ -102,22 +102,22 @@ function BoardDetail() {
         <div className="writerInfo">
           <div className="writer">{board.userNick}</div>
           <div className="regDate">{board.createDate}</div>
-          {board.userNick === localUserNick && (
-            <button className="delete-board-btn" onClick={() => deleteBoardHandler(board.boardNo)}>
-              삭제
-            </button>
-          )}
-          {board.userNick === localUserNick && (
-            <button className="modify-board-btn" onClick={redirectToBoardModify}>
-              수정
-            </button>
-          )}
+          {(board.userNick === localUserNick) && 
+            <>
+              <button className="delete-board-btn" onClick={() => deleteBoardHandler(board.boardNo)}>
+                삭제
+              </button>
+              <button className="modify-board-btn" onClick={redirectToBoardModify}>
+                수정
+              </button>
+            </>
+          }
         </div>
-        <div className="viewReply">
-          <div className="viewCount">조회 {board.views}</div>
-          <div className="replyCount">댓글</div>
+        <div className="view-reply">
+          <div className="view-count">조회 {board.views}</div>
+          <div className="reply-count">댓글</div>
         </div>
-      </div>
+      </div> {/* info END */}
       <hr />
       <div className="content">
         <p>{board.content}</p>
