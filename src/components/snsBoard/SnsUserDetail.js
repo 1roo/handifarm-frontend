@@ -10,57 +10,53 @@ const SnsUserDetail = () => {
 
   const { writer } = useParams();
   const [photo, setPhoto] = useState([]);
-  const [profileImg, setProfileImg] = useState(userImg);
-  
-
-  // 사용자 프로필 이미지 초기화
-  const initializeProfileImg = () => {
-    const userProfileImg = localStorage.getItem("USER_PROFILE_IMG");
-    if (userProfileImg) {
-      setProfileImg(userProfileImg);
-    }
-  };
-
+  const [userProfileImg, setUserProfileImg] = useState("");
+  const localProfileImg = localStorage.getItem("USER_PROFILE_IMG");
 
   useEffect(() => {
-    if(!token){ //회원에게만 서비스를 제공.
-      alert('로그인이 필요한 서비스입니다.')
-      navigate('/login')
+    if (!token) {
+      // 회원에게만 서비스를 제공.
+      alert("로그인이 필요한 서비스입니다.");
+      navigate("/login");
     }
 
-    const fetchPhoto = async () => {
-      try {
-        const token = localStorage.getItem("ACCESS_TOKEN");
-        const response = await axios.get(
-          `http://localhost:8181/api/sns/?userNick=${writer}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setPhoto(response.data);
-        console.log(response.data);
-      } catch (error) {
-        console.error("게시물 데이터를 불러오는데 실패했습니다.", error);
-        setPhoto([]);
-      }
-    };
+    setUserProfileImg(localProfileImg);
 
     fetchPhoto();
-  }, [writer]);
+  }, [token, writer]);
+
+  const fetchPhoto = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8181/api/sns/?userNick=${writer}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setPhoto(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error("게시물 데이터를 불러오는데 실패했습니다.", error);
+      setPhoto([]);
+    }
+  };
 
   if (!photo || photo.length === 0) {
     return <div>해당 사진을 찾을 수 없습니다.</div>;
   }
 
-
-
+  console.log(typeof userProfileImg);
 
   return (
     <div>
       <div className="user-title">
-        <img className="profileImg" src={profileImg} />
+        <img
+          className="profileImg"
+          src={userProfileImg !== "null" ? userProfileImg : userImg}
+          alt="프로필 이미지"
+        />
         <p className="user-nick">{writer}의 농사일기</p>
       </div>
       <div className="line" />

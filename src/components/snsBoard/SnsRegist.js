@@ -28,14 +28,19 @@ const SnsRegist = ({ onRequestClose }) => {
     try {
       // 이미지가 없을 때 빈 배열로 설정
       const formData = new FormData();
-      // formData.append('content', content);
-      // hashTags.forEach((tag) => formData.append('hashTags', tag));
-      const snsContent = {
-        content: content,
-        hashTags: hashTags,
-      };
-      formData.append("snsContent");
+      formData.append("content", content);
+      hashTags.forEach((tag) => formData.append("hashTags", tag));
       formData.append("snsImgs", imageFile || []); // 이미지 파일이 없을 경우 빈 배열로 설정
+
+      // const formData = new FormData();
+      // const snsContent = {
+      //   content: content,
+      //   hashTags: hashTags,
+      // };
+      // formData.append("snsContent");
+      // formData.append("snsImgs", imageFile || []); // 이미지 파일이 없을 경우 빈 배열로 설정
+
+      console.log(formData);
 
       const response = await axios.post(API_BASE_URL, formData, {
         headers: {

@@ -20,13 +20,15 @@ import {
 
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useContext } from "react";
+import AuthContext from "../util/AuthContext";
 
 const Mypage = () => {
-
-
   const redirection = useNavigate();
   const token = localStorage.getItem("ACCESS_TOKEN");
   const API_BASE_URL = "http://localhost:8181/api/user";
+
+  const { setUserInfo } = useContext(AuthContext);
 
   useEffect(() => {
     // daum 객체 전역 범위에 선언
@@ -40,10 +42,9 @@ const Mypage = () => {
 
     // 컴포넌트가 언마운트될 때 스크립트 제거
     return () => {
-        document.body.removeChild(script);
-      };
+      document.body.removeChild(script);
+    };
   }, []);
-
 
   const [userValue, setUserValue] = useState({
     userId: "",
@@ -57,10 +58,10 @@ const Mypage = () => {
     userPostcode: "",
     userProfileImg: "",
   });
-  const [email1, setEmail1] = useState('');
-  const [email2, setEmail2] = useState('');
-  const [phone2, setPhone2] = useState('');
-  const [phone3, setPhone3] = useState('');
+  const [email1, setEmail1] = useState("");
+  const [email2, setEmail2] = useState("");
+  const [phone2, setPhone2] = useState("");
+  const [phone3, setPhone3] = useState("");
 
   useEffect(() => {
     let isMounted = true;
@@ -75,13 +76,13 @@ const Mypage = () => {
           },
         });
         if (response.status === 200) {
-          console.log('data: ', response.data);
-          if(isMounted) {
+          console.log("data: ", response.data);
+          if (isMounted) {
             setUserValue(response.data); // 가져온 사용자 정보를 상태 변수에 저장
-            setEmail1(response.data.userEmail.split('@')[0]);
-            setEmail2(response.data.userEmail.split('@')[1]);
-            setPhone2(response.data.userPhone.substr(3,4));
-            setPhone3(response.data.userPhone.substr(7,4));
+            setEmail1(response.data.userEmail.split("@")[0]);
+            setEmail2(response.data.userEmail.split("@")[1]);
+            setPhone2(response.data.userPhone.substr(3, 4));
+            setPhone3(response.data.userPhone.substr(7, 4));
           }
         } else {
           throw new Error("Failed to fetch user information");
@@ -95,61 +96,56 @@ const Mypage = () => {
 
     return () => {
       isMounted = false;
-    }
-
+    };
   }, []); // useEffect의 의존성 배열을 빈 배열로 설정하여 한 번만 실행되도록 함
-
-
-
 
   //이름변경 함수
   const nameChangeHandler = (e) => {
     const inputValue = e.target.value;
-    console.log('nameChangeHandler called! inputValue: ', inputValue);
-    setUserValue({...userValue, userName: inputValue})
-  }
+    console.log("nameChangeHandler called! inputValue: ", inputValue);
+    setUserValue({ ...userValue, userName: inputValue });
+  };
 
   //닉네임변경 함수
   const nickChangeHandler = (e) => {
     const inputValue = e.target.value;
-    console.log('nickChangeHandler called! inputValue: ', inputValue);
-    setUserValue({...userValue, userNick: inputValue})
-  }
+    console.log("nickChangeHandler called! inputValue: ", inputValue);
+    setUserValue({ ...userValue, userNick: inputValue });
+  };
 
   //이메일변경 함수
-  console.log('email1: ', email1);
-  console.log('email2: ', email2);
-  
+  console.log("email1: ", email1);
+  console.log("email2: ", email2);
+
   const email1ChangeHandler = (e) => {
     const inputValue = e.target.value;
-    console.log('email1ChangeHandler called! inputValue: ', inputValue);
+    console.log("email1ChangeHandler called! inputValue: ", inputValue);
     setEmail1(inputValue);
-  }
-  
+  };
+
   const email2ChangeHandler = (e) => {
     const inputValue = e.target.value;
-    console.log('email1ChangeHandler called! inputValue: ', inputValue);
+    console.log("email1ChangeHandler called! inputValue: ", inputValue);
     setEmail2(inputValue);
-  }
+  };
 
   //핸드폰변경 함수
   let [isPhoneChanged, setIsPhoneChanged] = useState(false);
 
-  console.log('phone2: ', phone2);
-  console.log('phone3: ', phone3);
+  console.log("phone2: ", phone2);
+  console.log("phone3: ", phone3);
 
   const phone2ChangeHandler = (e) => {
     const inputValue = e.target.value;
     setPhone2(inputValue);
     setIsPhoneChanged(true);
-  }
+  };
 
   const phone3ChangeHandler = (e) => {
     const inputValue = e.target.value;
     setPhone3(inputValue);
     setIsPhoneChanged(true);
-  }
-
+  };
 
   //인증번호 받기
   const [phoneCheckNum, setPhoneCheckNum] = useState("");
@@ -162,7 +158,7 @@ const Mypage = () => {
       alert("휴대전화가 변경되지 않았습니다.");
       console.log(fullPhoneNum);
     } else if (isPhoneChanged) {
-      alert("인증번호가 전송되었습니다.")
+      alert("인증번호가 전송되었습니다.");
     } else {
       alert("휴대폰번호를 입력하세요");
     }
@@ -197,8 +193,6 @@ const Mypage = () => {
     }
   };
 
-
-
   //주소검색 입력 변수
   const handlePostcode = () => {
     new window.daum.Postcode({
@@ -223,16 +217,13 @@ const Mypage = () => {
     }).open();
   };
 
-
   //상세주소 입력 변수
 
   const addrDetailHandler = (e) => {
     const inputValue = e.target.value;
-    setUserValue({...userValue, userAddrDetail: inputValue})
+    setUserValue({ ...userValue, userAddrDetail: inputValue });
   };
 
-  
-  
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -246,49 +237,55 @@ const Mypage = () => {
 
   // 닉네임 통과 여부를 검사
   const isValid = () => {
-    if(userValue.userNick === '관리자') {
-      alert("관리자는 사용할 수 없는 닉네임입니다.")
+    if (userValue.userNick === "관리자") {
+      alert("관리자는 사용할 수 없는 닉네임입니다.");
       return false;
     }
     return true;
   };
 
-  
-// 이미지 업로드 및 회원 정보 수정 처리 함수
-async function uploadImageAndModify() {
+  // 이미지 업로드 및 회원 정보 수정 처리 함수
+  async function uploadImageAndModify() {
+    const userJsonBlob = new Blob([JSON.stringify(userValue)], {
+      type: "application/json",
+    });
 
-  const userJsonBlob = new Blob(
-    [JSON.stringify(userValue)],
-    { type: 'application/json' }
-  );
+    const formData = new FormData();
+    formData.append("userInfo", userJsonBlob);
+    formData.append("profileImg", imageFile);
 
-  const formData = new FormData();
-  formData.append('userInfo', userJsonBlob);
-  formData.append('profileImg', imageFile);
-
-  const response = await fetch(`${API_BASE_URL}/modifyUser`, {
-      method: 'PUT',
+    const response = await fetch(`${API_BASE_URL}/modifyUser`, {
+      method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`,
       },
       body: formData,
-  });
+    });
 
-  // 응답 데이터 처리
-  const result = await response.json();
-  console.log(result);
-
-}
-  
-
-// 회원정보수정 버튼 클릭 핸들러
-const modifyButtonClickHandler = async (e) => {
-  e.preventDefault();
-  if (isValid()) {
-    await uploadImageAndModify();
+    // 응답 데이터 처리
+    const result = await response.json();
+    if (response.status === 200) {
+      console.log(result);
+      alert("회원 정보 수정이 완료되었습니다.");
+      setUserInfo({
+        token: result.token,
+        userId: result.userId,
+        userName: result.userName,
+        userNick: result.userNick,
+        userProfileImg: result.userProfileImg,
+      });
+      redirection("/");
+    }
   }
-};
-  
+
+  // 회원정보수정 버튼 클릭 핸들러
+  const modifyButtonClickHandler = async (e) => {
+    e.preventDefault();
+    if (isValid()) {
+      await uploadImageAndModify();
+    }
+  };
+
   const [imageFile, setImageFile] = useState(null); // 단일 이미지 파일 상태
   const [imagePreview, setImagePreview] = useState(null); // 이미지 미리보기를 위한 상태
 
@@ -298,9 +295,6 @@ const modifyButtonClickHandler = async (e) => {
     const imageUrl = URL.createObjectURL(file);
     setImagePreview(imageUrl);
   };
-  
-
-
 
   return (
     <>
@@ -309,34 +303,38 @@ const modifyButtonClickHandler = async (e) => {
       <ThemeProvider theme={defaultTheme}>
         <Container component="main" maxWidth="sm">
           <CssBaseline />
-     
-          <div className="profile-img-box">
-          {imagePreview ? (
-            <img
-              className="user-img"
-              src={imagePreview}
-              alt="이미지 미리보기"
-              style={{ width: '100px', height: '100px', margin: '0' }}
-            />
-          ) : (
-            <label htmlFor="itemImg" style={{ cursor: 'pointer' }}>
-              <img
-                src={userValue.userProfileImg !=null ? userValue.userProfileImg : userImg}
-                alt="이미지 아이콘"
-                style={{ width: '100px', height: '100px', margin: '0' }}
-              />
-            </label>
-          )}
-          <input
-            type="file"
-            id="itemImg"
-            onChange={handleFileInputChange}
-            accept="image/*" // 이미지 파일만 선택 가능하도록 지정
-            style={{ display: 'none' }}
-          />
 
-          <span>{localStorage.getItem("USER_ID")}</span>
-        </div>
+          <div className="profile-img-box">
+            {imagePreview ? (
+              <img
+                className="user-img"
+                src={imagePreview}
+                alt="이미지 미리보기"
+                style={{ width: "100px", height: "100px", margin: "0" }}
+              />
+            ) : (
+              <label htmlFor="itemImg" style={{ cursor: "pointer" }}>
+                <img
+                  src={
+                    userValue.userProfileImg != null
+                      ? userValue.userProfileImg
+                      : userImg
+                  }
+                  alt="이미지 아이콘"
+                  style={{ width: "100px", height: "100px", margin: "0" }}
+                />
+              </label>
+            )}
+            <input
+              type="file"
+              id="itemImg"
+              onChange={handleFileInputChange}
+              accept="image/*" // 이미지 파일만 선택 가능하도록 지정
+              style={{ display: "none" }}
+            />
+
+            <span>{localStorage.getItem("USER_ID")}</span>
+          </div>
           <Box
             sx={{
               marginTop: 8,
@@ -345,7 +343,12 @@ const modifyButtonClickHandler = async (e) => {
               alignItems: "center",
             }}
           >
-            <Box component="form" noValidate sx={{ mt: 3 }} onSubmit={handleSubmit}>
+            <Box
+              component="form"
+              noValidate
+              sx={{ mt: 3 }}
+              onSubmit={handleSubmit}
+            >
               <Grid container spacing={1}>
                 <Grid item xs={6} sm={6}>
                   <TextField
@@ -356,7 +359,6 @@ const modifyButtonClickHandler = async (e) => {
                     type="password"
                     label="비밀번호"
                   />
-
                 </Grid>
 
                 <Grid item xs={6} sm={6}>
@@ -368,7 +370,6 @@ const modifyButtonClickHandler = async (e) => {
                     id="pwCheck"
                     label="비밀번호 확인"
                   />
-
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
@@ -381,7 +382,6 @@ const modifyButtonClickHandler = async (e) => {
                     value={userValue.userName}
                     onChange={nameChangeHandler}
                   />
-   
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
@@ -411,7 +411,7 @@ const modifyButtonClickHandler = async (e) => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <FormControl fullWidth>
-                    < Select
+                    <Select
                       value={email2}
                       id="email2"
                       fullWidth
@@ -485,7 +485,6 @@ const modifyButtonClickHandler = async (e) => {
                     label="인증번호 4자리"
                     inputProps={{ maxLength: 4 }}
                   />
-
                 </Grid>
                 <Grid item xs={12} sm={4}>
                   <Button
