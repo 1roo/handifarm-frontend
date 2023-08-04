@@ -113,8 +113,8 @@ const MarketRegist = () => {
     let msg = " ";
     if (!inputVal) {
       msg = " ";
-    } else if (!/^.{0,15}$/.test(inputVal)) {
-      msg = "제목은 15글자를 넘길 수 없습니다.";
+    } else if (!/^.{0,12}$/.test(inputVal)) {
+      msg = "제목은 12글자를 넘길 수 없습니다.";
     } else {
       flag = true;
     }

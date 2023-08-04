@@ -26,6 +26,7 @@ const MarketList = () => {
 
   const [marketList, setMarketList] = useState([]); //물품 목록 넣는 배열
   const [moreBtnCount, setMoreBtnCount] = useState(1); //더보기 클릭 횟수 겸 page param
+  const [moreBtnOpen, setMoreBtnOpen] = useState(true); //더보기 출력할지 말지 여부판단
 
   
   useEffect(() => {
@@ -51,6 +52,8 @@ const MarketList = () => {
       }
   
       res.json().then(data => {  //데이터 담기~~
+        if(12*moreBtnCount > data.marketItems.length){ setMoreBtnOpen(false) } 
+        else { setMoreBtnOpen(true)}
         setMarketList(data.marketItems);
         console.log('들어온 데이터: ', data.marketItems);
       })
@@ -96,9 +99,11 @@ const MarketList = () => {
               ))}
             </div>
             {/* market-group END */}
-            <Button className="more-btn" type="button" variant="light" onClick={MoreBtnClick}>
-              더 보기
-            </Button>
+            {moreBtnOpen && 
+              <Button className="more-btn" type="button" variant="light" onClick={MoreBtnClick}>
+                더 보기
+              </Button>
+            }
             <hr />
             <div className="link-box">
               <Link to="/marketRegist">
