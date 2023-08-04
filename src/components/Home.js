@@ -213,6 +213,7 @@ const Home = () => {
               state={{
                 temp: stateTemp,
                 sky: stateSkyList,
+                place: place
               }}
             >
               <Button variant="success">오늘의 날씨</Button>
