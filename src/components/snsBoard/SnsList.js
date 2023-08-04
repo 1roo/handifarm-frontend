@@ -125,7 +125,7 @@ const SnsList = () => {
               {/* 클릭 핸들러 추가 */}
               {sns.snsImgs.map((img, imgIndex) => (
                 <div key={imgIndex}>
-                  <img src={img} alt={`photo-${index}-${imgIndex}`} />
+                    <img src={img} alt={`photo-${index}-${imgIndex}`} />
                   <div className="sns-text">
                     <span><AccountCircleIcon />{sns.writer}</span>
                     <p>{sns.content}</p>

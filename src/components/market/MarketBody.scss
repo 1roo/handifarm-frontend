@@ -45,8 +45,10 @@ a{
             img{
                 border-radius: 5px;
                 margin: 0 auto;
-                height: 100%;
                 transition: 0.3s;
+                height: 100%;
+                // width: 100%;
+                object-fit: cover;
             }
         }
         .green-btn[disabled]{ //판매 여부 버튼 영역

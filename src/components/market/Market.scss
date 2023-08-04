@@ -244,7 +244,10 @@ hr.h1-bottom{
                 overflow: hidden;
                 @include flex-center();
     
-                img{ height: 100%; }
+                img{ 
+                    height: 100%;
+                    object-fit: cover; 
+                }
             }
         }
         .content-content{
