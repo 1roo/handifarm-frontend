@@ -118,7 +118,7 @@ function BoardRegist({ userNick }) {
             justifyContent: "center",
           }}
         >
-          <Grid>
+          <Grid className="topic-box">
             <FormControl sx={{ m: 1, minWidth: 150 }}>
               <Select id="topic" value={selectedTopic} onChange={handleTopicChange}>
                 <MenuItem value={"all"}>
@@ -134,7 +134,6 @@ function BoardRegist({ userNick }) {
             <TextField placeholder="제목" variant="outlined" onChange={titleHandler} />
           </Grid>
         </Grid>
-        <br />
         <hr />
         <FormControl sx={{ minWidth: 700, alignItems: "center", justifyContent: "center" }}>
           <textarea placeholder="내용을 입력하세요" onChange={contentHandler} />

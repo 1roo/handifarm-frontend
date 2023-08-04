@@ -92,13 +92,16 @@ const TodayInfoPage = () => {
     setPlace(e.target.value); 
     document.querySelector('.search-complete').style.opacity = 0;
     document.querySelector('.search-complete').style.padding = '5px 30px 5px 120px';
+    
   }
   
   // //// 서치버튼 클릭 이벤트
   const searchClickEvent = function() {
     
     setLoading(true);
-    document.body.style.overflow= 'hidden';
+    document.body.style.overflow= 'hidden'; // 스크롤 막기
+    document.getElementById('wrn-text').style.opacity = 0; 
+    document.querySelector('.weather-screens .wrn-export').style.opacity = 1;
 
 
     console.log('\n\n버튼이 클릭됨! place: ', place);
@@ -205,14 +208,15 @@ const TodayInfoPage = () => {
                 <span className='h5-sv'>오전</span> {weatherTypo[stateSkyList[0]]} <span style={{color:'lightGray'}}>/&nbsp;</span> 
                 <span className='h5-sv'>오후</span> {weatherTypo[stateSkyList[1]]}
                 </h5>
-                <p id='wrn-text'>
-                  {wrnItemList.t6 ? 
-                    <><span className='wrnIcon'>⚠</span> 
-                    현재 <span className='wrnText'>{(wrnItemList.t6.map(t => t+' '))}</span>가 내린 지역입니다.</>
-                  :
-                    <><span className='wrnIcon'>⚠</span> 
-                    현재 {placeName[(selPlaceNum)-1]}에 내린 특보가 없습니다.</>
-                  }
+                <p className='wrn-export'>
+                  <span className='wrnIcon'>⚠</span> 
+                  <p id='wrn-text'>
+                    {wrnItemList.t6 ? 
+                      <>현재 <span className='wrnText'>{(wrnItemList.t6.map(t => t+' '))}</span>가 내린 지역입니다.</>
+                    :
+                      <>현재 {placeName[(selPlaceNum)-1]}에 내린 특보가 없습니다.</>
+                    }
+                  </p>
                 </p>
               </div>
               <div className='icon'>

@@ -66,27 +66,29 @@ a{
             &.red{ background-color: orangered !important; }
         }
         .product{ //상품 설명 영역
-            margin: 15px 0px 0px;
+            margin: 15px 0px 5px;
             width: 98%;
-    
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+           
             padding: 0 3px;
     
-            p{ // 상품 판매자
+            strong{ // 상품명 강조
+                font-size: 1.25em;
+                font-weight: 700;
+                color: black;
+                margin-bottom: 8px;
+                display: inline-block;
+            }
+            
+            .product-bottom{
                 height: fit-content;
                 color: gray;
-                strong{ // 상품명 강조
-                    font-size: 1.3em;
-                    font-weight: 700;
-                    color: black;
-                    margin-bottom: 8px;
-                    display: inline-block;
-                }
-                svg{ margin: 0 2px 5px; font-size: 1.4em;}
+                
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                svg{ margin: 0 4px 4px 2px; font-size: 1.4em;}
             }
-            .price{ font-size: 1.1em; padding-top: 22px;} //가격 폰트크기
+            .price{ font-size: 1.1em; } //가격 폰트크기
         }
     }
 

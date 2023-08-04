@@ -128,7 +128,17 @@ const MarketDetail = () => {
             <Link to="/market">거래장터</Link> <span> &gt; </span>
             <span style={{ cursor: "pointer" }}>물품 보기: {thisItem.itemName}</span>
           </div>
-          <h1><Link to="/market">거래장터</Link></h1>
+
+          <div className="detail-header">
+            <h1>거래장터</h1>
+            <div className="link-box"> 
+              <Link to="/market">
+                <Button className="write-link-btn" variant="success" style={{ fontFamily: 'SUITE-Regular',}}>
+                  목록으로 돌아가기
+                </Button>
+              </Link>
+            </div>
+          </div>
           <hr className="h1-bottom" />
 
           <div className="content">

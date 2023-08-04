@@ -137,7 +137,7 @@ export const WrnInfoFunction = async(stPlace) => {
 
   console.log('특보코드: ', data.response.header.resultCode);
   if(data.response.header.resultCode != '00'){
-    console.log('!!!!!!!!!!!!!!!!!!!!!! 통신오류 발생!, 코드: ', data.response.header.resultCode);
+    console.log('!!!!!! 검색된 특보 없음!, 코드: ', data.response.header.resultCode);
     return null;
   } else{
     console.log('※ 성공적으로 데이터 전달 완료! 페이지로 돌아가는 중...');

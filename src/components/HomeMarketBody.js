@@ -22,16 +22,18 @@ const HomeTableBody = (market) => {
             <Button className="green-btn marketBody" variant="contained" color="error" disabled > 판매 중 </Button>
           )}
           <figure>
-            <img src={(imgLinks[0]) ? 
+            <img src={(imgLinks) ? 
                 imgLinks[0] : require('../image/no-image.jpg')} 
                 alt="사진이 등록되지 않았습니다."/>
           </figure>
           <div className="product">
             <p>
               <strong>{itemName}</strong><br/>
-              <StorefrontIcon />{seller}
             </p>
-            <div className="price">{price}원</div>
+            <p className='product-bottom'>
+              <p><StorefrontIcon />{seller}</p>
+              <div className="price">{price}원</div>
+            </p>
           </div>
         </div>
         </Link>

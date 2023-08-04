@@ -160,7 +160,7 @@ function BoardList() {
             </FormControl>
           </Grid>
           <Grid>
-            <FormControl sx={{ m: 1, minWidth: 120 }}>
+            <FormControl sx={{ m: 1, minWidth: 120 }} className="board-selected">
               <Select
                 id="condition"
                 value={selectedCondition}
@@ -176,11 +176,12 @@ function BoardList() {
               </Select>
             </FormControl>
           </Grid>
-          <Grid>
+          <Grid className="search-input-box">
             <TextField
               variant="outlined"
               value={searchKeyword}
               onChange={(e) => setSearchKeyword(e.target.value)}
+              placeholder="검색할 단어를 입력하세요"
             />
             <Button
               className="searchBtn"
@@ -204,6 +205,7 @@ function BoardList() {
                 <th>작성일</th>
                 <th>조회</th>
               </tr>
+              <hr />
             </thead>
             <tbody>
               {!!data.boards &&
