@@ -21,16 +21,19 @@ $main-green: #53A069;
     padding-top: 50px;
 }
 
-.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
-    padding-top: 10px ;
-    padding-bottom: 10px ;
-    width: 500px !important;
-
+.topic-box{ //말머리란 박스
+    margin-right: 10px;
 }
-.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input { //글작성 말머리란
     padding-top: 10px !important;
     padding-bottom: 10px !important;
 }
+.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input { //글작성 입력란 & 제목란
+    padding-top: 13px !important;
+    padding-bottom: 13px !important;
+    min-width: 500px !important;
+}
+
 
 .css-1869usk-MuiFormControl-root {
     margin: 0 3px !important;
@@ -40,34 +43,41 @@ $main-green: #53A069;
     margin-top: 50px !important;
     justify-content: center !important;
 }
-
-.searchBtn {
-    @include green-btn;
-    height: 43px;
+.board-selected{
+    margin-right: 15px !important;
+}
+.search-input-box{ // List 검색 입력란&버튼 박스
+    @include flex-center();
+    
+    .searchBtn {
+        @include green-btn;
+        height: 100%;
+        margin-left: 15px;
+    }
 }
 
-.notice-box {
-    border-radius: 10px;
-    border: 1px solid red;
-    width: 70px;
-    text-align: center;
-    background-color: rgba(255, 0, 0, 0.13);
-    margin: 0 auto;
-}
-
+//글 목록 테이블
 table {
     text-align: center;
-
-    tr:hover{
-        background-color: rgb(240, 240, 240);
-        .td-title{
-            font-weight: 700;
-        }
+    
+    .notice-box { //공지 게시글
+        border-radius: 10px;
+        border: 1px solid red;
+        width: 70px;
+        text-align: center;
+        background-color: rgba(255, 0, 0, 0.13);
+        margin: 0 auto;
     }
 
     .td-title {
         text-align: left;
         cursor: pointer;
+    }
+    tr:hover{ //마우스 올려놓으면 배경색+제목 굵은효과
+        background-color: rgb(240, 240, 240);
+        .td-title{
+            font-weight: 700;
+        }
     }
 
     td.td {
@@ -76,12 +86,13 @@ table {
 
 }
 
-textArea {
+textArea { //글 작성 텍스트에리어
     border: 1px solid lightgray;
     width: 700px;
     height: 350px;
     resize: none;
     margin-top: 20px;
+    padding: 10px 15px;
 
     
         input {
@@ -297,11 +308,7 @@ textArea:focus {
 
 
 
-.nick-time {
-    margin-bottom: 10px;
-}
+.nick-time { margin-bottom: 10px; }
 
 
-.margin-div {
-    margin-bottom: 25px;
-}
+.margin-div { margin-bottom: 25px; }

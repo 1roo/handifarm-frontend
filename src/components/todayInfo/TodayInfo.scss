@@ -170,22 +170,30 @@ section.info-box.weather{
                         line-height: 2;
                     }
                 }
-                #wrn-text{ //특보 메시지
-                    opacity: 0;
-                    margin-top: 30px;
-                    margin-left: -10px;
 
+                .wrn-export{
+                    
+                    margin-left: -10px;
                     font-family: 'SUITE-Regular';
-                    color: gray;
+                    margin-top: 30px;
                     font-size: 0.9em;
+                    opacity: 0;
+
                     .wrnIcon{
                         color: brown;
+                        margin-right: 3px;
                     }
-                    .wrnText{
-                        color: rgb(199, 106, 106);
-                        font-weight: 600;
+                    #wrn-text{ //특보 메시지
+                        display: inline;
+                        opacity: 0;
+                        color: gray;
+                        
+                        .wrnText{
+                            color: rgb(199, 106, 106);
+                            font-weight: 600;
+                        }
+    
                     }
-
                 }
 
             }

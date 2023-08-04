@@ -83,6 +83,7 @@ hr.h1-bottom{
 // MarketList END
 
 
+
 // MarketRegist START
 .container.market-regist{
 
@@ -185,6 +186,24 @@ hr.h1-bottom{
 // MarketDetail START
 .container.market-detail{
     width: 100%;
+    margin: 100px 0 0 80px;
+
+    .detail-header{
+        
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        height: fit-content;
+
+        .link-box{
+            border: 1px solid rgb(138, 138, 138);
+            border-radius: 5px;
+            width: fit-content;
+            margin-right: 65px;
+            font-family: 'SUITE-Regular' !important;
+        }
+        h1{ margin: 0 0 0 80px; }
+    }
 
     .content{
         display: flex;
@@ -198,9 +217,7 @@ hr.h1-bottom{
                 min-width: 360px;
                 width: 400px;
                 height: 500px;
-                // background-color: rgb(255, 255, 255);
                 border-radius: 5px;
-                // margin-left: 50px;
                 margin: 0 auto;
                 overflow: hidden;
                 @include flex-center();
