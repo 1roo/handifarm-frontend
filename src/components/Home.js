@@ -42,8 +42,40 @@ const Home = () => {
 
   const [stateTemp, setStateTemp] = useState();
   const [stateSkyList, setStateSkyList] = useState();
-
+  
   const [place, setPlace] = useState(WeatherPlace.place7); //서울이 기본값
+
+  // 1부터 16 사이의 랜덤한 정수를 반환하는 함수
+  const getRandom = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+
+  useEffect(() => {
+    const rn = getRandom(1, 16);
+
+    switch(rn){
+      case 1 : setPlace(WeatherPlace.place1); break; 
+      case 2 : setPlace(WeatherPlace.place2); break;
+      case 3 : setPlace(WeatherPlace.place3); break;
+      case 4 : setPlace(WeatherPlace.place4); break;
+      case 5 : setPlace(WeatherPlace.place5); break;
+      case 6 : setPlace(WeatherPlace.place6); break;
+      case 7 : setPlace(WeatherPlace.place7); break;
+      case 8 : setPlace(WeatherPlace.place8); break;
+      case 9 : setPlace(WeatherPlace.place9); break;
+      case 10 : setPlace(WeatherPlace.place10); break;
+      case 11 : setPlace(WeatherPlace.place11); break;
+      case 12 : setPlace(WeatherPlace.place12); break;
+      case 13 : setPlace(WeatherPlace.place13); break;
+      case 14 : setPlace(WeatherPlace.place14); break;
+      case 15 : setPlace(WeatherPlace.place15); break;
+      case 16 : setPlace(WeatherPlace.place16); break;
+      default : console.log('랜덤값이 1~16 범위를 초과함!'); 
+    } // ^-^
+
+
+  }, []);
+
+
+
 
   // 게시글 목록을 불러오는 콜백 함수
   useEffect(() => {
@@ -125,6 +157,7 @@ const Home = () => {
     GetWeatherData();
   }, []);
   const GetWeatherData = async () => {
+
     //저장된 날짜 구하기
     const localSaveDate = localStorage.getItem("today");
 
@@ -172,7 +205,7 @@ const Home = () => {
           {/* <Link to='/pest'>Pest 이동</Link> */}
 
           {/* 날씨 박스 */}
-          <Weather temp={stateTemp} sky={stateSkyList} />
+          <Weather temp={stateTemp} sky={stateSkyList} placeNum={place[0]} />
 
           <section className="button-box">
             <Link
@@ -182,7 +215,7 @@ const Home = () => {
                 sky: stateSkyList,
               }}
             >
-              <Button variant="success">오늘의 정보</Button>
+              <Button variant="success">오늘의 날씨</Button>
             </Link>
             <Link to="/board">
               <Button variant="success">게시판</Button>
@@ -257,6 +290,7 @@ const Home = () => {
                           } else {
                             // 사용자가 로그인하지 않은 상태인 경우, 경고창을 보여줍니다.
                             alert("로그인이 필요한 서비스입니다.");
+                            redirection('/login');
                           }
                         }}
                       >
