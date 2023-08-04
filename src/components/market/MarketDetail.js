@@ -133,7 +133,7 @@ const MarketDetail = () => {
             <h1>거래장터</h1>
             <div className="link-box"> 
               <Link to="/market">
-                <Button className="write-link-btn" variant="success">
+                <Button className="write-link-btn" variant="success" style={{ fontFamily: 'SUITE-Regular',}}>
                   목록으로 돌아가기
                 </Button>
               </Link>

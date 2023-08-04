@@ -34,17 +34,18 @@ const MarketRegist = () => {
   const showThumbnailHandler = () => {
     const file = $fileTag.current.files[0];
     const reader = new FileReader();
-    reader.readAsDataURL(file);
+    if(file){
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setImgFile(reader.result);
+      }; 
+      //이미지가 새로 등록되면 기존 링크는 비워주도록 처리
+      setMarketValue({
+        ...marketValue,
+        imgLinks: [],
+      });
+    }
 
-    reader.onloadend = () => {
-      setImgFile(reader.result);
-    };
-
-    //이미지가 새로 등록되면 기존 링크는 비워주도록 처리
-    setMarketValue({
-      ...marketValue,
-      imgLinks: [],
-    });
   };
 
   //전달을 위한 값 저장
@@ -226,7 +227,7 @@ const MarketRegist = () => {
         <hr className="h1-bottom" />
 
         <div className="write">
-          <Grid className="write-image">
+          <Grid className="write-image modify-image">
             <div className="add-file" onClick={() => $fileTag.current.click()}>
               <img
                 src={imgFile || thisItem.imgLinks[0]}
@@ -241,6 +242,7 @@ const MarketRegist = () => {
               ref={$fileTag}
               onChange={showThumbnailHandler}
             />
+            <div className="image-change-help">클릭으로 사진을 변경할 수 있습니다.</div>
           </Grid>
           <Grid className="write-content">
             <div className="answer-content">

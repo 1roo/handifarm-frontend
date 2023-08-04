@@ -92,22 +92,35 @@ hr.h1-bottom{
         justify-content: center;
         align-items: center;
         margin: 0 auto;
+        min-height: 500px;
         width: 90%;
         
         .MuiButton-root{ display: block;}
         .write-image{
             width: 500px;
-            background-color: rgb(231, 231, 231);
+            height: fit-content;
+            background-color: rgb(240, 240, 240);
+            &.modify-image{ background-color: white;}
             border-radius: 5px;
             margin-left: 50px;
             cursor: pointer;
+            position: relative;
 
             .add-file{
                 @include flex-center();
                 overflow: hidden;
                 width: 100%;
-                height: 500px;
+                max-height: 500px;
                 img{ width: 100%;}
+            }
+            .image-change-help{
+                position: absolute;
+                text-align: center;
+                top: 100%; left: 50%;
+                transform: translate(-50%, 50%);
+                color: darkgray;
+                width: 330px;
+                
             }
         }
         .write-content{
@@ -186,7 +199,7 @@ hr.h1-bottom{
 // MarketDetail START
 .container.market-detail{
     width: 100%;
-    margin: 100px 0 0 80px;
+    margin-top: 100px;
 
     .detail-header{
         
