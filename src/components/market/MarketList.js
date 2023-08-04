@@ -4,43 +4,47 @@ import "../.././Custom.scss";
 import HomeMarketBody from "../HomeMarketBody";
 // mui 아이콘 > 시작
 import CreateIcon from "@mui/icons-material/Create"; //작성 아이콘
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import HomeIcon from '@mui/icons-material/Home';
 // mui 아이콘 > 끝!
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { API_BASE_URL } from "../../config/host-config";
 import { getLoginUserInfo } from "../util/login-utils";
-import { loadingPage } from "../util/Loading-util";
+import { loadingPage, loadingSmallPage } from "../util/Loading-util";
 
 const MarketList = () => {
 
   const redirection = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [smallLoading2, setSmallLoading2] = useState(false);
   const [token, setToken] = useState(getLoginUserInfo().token); //토큰
-
-  // const replaceList = function(start, end) {
-  //   for(let i = 0; i < 12; i++){
-  //     <HomeMarketBody market={marketList[i]} />
-  //   }
-  // }
 
   const [marketList, setMarketList] = useState([]); //물품 목록 넣는 배열
   const [moreBtnCount, setMoreBtnCount] = useState(1); //더보기 클릭 횟수 겸 page param
   const [moreBtnOpen, setMoreBtnOpen] = useState(true); //더보기 출력할지 말지 여부판단
+  const [onlyDoneTrueBtn, setOnlyDoneTrueBtn] = useState(false); //판매중인 물품만 보기 ON OFF 판단
 
   
   useEffect(() => {
+
     if(!token){ //회원에게만 서비스를 제공.
       alert('로그인이 필요한 서비스입니다.')
       redirection('/login')
     }
+
+    setSmallLoading2(true); //계산 중 로딩창 띄우기
 
     const requestHeader = {
       // 'content-type' : 'application/json',
       'Authorization' : 'Bearer ' + token
     };
 
-    fetch(`${API_BASE_URL}/api/market?page=1&size=${12*moreBtnCount}`, {
+    //조건 판단
+    const fetchSize = (onlyDoneTrueBtn ? 99999 : 12*moreBtnCount);
+
+    fetch(`${API_BASE_URL}/api/market?page=1&size=${fetchSize}`, {
       headers : requestHeader
     })
     .then(res => {
@@ -50,50 +54,61 @@ const MarketList = () => {
         redirection('/');
         return;
       }
-  
+
       res.json().then(data => {  //데이터 담기~~
-        if(12*moreBtnCount > data.marketItems.length){ setMoreBtnOpen(false) } 
-        else { setMoreBtnOpen(true)}
-        setMarketList(data.marketItems);
-        console.log('들어온 데이터: ', data.marketItems);
+
+        const itemList = (onlyDoneTrueBtn 
+          ? (data.marketItems.filter(item => !item.done)).slice(0, 12*moreBtnCount) 
+          : data.marketItems)
+
+        //더보기 ON OFF 여부 판단
+        if(12*moreBtnCount > itemList.length) setMoreBtnOpen(false) 
+        else setMoreBtnOpen(true)
+        
+        //아이템 리스트 세팅
+        setMarketList(itemList); 
+
+        //로딩 완료함!
+        if(itemList) {
+          setLoading(false);
+          setSmallLoading2(false);
+        }
       })
     })
 
-    //로딩 완료함!
-    setLoading(false)
-    
-  }, [moreBtnCount]) //useEffect END
+  }, [moreBtnCount, onlyDoneTrueBtn]) //useEffect END
 
-  /*
-    const MarketList = [ //임시 데이터
-      {
-        marketName: "주말농장 토마토", //상품명
-        userName: "누구누구", //판매자
-        price: "24000", //가격
-        imgSrc:
-          "https://static6.depositphotos.com/1046511/631/i/600/depositphotos_6310141-stock-photo-bountiful-harvest.jpg", //이미지 링크
-      }
-    ];
-   */
+  
+    // 판매중인 품목만 보기 버튼 클릭!
+    function OnlyDoneTrueBtn() {
+      setOnlyDoneTrueBtn(!onlyDoneTrueBtn);
+      setMoreBtnCount(1); //더보기 횟수 초기화
+    }
 
-
+    //더보기 버튼 클릭!
     function MoreBtnClick() {
-      setMoreBtnCount(moreBtnCount+ 1); // 버튼 횟수 눌러주기
+      setMoreBtnCount(moreBtnCount+ 1); // 버튼 횟수 늘려주기
     }
 
 
   return (
     <>
        { loading ? loadingPage : 
+        <>
+          {/* { smallLoading2 ? loadingSmallPage : '' } */}
           <div className="container market">
             <div className="sub-link">
               <Link to="/"><HomeIcon/></Link> <span> &gt; </span> 
               <Link to="/market">거래장터</Link>
             </div>
             <h1>거래장터</h1>
-            <div className="searchVar"> <span>○</span>판매중인 품목만 보기 </div>
+            <div className="searchVar"> 
+              <span className="done-btn" onClick={OnlyDoneTrueBtn}>
+                {onlyDoneTrueBtn ?  <RadioButtonCheckedIcon /> : <RadioButtonUncheckedIcon />}
+              </span> 
+              판매중인 품목만 보기 
+            </div>
             <div className="market-list">
-              {/* {replaceList(0,19)} */}
               {marketList.map((ma) => (
                   <HomeMarketBody market={ma} />
               ))}
@@ -113,6 +128,7 @@ const MarketList = () => {
               </Link>
             </div>
           </div>
+          </>
         }
     </>
   );

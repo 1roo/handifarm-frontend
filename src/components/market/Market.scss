@@ -39,15 +39,24 @@ hr.h1-bottom{
         background-color: $main-green;
         margin: 20px auto 80px;
         width: 100%;
-        height: 30px;
+        height: 32px;
 
         font-size: 20px;
         font-weight: 500;
         line-height: 30px;
         text-align: right;
-        padding: 0 30px;
+        padding: 2px 100px 2px 0;
 
         color: white;
+
+        .done-btn{
+            cursor: pointer;
+            margin-right: 5px;
+            svg{
+                margin-bottom: 5px;
+                font-size: 1.3em;
+            }
+        }
     }
 
     .market-list{
@@ -243,16 +252,14 @@ hr.h1-bottom{
             min-width: 50%;
             width: 500px;
 
-            .green-btn[disabled]{
+            .green-btn[disabled]{ //판매 여부 표기
                 font-weight: 500;
                 height: fit-content;
                 padding: 0 15px;
                 color: white;
                 font-family: 'SUITE-Regular';
 
-                &.red{
-                    background-color: orangered !important;
-                }
+                &.red{ background-color: orangered !important;}
             }
 
             .title{ //상품명, 등록일
@@ -263,9 +270,8 @@ hr.h1-bottom{
                 justify-content: space-between;
 
                 strong{
-                    
                     font-weight: 900;
-                    font-size: 2em;
+                    font-size: 1.8em;
                 }
                 span{ 
                     color: darkgray;

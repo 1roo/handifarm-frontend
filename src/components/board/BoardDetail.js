@@ -37,7 +37,7 @@ function BoardDetail() {
       })
       .catch((error) => {
         alert('로그인이 필요한 서비스입니다.')
-        console.log('orror 발생!', error);
+        console.log('error 발생!', error);
         redirection('/login')
       });
   }, [API_BASE_URL, replyUpdated]);
