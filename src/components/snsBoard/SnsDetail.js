@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 // mui 아이콘 > 시작
-import HomeIcon from '@mui/icons-material/Home';
+import HomeIcon from "@mui/icons-material/Home";
 // mui 아이콘 > 끝!
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import axios from "axios";
 import "./Sns.scss";
+import { API_BASE_URL as BASE, SNS } from "../../config/host-config";
 
 const SnsDetail = ({ onRequestClose, snsNo, writer, regDate }) => {
   const [photo, setPhoto] = useState(null);
   const token = localStorage.getItem("ACCESS_TOKEN");
   const navigate = useNavigate();
+  const API_BASE_URL = BASE + SNS;
 
   useEffect(() => {
     if (!token) {
@@ -22,7 +24,7 @@ const SnsDetail = ({ onRequestClose, snsNo, writer, regDate }) => {
       try {
         const token = localStorage.getItem("ACCESS_TOKEN");
         const response = await axios.get(
-          `http://localhost:8181/api/sns/${snsNo}?userNick=${writer}`,
+          `${API_BASE_URL}/${snsNo}?userNick=${writer}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -46,17 +48,20 @@ const SnsDetail = ({ onRequestClose, snsNo, writer, regDate }) => {
 
   return (
     <div className="sns-detail-box">
-
       <div className="top-of-modal">
-        <div className="link-box moveTo-btn"> {/* 방문 버튼*/}
-          <Link to={`/snsBoard/${writer}`} >
+        <div className="link-box moveTo-btn">
+          {" "}
+          {/* 방문 버튼*/}
+          <Link to={`/snsBoard/${writer}`}>
             <Button className="write-link-btn" variant="success">
-             '{writer}'의 농사일기 방문하기&nbsp; &gt;
+              '{writer}'의 농사일기 방문하기&nbsp; &gt;
             </Button>
-          </Link> </div> 
-        <button className='close-btn'type="button" onClick={onRequestClose}>X</button>
+          </Link>{" "}
+        </div>
+        <button className="close-btn" type="button" onClick={onRequestClose}>
+          X
+        </button>
       </div>
-
 
       <ul className="sns-detail-list">
         {photo.snsList
@@ -66,14 +71,16 @@ const SnsDetail = ({ onRequestClose, snsNo, writer, regDate }) => {
               <frame>
                 <img src={sns.snsImgs} alt={`photo-${index}`} />
               </frame>
-                <p className="sns-content">{sns.content}</p>
-                <div className="hashtags">
-                  <p className="hash-box"># &nbsp;</p>
-                  {sns.hashTags.map((tag, idx) => (
-                    <p key={idx}>{tag}</p>
-                  ))}
-                </div>
-                <em>{writer}이(가) {sns.regDate} 에 작성</em>
+              <p className="sns-content">{sns.content}</p>
+              <div className="hashtags">
+                <p className="hash-box"># &nbsp;</p>
+                {sns.hashTags.map((tag, idx) => (
+                  <p key={idx}>{tag}</p>
+                ))}
+              </div>
+              <em>
+                {writer}이(가) {sns.regDate} 에 작성
+              </em>
             </li>
           ))}
       </ul>
