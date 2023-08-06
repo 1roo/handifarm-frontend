@@ -72,7 +72,7 @@ function App(props) {
 
           {/* 기타 */}
           <Route path="/payment" element={<Payment />} />
-          <Route path="/success" element={<PaymentSuccess />} />
+          <Route path="/suc" element={<PaymentSuccess />} />
           <Route path="/fail" element={<PaymentFail />} />
 
           {/* >> 404 에러 처리 >>  */}

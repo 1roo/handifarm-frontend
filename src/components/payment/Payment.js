@@ -57,8 +57,8 @@ const MarketPayment = (props) => {
         orderName: productName,
         customerName: customerName,
         customerEmail: "customer123@gmail.com",
-        successUrl: `${BASE}/success?itemNo=${itemNo}&seller=${seller}&buyer=${buyer}`,
-        failUrl: `${BASE}/fail`,
+        successUrl: `${window.location.origin}/suc?itemNo=${itemNo}&seller=${seller}&buyer=${buyer}`,
+        failUrl: `${window.location.origin}/fail`,
       });
     } catch (error) {
       // handle error
