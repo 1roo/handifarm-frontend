@@ -148,7 +148,7 @@ function BoardRegist() {
             <TextField
               placeholder="제목"
               variant="outlined"
-              value={title || board?.title}
+              value={title}
               onChange={handleTitleChange}
             />
           </Grid>
@@ -164,7 +164,7 @@ function BoardRegist() {
           }}
         >
           <textarea
-            value={content || board?.content}
+            value={content}
             onChange={handleContentChange}
           ></textarea>
         </FormControl>
