@@ -20,6 +20,8 @@ import { WeatherPlace } from '../util/WeatherPlace';
 
 const TodayInfoPage = () => {
 
+  
+
   const location = useLocation();
   const redirection = useNavigate();
   
@@ -29,9 +31,11 @@ const TodayInfoPage = () => {
  
   const [stateTemp, setStateTemp] = useState(location.state.temp)
   const [stateSkyList, setStateSkyList] = useState(location.state.sky)
+
   
-  const [place, setPlace] = useState(WeatherPlace.place7); //서울이 기본값
-  const [selPlaceNum, setSelPlaceNum] = useState('7');
+  // console.log('아놔',location.state.place);
+  const [place, setPlace] = useState(location.state.place); 
+  const [selPlaceNum, setSelPlaceNum] = useState(location.state.place[0]);
   const placeName = [ //목록 등록
     '강릉', '광주광역시', '대구광역시', '대전광역시', '목포'
     , '부산광역시', '서울특별시', '수원시', '안동시', '여수시'
@@ -64,7 +68,6 @@ const TodayInfoPage = () => {
   }
 
  
-
    // 오늘의 정보 -> 날짜 정보 구하기 
    function getDate(plusDay) {
 
@@ -92,7 +95,6 @@ const TodayInfoPage = () => {
     setPlace(e.target.value); 
     document.querySelector('.search-complete').style.opacity = 0;
     document.querySelector('.search-complete').style.padding = '5px 30px 5px 120px';
-    
   }
   
   // //// 서치버튼 클릭 이벤트
@@ -145,6 +147,8 @@ const TodayInfoPage = () => {
 
 
   } // 서치 클릭 이벤트 종료!
+
+
 
 
 
