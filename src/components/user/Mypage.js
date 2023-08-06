@@ -21,12 +21,13 @@ import {
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useContext } from "react";
+import { API_BASE_URL as BASE, USER } from "../../config/host-config";
 import AuthContext from "../util/AuthContext";
 
 const Mypage = () => {
   const redirection = useNavigate();
   const token = localStorage.getItem("ACCESS_TOKEN");
-  const API_BASE_URL = "http://localhost:8181/api/user";
+  const API_BASE_URL = BASE + USER;
 
   const { setUserInfo } = useContext(AuthContext);
 

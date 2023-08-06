@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 // mui 아이콘 > 시작
-import HomeIcon from '@mui/icons-material/Home';
+import HomeIcon from "@mui/icons-material/Home";
 // mui 아이콘 > 끝!
 import userImg from "../../image/user.png";
+import { API_BASE_URL as BASE, SNS } from "../../config/host-config";
 import "./Sns.scss";
 
 const SnsUserDetail = () => {
@@ -15,6 +16,7 @@ const SnsUserDetail = () => {
   const [photo, setPhoto] = useState([]);
   const [userProfileImg, setUserProfileImg] = useState("");
   const localProfileImg = localStorage.getItem("USER_PROFILE_IMG");
+  const API_BASE_URL = BASE + SNS;
 
   useEffect(() => {
     if (!token) {
@@ -30,14 +32,11 @@ const SnsUserDetail = () => {
 
   const fetchPhoto = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:8181/api/sns/0?userNick=${writer}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(`${API_BASE_URL}/0?userNick=${writer}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setPhoto(response.data);
       console.log(response.data);
     } catch (error) {
@@ -56,11 +55,13 @@ const SnsUserDetail = () => {
   return (
     <div>
       <div className="sub-link sns-board-sub">
-        <Link to="/"><HomeIcon/></Link> <span> &gt; </span> 
-        <Link to="/snsBoard">농사일기</Link> <span> &gt; </span> 
+        <Link to="/">
+          <HomeIcon />
+        </Link>{" "}
+        <span> &gt; </span>
+        <Link to="/snsBoard">농사일기</Link> <span> &gt; </span>
         <span style={{ cursor: "pointer" }}> {writer}의 농사일기</span>
       </div>
-
       <div className="user-title">
         <img
           className="profileImg"
@@ -68,13 +69,11 @@ const SnsUserDetail = () => {
           alt="프로필 이미지"
         />
         <p className="user-nick">{writer}의 농사일기</p>
-      </div> {/* user-title */}
-
+      </div>{" "}
+      {/* user-title */}
       <div className="line" />
-
       <ul className="sns-detail-list">
-        {photo.snsList
-        .map((sns, index) => (
+        {photo.snsList.map((sns, index) => (
           <li className="sns-user-li" key={index}>
             <frame>
               <img src={sns.snsImgs} alt={`photo-${index}`} />
@@ -86,7 +85,8 @@ const SnsUserDetail = () => {
                 {sns.hashTags.map((tag, idx) => (
                   <p key={idx}>{tag}</p>
                 ))}
-              </div> {/* hachtag END */}
+              </div>{" "}
+              {/* hachtag END */}
               <em>{sns.regDate} 작성</em>
             </div>
           </li>
