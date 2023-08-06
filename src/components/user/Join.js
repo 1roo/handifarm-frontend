@@ -17,14 +17,14 @@ import {
   createTheme,
   ThemeProvider,
 } from "@mui/material";
-
+import { API_BASE_URL as BASE, USER } from "../../config/host-config";
 import { useNavigate } from "react-router-dom";
 
 const Join = () => {
   //리다이렉트 사용하기
   const redirection = useNavigate();
 
-  const API_BASE_URL = "http://localhost:8181/api/user";
+  const API_BASE_URL = BASE + USER;
 
   const [agreeChecked, setAgreeChecked] = useState(false);
 
@@ -185,18 +185,18 @@ const Join = () => {
   const nickHandler = (e) => {
     const inputValue = e.target.value;
     let flag = true;
-  
+
     // 입력값이 없을 때 userId 값을 userNick에 할당
     const updatedUserNick = inputValue ? inputValue : userValue.userId;
-  
-    if (inputValue === '관리자') {
+
+    if (inputValue === "관리자") {
       alert("관리자는 사용할 수 없는 닉네임입니다.");
     }
     setUserValue({
       ...userValue,
       userNick: updatedUserNick,
     });
-   
+
     saveInputState({
       key: "userNick",
       inputValue: updatedUserNick,
@@ -397,8 +397,8 @@ const Join = () => {
       const flag = correct[key];
       if (!flag) return false;
     }
-    if(userValue.userNick === '관리자') {
-      alert("관리자는 사용할 수 없는 닉네임입니다.")
+    if (userValue.userNick === "관리자") {
+      alert("관리자는 사용할 수 없는 닉네임입니다.");
       return false;
     }
     return true;

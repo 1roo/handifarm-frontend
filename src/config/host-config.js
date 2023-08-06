@@ -8,7 +8,7 @@ if (clientHostName === "localhost") {
   backEndHostName = "http://localhost:8181";
 } else if (clientHostName === "handifarm.com") {
   //배포해서 서비스 중
-  backEndHostName = "https://handifarm.com";
+  backEndHostName = "http://3.34.217.1";
 }
 
 export const API_BASE_URL = backEndHostName;

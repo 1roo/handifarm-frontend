@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { nanoid } from "nanoid";
 import { loadPaymentWidget } from "@tosspayments/payment-widget-sdk";
+import { API_BASE_URL as BASE } from "../../config/host-config";
 import { TOSS_KEY as clientKey } from "../../config/key-config";
 
 const selector = "#payment-widget";
@@ -56,8 +57,8 @@ const MarketPayment = (props) => {
         orderName: productName,
         customerName: customerName,
         customerEmail: "customer123@gmail.com",
-        successUrl: `${window.location.origin}/success?itemNo=${itemNo}&seller=${seller}&buyer=${buyer}`,
-        failUrl: `${window.location.origin}/fail`,
+        successUrl: `${BASE}/success?itemNo=${itemNo}&seller=${seller}&buyer=${buyer}`,
+        failUrl: `${BASE}/fail`,
       });
     } catch (error) {
       // handle error

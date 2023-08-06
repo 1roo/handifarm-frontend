@@ -3,14 +3,15 @@ import "./Sns.scss";
 import Modal from "react-modal";
 import SnsRegist from "./SnsRegist";
 import SnsDetail from "./SnsDetail";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 // mui 아이콘 > 시작
-import HomeIcon from '@mui/icons-material/Home';
+import HomeIcon from "@mui/icons-material/Home";
 // mui 아이콘 > 끝!
 import userImg from "../../image/user.png";
 import { Link, useNavigate } from "react-router-dom";
+import { API_BASE_URL as BASE, SNS } from "../../config/host-config";
 
-const API_URL = "http://localhost:8181/api/sns";
+const API_URL = BASE + SNS;
 
 const SnsList = () => {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -86,7 +87,10 @@ const SnsList = () => {
   return (
     <div>
       <div className="sub-link sns-board-sub">
-        <Link to="/"><HomeIcon/></Link> <span> &gt; </span> 
+        <Link to="/">
+          <HomeIcon />
+        </Link>{" "}
+        <span> &gt; </span>
         <Link to="/snsBoard">농사일기</Link>
       </div>
       <h2 className="menu-title">농사일기</h2>
@@ -127,7 +131,10 @@ const SnsList = () => {
                 <div key={imgIndex}>
                     <img src={img} alt={`photo-${index}-${imgIndex}`} />
                   <div className="sns-text">
-                    <span><AccountCircleIcon />{sns.writer}</span>
+                    <span>
+                      <AccountCircleIcon />
+                      {sns.writer}
+                    </span>
                     <p>{sns.content}</p>
                   </div>
                 </div>
