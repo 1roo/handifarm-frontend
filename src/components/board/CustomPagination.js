@@ -12,6 +12,7 @@ function CustomPagination({ currentPage, totalPages, color, onChange }) {
         color={color}
         showFirstButton
         showLastButton
+        className="pageChange-box"
       />
     </Stack>
   );
