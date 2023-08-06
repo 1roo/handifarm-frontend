@@ -61,8 +61,6 @@ function BoardRegist({ userNick }) {
 
   const contentHandler = (e) => {
     let inputValue = e.target.value;
-    inputValue = inputValue.replaceAll("\n", "<br>");
-    
     saveInputState({
       ...boardValue,
       key: "content",
