@@ -49,6 +49,7 @@ $main-green: #53A069;
 .search-input-box{ // List 검색 입력란&버튼 박스
     @include flex-center();
     
+    
     .searchBtn {
         @include green-btn;
         height: 100%;
@@ -85,9 +86,10 @@ table {
     }
 
 }
-.pageChange-box{
-    width: fit-content;
-    margin: 30px auto 0;
+
+.pageChange-box{ //글번호 박스
+    width: fit-content !important;
+    margin: 30px auto 0 !important;
 }
 
 textArea { //글 작성 텍스트에리어
@@ -145,9 +147,10 @@ textArea:focus {
 
     .regist-btn {
         @include green-btn;
-        height: 40px;
-        margin: 0 auto;
-        margin-top: 50px;
+        
+        height: 35px;
+        margin: 70px 30px 0 0;
+        position: absolute;
     }
 }
 
