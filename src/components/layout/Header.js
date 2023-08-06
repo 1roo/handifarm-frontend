@@ -1,11 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../image/logo.png';
 import logoSmall from '../../image/logo-small.png';
-import './header.css';
+import './Header.css';
+
+import { isLogin } from '../util/login-utils';
+import AuthContext from '../util/AuthContext';
 
 const Header = () => {
+
+  const redirection = useNavigate();
+
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  const {isLoggedIn, onLogout} = useContext(AuthContext);
+
+  //로그아웃 핸들러
+  const logoutHandler = e => {
+      // AuthContext의 onLogout 함수를 호출하여 로그인 상태를 업데이트합니다.
+      onLogout();
+      redirection('/login');
+  }
 
   useEffect(() => {
     const handleResize = () => {
@@ -31,12 +46,33 @@ const Header = () => {
           </Link>
         </div>
         <div className='button-container'>
-          <Link to='/login' className='button-link'>
-            로그인
-          </Link>
-          <Link to='/join' className='button-link'>
-            회원가입
-          </Link>
+        {isLogin () ?
+                                
+          (
+            <>
+              <Link to='/mypage' className='button-link'>
+              마이페이지
+              </Link>
+              <Link to='/' className='button-link'
+                  onClick={logoutHandler}>
+                  로그아웃
+              </Link>
+            </>
+          )
+          :
+          (
+              <>
+                  <Link to='/login' className='button-link'>
+                    로그인
+                  </Link>
+                  <Link to='/join' className='button-link'>
+                    회원가입
+                  </Link>
+              </>
+          )
+
+        }
+          
         </div>
       </div>
       <div className='gray-bar'></div>

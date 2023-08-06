@@ -1,3 +1,31 @@
+
+/* 임시로 가져온 폰트입니다! 추후에 바꿀 생각 매우 있을 有 */
+@font-face {
+  font-family: 'SUITE-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+body{ font-family: 'SUITE-Regular' !important; } /* 글씨체 지정 */
+
+.container{ /* 컨테이너 설정 */
+  min-width: 1280px;
+  /* min-width: 750px; */
+  width: 80%;
+}
+a{
+  all: unset;
+  cursor: pointer;
+}
+
+
+
 .App {
   text-align: center;
 }
@@ -35,4 +63,42 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* 헤더 밑 좌측 서브링크 */
+.sub-link{
+  color: gray;
+  position: absolute;
+  margin-top: -80px;
+  margin-left: 30px;
+}
+.sub-link svg{
+  padding-bottom: 2px;
+  margin-bottom: 2.5px;
+}
+.sub-link.sns-board-sub{
+  color: gray;
+  position: absolute;
+  margin-top: 20px;
+  margin-left: 30px;
+}
+
+
+/* 로딩창 */
+#loading {
+  background-color: rgb(249, 249, 249);
+  width: 100vw;
+  height: 100vh;
+}
+#loading.small {
+  position: absolute;
+  background-color: rgba(249, 249, 249, 0.6);
+}
+#loading img{
+  position:absolute; 
+  width: 300px; height: 300px;
+  top:50%; left:50%; transform: translate(-50%, -50%);
+}
+#loading.small img{
+  top: 38%;
 }

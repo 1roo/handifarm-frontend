@@ -1,6 +1,6 @@
 .inner-header {
     position: relative;
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
   }
   
@@ -27,12 +27,13 @@
   
   .button-container {
     position: absolute;
-    top: 40px;
+    top: 35px;
     right: 0;
   }
   
-  .button-link {
-    margin-right: 10px;
+  .button-container .button-link {
+    margin-right: 10px !important;
+    font-size: 20px !important;
   }
 
   .gray-bar {

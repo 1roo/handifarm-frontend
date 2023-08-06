@@ -1,0 +1,277 @@
+$main-green: #53A069;
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+};
+@mixin title-font { /* 타이틀 문구 미리 지정 */
+    font-size: 22px;
+    font-weight: 700;
+}
+
+
+a{
+    all: unset !important;
+    cursor: pointer !important;
+    text-decoration: none !important;
+}
+
+
+
+// 날씨 알림창 (weather-box)
+section.weather-box{
+    margin: 50px auto 0;
+    width: 1120px;
+    display: flex;
+    background-color: rgb(241, 241, 241);
+    justify-content: space-evenly;
+    padding: 17px 0;
+
+    .title{
+        flex-grow: 2;
+        @include flex-center;
+        @include title-font()
+    }
+
+    .weather{
+        flex-grow: 2;
+        border-left: 1px solid darkgray;
+        @include flex-center;
+
+        .day{
+            h3{
+                font-size: 22px;
+                font-weight: 600;
+                display: inline;
+            }
+            span{
+                margin-left: 8px;
+                color: gray;
+            }
+        } 
+        .icon{
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+
+            
+            i{
+                color: #555555;
+                scale: 1.4; 
+                margin: 0 18px 0 10px;
+                mix-blend-mode: multiply;
+                img{ width: 30px; }
+            }
+        }
+        .temp{
+            margin-left: 15px;
+            border-radius: 10px;
+            border: 1px solid darkgray;
+            padding: 8px 13px;
+            font-size: 18px;
+
+            span:first-child{ color: blue; }
+            span:last-child{ color: red; }
+            hr{ margin: 4px 0; }
+        }
+    }
+} // 날씨 weather-box END
+
+
+
+// 오늘의 정보 진입 -> 날짜정보
+section.info-box.weather{
+    // background-color: lightcoral;
+    margin: 50px auto 0;
+    width: 100%;
+    
+    h1.title{
+        width: 68%;
+        margin: 0 auto;
+        font-size: 2em;
+    }
+
+    //위치 선택 기능
+    .location-tap{
+        margin: 20px auto 0;
+        width: 70%;
+        @include flex-center();
+        
+        .title{ 
+            margin-top: 2px;
+            min-width: 80px; 
+            font-weight: 900; 
+            font-size: 1.1em;
+            svg{ font-size: 1.8em; margin-bottom: 3px;}
+        }
+        #searchBtn{ 
+            width: 50px; height: 43px;
+            svg{ font-size: 1.6em; }
+        }
+    } // location-tap END
+
+    //날씨 출력 화면
+    .weather-screens{
+        margin: 20px auto;
+        width: 60%;
+        min-width: 305px; max-width: 800px;
+
+        h3.search-complete{ //검색이 완료되었습니다!
+            font-style: italic; font-weight: 600;
+            color: #95b178;
+            opacity: 0;
+            margin: 0 auto 40px;
+
+            background-color: #eeeeee;
+            width: fit-content;
+            border-radius: 10px;
+            padding: 5px 30px 5px 120px;
+            transition: 0.2s;
+        }
+        
+
+        .today{
+            margin: 0 auto;
+            width: 100%;
+            @include flex-center();
+
+            .text{
+                flex: 1;
+                min-width: 105px;
+                margin-left: 15%;
+                font-family: 'Pretendard-Regular';
+
+                h6.place{
+                    color: brown;
+                    font-size: 1em;
+                    font-weight: 600;
+                    svg{
+                        font-weight: 300; 
+                        margin-bottom: 3px;
+                    } 
+                }
+                h4.temp-on{ 
+                    margin-top: 5px;
+                    font-weight: 800;
+                    font-size: 3.2em;
+                }
+                h5{
+                    margin: 20px 0 0 5px;
+
+                    color: cornflowerblue;
+                    font-family: 'SUITE-Regular';
+                    font-size: 1.3em;
+                    font-weight: 600;
+                    .h5-sv{
+                        font-size: 16px;
+                        font-weight: 400;
+                        color:darkGray;
+                        line-height: 2;
+                    }
+                }
+
+                .wrn-export{
+                    
+                    margin-left: -10px;
+                    font-family: 'SUITE-Regular';
+                    margin-top: 30px;
+                    font-size: 0.9em;
+                    opacity: 0;
+
+                    .wrnIcon{
+                        color: brown;
+                        margin-right: 3px;
+                    }
+                    #wrn-text{ //특보 메시지
+                        display: inline;
+                        opacity: 0;
+                        color: gray;
+                        
+                        .wrnText{
+                            color: rgb(199, 106, 106);
+                            font-weight: 600;
+                        }
+    
+                    }
+                }
+
+            }
+            .icon{
+                flex: 1;
+                width: 200px;
+                img{
+                    width: 100%;
+                }
+                svg{ 
+                    width: 100%;
+                    margin: 0 auto;
+                    font-size: 200px;
+                    color: skyblue;
+                }
+            }
+        } // .today END
+
+        .D1-D2{
+            margin-top: 60px;
+
+            .D1, .D2{
+                margin: 25px auto;
+                padding: 7px 20px 5px;
+                
+                border-radius: 30px;
+                background-color: white;
+                box-shadow: 2px 2px 6px rgba($color: #000000, $alpha: 0.4);
+
+                display: flex;
+                align-items: center;
+
+                p{ margin: 0 5px; }
+
+                .Num-date{
+                    flex: 1;
+                    color: darkgray;
+                }
+                .kor-date{
+                    flex: 4;
+                    color: gray;
+                    font-weight: 700;
+                    font-size: 1.1em;
+                    padding-top: 2px;
+                }
+                .icon-date{
+                    flex: 1;
+                    color: $main-green;
+                    text-align: right;
+                    
+                    display: flex;
+                    justify-content: center;
+                    
+                    mix-blend-mode: multiply;
+                    img{ width: 70%; }
+                    img:nth-child(1){margin-right: 10px;}
+                }   
+                .text-date{
+                    flex: 2;
+                    color: #717171;
+                    text-align: right;
+                    // span:first-child{color: rgb(146, 39, 39);}
+                    // span:last-child{color: rgb(36, 36, 156);}
+                }
+            }
+        } // .D1-D2 END
+    }
+
+
+
+
+
+
+
+
+}
+
+
+
+
+

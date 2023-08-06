@@ -1,0 +1,363 @@
+$main-green: #53A069;
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+};
+@mixin title-font { /* 타이틀 문구 미리 지정 */
+    font-size: 22px;
+    font-weight: 700;
+}
+
+
+a{
+    all: unset !important;
+    cursor: pointer !important;
+    text-decoration: none !important;
+}
+
+h1{
+    margin: 100px 0 0 80px;
+    font-size: 28px;
+}
+hr.h1-bottom{
+    margin: 10px 0 50px 70px;
+    width: 90%;
+}
+
+// MarketList START
+.container.market{
+    display: block;
+    
+    margin: 50px auto;
+    width: 100%; 
+    h1{ font-weight: 900; margin-bottom: 20;}
+
+
+    .searchVar{
+
+        background-color: $main-green;
+        margin: 20px auto 80px;
+        width: 100%;
+        height: 32px;
+
+        font-size: 20px;
+        font-weight: 500;
+        line-height: 30px;
+        text-align: right;
+        padding: 2px 100px 2px 0;
+
+        color: white;
+
+        .done-btn{
+            cursor: pointer;
+            margin-right: 5px;
+            svg{
+                margin-bottom: 5px;
+                font-size: 1.3em;
+            }
+        }
+    }
+
+    .market-list{
+        margin: 0 auto;
+        min-width: min-content;
+        width: 1160px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+
+        //각 물품에 적용되는 속성은 MarketBody.scss에서 처리함.
+    }
+
+}
+    
+.more-btn{ //더보기 버튼
+    @include flex-center();
+    font-family: 'SUITE-Regular';
+    width: 80%;
+    padding: 10px 20px;
+    background-color: rgba($color: rgb(231, 231, 231), $alpha: 0.7); 
+    box-shadow: 2px 2px 7px rgba($color: #8a8a8a, $alpha: 0.5);
+    
+    margin: 20px auto 50px;
+}
+.link-box{
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    svg{margin-right: 5px;}
+}
+
+// MarketList END
+
+
+
+// MarketRegist START
+.container.market-regist{
+
+    .write{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+        min-height: 500px;
+        width: 90%;
+        
+        .MuiButton-root{ display: block;}
+        .write-image{
+            width: 500px;
+            height: fit-content;
+            background-color: rgb(240, 240, 240);
+            &.modify-image{ background-color: white;}
+            border-radius: 5px;
+            margin-left: 50px;
+            cursor: pointer;
+            position: relative;
+
+            .add-file{
+                @include flex-center();
+                overflow: hidden;
+                width: 100%;
+                max-height: 500px;
+                img{ width: 100%;}
+            }
+            .image-change-help{
+                position: absolute;
+                text-align: center;
+                top: 100%; left: 50%;
+                transform: translate(-50%, 50%);
+                color: darkgray;
+                width: 330px;
+                
+            }
+        }
+        .write-content{
+            margin-right: 50px;
+            margin-left: 30px;
+            
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 85%;
+            
+
+            .answer-content{ //각각 input 박스 조절
+                display: flex;
+                justify-content: left;
+                align-items: flex-start;
+                font-size: 20px;
+                margin-bottom: 10px;
+                width: 100%;
+
+                &:nth-child(3){ //상품설명 박스
+                    align-items: center;
+                    .list-title{ margin-top: -30px; } //위치 맞추기
+                }
+                
+                .list-title{ //소제목
+                    margin-right: 22px;
+                    width: 90px;
+                    text-align: end;
+                    font-weight: 700;
+                    margin-top: 5px;
+                }
+                .answer-box{ //입력 박스          
+                    font-family: 'SUITE-Regular';
+                    width: 95%;
+                    font-size: 1.2em;
+                    letter-spacing: 0.05em; 
+
+                    &[disabled]{ 
+                        background-color: rgb(185, 185, 185);
+                        border-top-left-radius: 7px;
+                        border-top-right-radius: 7px;
+                        padding-top: 7px;
+                    }
+                    input{
+                        text-indent: 3px;
+                    }
+                }
+            } // 박스 잡기 END   
+        } // .write-content END
+    } // .write END
+    
+    .btn-center{
+        @include flex-center();
+        margin-top: 70px;
+        
+        #regist-btn{ //등록하기 버튼
+            font-family: 'SUITE-Regular';
+            font-weight: 600;
+            margin-left: 40px;
+            width: 120px;
+        }
+        .return-btn{
+            background-color: lightgray !important;
+            color: black;
+            font-family: 'SUITE-Regular';
+            font-weight: 600;
+            width: 120px;
+        }
+    }
+}
+// MarketRegist END
+
+
+
+// MarketDetail START
+.container.market-detail{
+    width: 100%;
+    margin-top: 100px;
+
+    .detail-header{
+        
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        height: fit-content;
+
+        .link-box{
+            border: 1px solid rgb(138, 138, 138);
+            border-radius: 5px;
+            width: fit-content;
+            margin-right: 65px;
+            font-family: 'SUITE-Regular' !important;
+        }
+        h1{ margin: 0 0 0 80px; }
+    }
+
+    .content{
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        width: 100%;
+
+        .content-img{ //상품 이미지
+            width: 500px;
+            article{
+                min-width: 360px;
+                width: 400px;
+                height: 500px;
+                border-radius: 5px;
+                margin: 0 auto;
+                overflow: hidden;
+                @include flex-center();
+    
+                img{ 
+                    height: 100%;
+                    object-fit: cover; 
+                }
+            }
+        }
+        .content-content{
+            // margin-left: 50px;
+            min-width: 50%;
+            width: 500px;
+
+            .green-btn[disabled]{ //판매 여부 표기
+                font-weight: 500;
+                height: fit-content;
+                padding: 0 15px;
+                color: white;
+                font-family: 'SUITE-Regular';
+
+                &.red{ background-color: orangered !important;}
+            }
+
+            .title{ //상품명, 등록일
+                margin-top: 15px;
+                width: 85%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                strong{
+                    font-weight: 900;
+                    font-size: 1.8em;
+                }
+                span{ 
+                    color: darkgray;
+                    margin-right: 20px;
+                    font-size: 14px;
+                    font-weight: 600;
+                }
+            }
+            .score{ //별점
+                display: flex;
+                align-items: center;
+                margin-top: 8px;
+                span{
+                    span{ //별이 다섯개~~
+                        @include flex-center();
+                        scale: 1.08;
+                    }
+                }
+                em{
+                    margin-left: 10px;
+                    color: blue;
+                    text-decoration: underline;
+                }
+            }
+            .from{ //판매자 & 원산지
+                line-height: 1.4em;
+                margin-top: 30px;
+                color: gray;
+                text-indent: 10px;
+            }
+            .text{ //상품설명
+                margin-top: 10px;
+                margin-left: 5px;
+                background-color: rgb(241, 241, 241);
+                max-width: 85%;
+
+                p{
+                    width: 100%;
+                    padding: 15px 17px;
+                    em{
+                        height: fit-content;
+                        color: gray;
+                        font-size: 1.1em;
+                    }
+                    span{ //등록일
+                        margin-top: 10px;
+                        display: block;
+                        text-align: end;
+                    }
+                }
+            }
+            .price{ //가격
+                margin-top: 50px;
+                line-height: 1.7em;
+                strong{
+                    font-size: 1.7em;
+                    font-weight: 900;
+                }
+                p{
+                    color: red;
+                }
+            }
+            
+            .btn-center{
+                width: 85%;
+                @include flex-center();
+                .buttons{ //등록하기 버튼
+                    font-size: 17px !important;
+                    width: 150px;
+                    height: fit-content;
+                    margin: 40px 15px 0;
+                    padding: 10px 0 6px 10px;
+                    font-weight: 400;
+                }
+                #buy-btn{
+                    width: 130px;
+                }
+            }
+        }
+    }
+
+}
+
+// MarketDetail END
+
+
