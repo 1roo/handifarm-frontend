@@ -15,7 +15,6 @@ const SnsUserDetail = () => {
   const { writer } = useParams();
   const [photo, setPhoto] = useState([]);
   const [userProfileImg, setUserProfileImg] = useState("");
-  const localProfileImg = localStorage.getItem("USER_PROFILE_IMG");
   const API_BASE_URL = BASE + SNS;
 
   useEffect(() => {
@@ -24,8 +23,6 @@ const SnsUserDetail = () => {
       alert("로그인이 필요한 서비스입니다.");
       navigate("/login");
     }
-
-    setUserProfileImg(localProfileImg);
 
     fetchPhoto();
   }, [token, writer]);
@@ -38,6 +35,7 @@ const SnsUserDetail = () => {
         },
       });
       setPhoto(response.data);
+      setUserProfileImg(response.data.profileImg);
       console.log(response.data);
     } catch (error) {
       console.error("게시물 데이터를 불러오는데 실패했습니다.", error);
@@ -49,8 +47,6 @@ const SnsUserDetail = () => {
   if (!photo || photo.length === 0) {
     return <div>해당 사진을 찾을 수 없습니다.</div>;
   }
-
-  console.log(typeof userProfileImg);
 
   return (
     <div>
