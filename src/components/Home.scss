@@ -166,7 +166,9 @@ section.small-snsBoard{
             // &:last-of-type{ width: 220px; height: 220px; }
 
             .carousel-img{
-                height: 250px; width: 100%;
+                height: 250px; width: 250px;
+                border-radius: 3px;
+                object-fit: cover;
                 background-color: aqua;
             }
 

@@ -9,7 +9,7 @@ import { TextField } from "@mui/material";
 const SnsRegist = ({ onRequestClose }) => {
   const [content, setContent] = useState("");
   const [hashTags, setHashTags] = useState([]);
-  const [imageFile, setImageFile] = useState(null); // 단일 이미지 파일 상태
+  const [imageFile, setImageFile] = useState(); // 단일 이미지 파일 상태
   const [imagePreview, setImagePreview] = useState(null); // 이미지 미리보기를 위한 상태
 
   const API_BASE_URL = `${BASE}${SNS}`;
@@ -27,7 +27,6 @@ const SnsRegist = ({ onRequestClose }) => {
     e.preventDefault();
 
     try {
-      // 이미지가 없을 때 빈 배열로 설정
       const formData = new FormData();
       formData.append("content", content);
       hashTags.forEach((tag) => formData.append("hashTags", tag));
@@ -62,9 +61,12 @@ const SnsRegist = ({ onRequestClose }) => {
 
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];
-    setImageFile(file);
-    const imageUrl = URL.createObjectURL(file);
-    setImagePreview(imageUrl);
+    
+    if(file){ 
+      setImageFile(file);
+      const imageUrl = URL.createObjectURL(file);
+      setImagePreview(imageUrl);
+    }
   };
 
   return (

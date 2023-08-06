@@ -12,7 +12,7 @@ import { ENCODING_KEY, WMCODE_KEY } from '../../config/key-config';
 import { loadingPage, loadingSmallPage } from "../util/Loading-util";
 
 
-const Weather = ({temp, sky}) => {
+const Weather = ({temp, sky, placeNum}) => {
 
   // console.log('props로 들어온 값: ', temp,'     ',  sky);
 
@@ -24,6 +24,12 @@ const Weather = ({temp, sky}) => {
 
   const weatherIcon = [<WbSunnySharpIcon />, <WbCloudyIcon />, <UmbrellaIcon />, <AcUnitIcon />];
   const weatherImage = ['weatherIcons_sun.gif', 'weatherIcons_cloud.gif', 'weatherIcons_rain.gif', 'weatherIcons_snow.gif'];
+  const placeName = [ //목록 등록
+    '강릉', '광주', '대구', '대전', '목포'
+    , '부산', '서울', '수원', '안동', '여수'
+    , '울릉', '울산', '전주', '제주', '천주'
+    , '춘천'
+  ]
 
 
   //날짜 정보 구하기
@@ -51,7 +57,7 @@ const Weather = ({temp, sky}) => {
     <>
     {/* { loading ? loadingPage :  */}
     <section className='weather-box'>
-        <div className='title'><h2>서울<br/>날씨</h2></div>
+        <div className='title'><h2>{placeName[placeNum-1]}<br/>날씨</h2></div>
 
         <div className='weather D0'>
           <div>
