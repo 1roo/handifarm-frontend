@@ -35,8 +35,11 @@ const SnsUserDetail = () => {
         },
       });
       setPhoto(response.data);
-      setUserProfileImg(response.data.profileImg);
+      if(response.data.profileImg === null) setUserProfileImg(userImg);
+      else setUserProfileImg(response.data.profileImg);
       console.log(response.data);
+      console.log(userProfileImg);
+      console.log(typeof userProfileImg);
     } catch (error) {
       console.error("게시물 데이터를 불러오는데 실패했습니다.", error);
 
@@ -61,7 +64,7 @@ const SnsUserDetail = () => {
       <div className="user-title">
         <img
           className="profileImg"
-          src={userProfileImg !== "null" ? userProfileImg : userImg}
+          src={!userProfileImg || userProfileImg !== "" || userProfileImg !== "null" ? userProfileImg : userImg}
           alt="프로필 이미지"
         />
         <p className="user-nick">{writer}의 농사일기</p>
