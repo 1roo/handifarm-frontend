@@ -280,6 +280,7 @@ function BoardList() {
               totalPages={data.totalPages}
               color="primary"
               onChange={handlePageChange}
+              className="pageChange-box"
             />
           </Stack>
         </Grid>
