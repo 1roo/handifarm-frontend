@@ -1,8 +1,7 @@
 
 h1.payment-title{
-  font-size: 16px;
   font-weight: 700;
-  margin-bottom: 30px;
+  margin-bottom: 30px !important;
 }
 
 
@@ -24,7 +23,11 @@ h1.payment-title{
 }
 
 .payment-result{ //결제 성공or실패 시 컨테이너
-  h1{ margin-bottom: 40px;}
+  h1.payment-title { 
+    font-weight: 700 !important;
+    margin: 60px auto 40px !important;
+    text-align: center;
+  }
   .result-box{
     display: flex;
     justify-content: center;
@@ -34,17 +37,17 @@ h1.payment-title{
     width: fit-content;
     min-width: 300px;
 
-    border-radius: 5px;
+    border-radius: 10px;
     box-shadow: 2px 2px 11px rgb(197, 197, 197);
     
-    padding: 15px 20px;
-    margin: 0 auto;
+    padding: 40px 50px;
+    margin: 0 auto 30px;
     .result-text{ 
       margin: 10px 0;
       font-size: 1.2em;
       font-weight: 600;
     }
-    div{ margin: 5px 0; } 
+    div{ margin: 10px 0; } 
   }
   .link-box{ //마켓으로 돌아가기 버튼
     width: fit-content;
