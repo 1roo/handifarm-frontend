@@ -72,8 +72,8 @@ const MarketPayment = (props) => {
     <div className="container payment">
       <h1 className="payment-title">주문서</h1>
       <div className="product-info">
-        <span>상품명: {productName}</span> / 
-        <span>{`${price.toLocaleString()}원`}</span>
+        <span>상품명: {productName}</span>&nbsp;/&nbsp;
+        <span>가격: {`${price.toLocaleString()}원`}</span>
       </div>
       <div>
         <label>
@@ -85,12 +85,16 @@ const MarketPayment = (props) => {
               );
             }}
           />
-           &nbsp;&nbsp;5,000원 할인 쿠폰 적용
+          &nbsp;&nbsp;5,000원 할인 쿠폰 적용
         </label>
       </div>
       <div id="payment-widget" />
-      <div className="link-box" >
-        <Button className="write-link-btn" variant="success" onClick={handleBuyBtnClick}>
+      <div className="link-box">
+        <Button
+          className="write-link-btn"
+          variant="success"
+          onClick={handleBuyBtnClick}
+        >
           결제하기
         </Button>
       </div>
