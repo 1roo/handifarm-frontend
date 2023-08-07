@@ -1,0 +1,26 @@
+
+h1{
+  font-size: 16px;
+}
+
+
+.payment{ //결제 진행 중 컨테이너
+  .product-info{
+    margin-top: 30px;
+    margin-left: 50px;
+
+  }
+  .green-btn{
+    margin: 0 auto;
+    width: fit-content;
+    margin-top: 20px;
+  }
+
+}
+
+.payment-suc{ //결제 성공시 컨테이너
+  
+}
+.payment-fail{ //결제 실패시 컨테이너
+
+}

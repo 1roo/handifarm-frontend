@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
+import "./Payment.scss";
+import "../.././Custom.scss";
 import { useLocation } from "react-router-dom";
 import { nanoid } from "nanoid";
 import { loadPaymentWidget } from "@tosspayments/payment-widget-sdk";
@@ -66,10 +68,12 @@ const MarketPayment = (props) => {
   };
 
   return (
-    <div>
+    <div className="container payment">
       <h1>주문서</h1>
-      <span>상품명: {productName}</span>
-      <span>{`${price.toLocaleString()}원`}</span>
+      <div className="product-info">
+        <span>상품명: {productName}</span> / 
+        <span>{`${price.toLocaleString()}원`}</span>
+      </div>
       <div>
         <label>
           <input
@@ -80,11 +84,11 @@ const MarketPayment = (props) => {
               );
             }}
           />
-          5,000원 할인 쿠폰 적용
+           &nbsp;&nbsp;5,000원 할인 쿠폰 적용
         </label>
       </div>
       <div id="payment-widget" />
-      <button onClick={handleBuyBtnClick}>결제하기</button>
+      <button onClick={handleBuyBtnClick} className="green-btn center buttons">결제하기</button>
     </div>
   );
 };
