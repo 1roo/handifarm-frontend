@@ -8,6 +8,7 @@ const BoardReply = ({ boardNo, onReplySubmitted }) => {
   const API_BASE_URL = `${BASE}${BOARD}/${boardNo}/boardReply`;
   const redirection = useNavigate();
   const token = localStorage.getItem("ACCESS_TOKEN");
+  const userNick = localStorage.getItem("USER_NICK");
 
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
@@ -45,7 +46,7 @@ const BoardReply = ({ boardNo, onReplySubmitted }) => {
     const requestData = {
       reply: replyValues[boardNo] ? replyValues[boardNo].reply : "",
       boardNo: boardNo,
-      userNick: localStorage.getItem("USER_NICK"),
+      userNick: userNick,
     };
 
     fetch(API_BASE_URL, {
@@ -203,6 +204,7 @@ const BoardReply = ({ boardNo, onReplySubmitted }) => {
                     <span className="reg-time">{reply.updateDate}</span>
                   </div>
 
+                  {userNick === reply.userNick &&
                   <div>
                     <button
                       className="reply-save-btn"
@@ -216,7 +218,8 @@ const BoardReply = ({ boardNo, onReplySubmitted }) => {
                     >
                       취소
                     </button>
-                  </div> 
+                  </div>
+                  }
                 </div> {/* reply-info-top END */}
 
                   <div className="reply-content margin-div">
@@ -245,6 +248,7 @@ const BoardReply = ({ boardNo, onReplySubmitted }) => {
                     </span>
                   </div>
 
+                  {userNick === reply.userNick &&
                   <div>
                     <button
                       className="reply-edit-btn"
@@ -259,6 +263,7 @@ const BoardReply = ({ boardNo, onReplySubmitted }) => {
                       삭제
                     </button>
                   </div>
+                  }
                 </div>
 
                 <div className="reply-content">

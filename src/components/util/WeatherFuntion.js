@@ -3,9 +3,9 @@ import { ENCODING_KEY } from '../../config/key-config';
 let weatherData = {};
 
 // 오늘의 정보 -> 날짜 정보 구하기 
-function getDate(plusDay) {
+function getDate(plusDay, baseDate) {
 
-  const today = new Date();
+  const today = baseDate || new Date();
   today.setDate(today.getDate() + plusDay); //오늘, 내일, 모레 여부
 
   const year = today.getFullYear();
