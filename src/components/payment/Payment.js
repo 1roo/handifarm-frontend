@@ -6,6 +6,7 @@ import { nanoid } from "nanoid";
 import { loadPaymentWidget } from "@tosspayments/payment-widget-sdk";
 import { API_BASE_URL as BASE } from "../../config/host-config";
 import { TOSS_KEY as clientKey } from "../../config/key-config";
+import { Button } from "react-bootstrap";
 
 const selector = "#payment-widget";
 const customerKey = "YbX2HuSlsC9uVJW6NMRMj";
@@ -88,7 +89,11 @@ const MarketPayment = (props) => {
         </label>
       </div>
       <div id="payment-widget" />
-      <button onClick={handleBuyBtnClick} className="green-btn center buttons">결제하기</button>
+      <div className="link-box" >
+        <Button className="write-link-btn" variant="success" onClick={handleBuyBtnClick}>
+          결제하기
+        </Button>
+      </div>
     </div>
   );
 };

@@ -96,13 +96,17 @@ export function PaymentSuccess() {
   }
 
   return (
-    <div className="container payment-suc">
+    <div className="container payment-result res-suc">
       <h1>결제 성공</h1>
-      <div>{`주문 아이디: ${orderId}`}</div>
-      <div>{`결제 금액: ${amount.toLocaleString()}원`}</div>
-      <div>{`구매자: ${buyer}`}</div>
-      <div>{`판매자: ${seller}`}</div>
-      <div>{paymentData.orderName}</div>
+      <div className="result-box">
+        <div className="result-text">거래가 완료되었습니다.</div>
+        <div>{`주문 아이디: ${orderId}`}</div>
+        <div>{`결제 금액: ${amount.toLocaleString()}원`}</div>
+        <div>{`구매자: ${buyer}`}</div>
+        <div>{`판매자: ${seller}`}</div>
+        <div>{`거래 물품: ${paymentData.orderName}`}</div>
+      </div>
+      <Link to="/market" className="link-btn" > 목록으로 돌아가기 </Link>
     </div>
   );
 }
