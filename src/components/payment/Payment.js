@@ -70,7 +70,7 @@ const MarketPayment = (props) => {
 
   return (
     <div className="container payment">
-      <h1>주문서</h1>
+      <h1 className="payment-title">주문서</h1>
       <div className="product-info">
         <span>상품명: {productName}</span> / 
         <span>{`${price.toLocaleString()}원`}</span>
