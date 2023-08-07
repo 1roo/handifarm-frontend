@@ -1,5 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import "./Payment.scss";
+import "../.././Custom.scss";
 import { useSearchParams } from "react-router-dom";
 import { TOSS_SECRET_KEY as secretKey } from "../../config/key-config";
 import { API_BASE_URL } from "../../config/host-config";
@@ -94,7 +96,7 @@ export function PaymentSuccess() {
   }
 
   return (
-    <div>
+    <div className="container payment-suc">
       <h1>결제 성공</h1>
       <div>{`주문 아이디: ${orderId}`}</div>
       <div>{`결제 금액: ${amount.toLocaleString()}원`}</div>
