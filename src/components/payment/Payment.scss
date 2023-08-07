@@ -1,26 +1,56 @@
 
 h1{
   font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 30px;
 }
 
 
 .payment{ //결제 진행 중 컨테이너
   .product-info{
-    margin-top: 30px;
     margin-left: 50px;
-
   }
-  .green-btn{
-    margin: 0 auto;
+  label{
+    margin-top: 10px;
+    margin-left: 50px;
+  }
+  .link-box{
+    margin: 20px auto 0;
+    border: 1px solid rgb(138, 138, 138);
+    border-radius: 5px;
     width: fit-content;
-    margin-top: 20px;
+    font-family: 'SUITE-Regular' !important;
+    & > { color: white; }
   }
-
 }
 
-.payment-suc{ //결제 성공시 컨테이너
-  
-}
-.payment-fail{ //결제 실패시 컨테이너
+.payment-result{ //결제 성공or실패 시 컨테이너
+  h1{ margin-bottom: 40px;}
+  .result-box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
 
+    border-radius: 5px;
+    box-shadow: 2px 2px 11px rgb(197, 197, 197);
+    
+    padding: 15px;
+    margin: 0 auto;
+    .result-text{
+      margin: 10px 0;
+      font-size: 1.2em;
+      font-weight: 600;
+    }
+    div{
+      margin: 5px 0;
+    } 
+  }
+  .link-btn{
+    margin-top: 30px auto 0;
+    width: fit-content;
+    padding: 2px 5px;
+    border-radius: 5px;
+    border: 1px solid gray;
+  }
 }
