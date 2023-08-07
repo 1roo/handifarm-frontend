@@ -148,7 +148,7 @@ function BoardRegist() {
             <TextField
               placeholder="제목"
               variant="outlined"
-              value={title || board?.title}
+              value={title}
               onChange={handleTitleChange}
             />
           </Grid>
@@ -163,10 +163,7 @@ function BoardRegist() {
             justifyContent: "center",
           }}
         >
-          <textarea
-            value={content || board?.content}
-            onChange={handleContentChange}
-          ></textarea>
+          <textarea value={content} onChange={handleContentChange}></textarea>
         </FormControl>
         <Container
           component="main"
