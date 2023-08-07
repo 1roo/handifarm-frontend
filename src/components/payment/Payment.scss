@@ -1,5 +1,5 @@
 
-h1{
+h1.payment-title{
   font-size: 16px;
   font-weight: 700;
   margin-bottom: 30px;
@@ -16,7 +16,6 @@ h1{
   }
   .link-box{
     margin: 20px auto 0;
-    border: 1px solid rgb(138, 138, 138);
     border-radius: 5px;
     width: fit-content;
     font-family: 'SUITE-Regular' !important;
@@ -32,25 +31,27 @@ h1{
     align-items: center;
     flex-flow: column;
 
+    width: fit-content;
+    min-width: 300px;
+
     border-radius: 5px;
     box-shadow: 2px 2px 11px rgb(197, 197, 197);
     
-    padding: 15px;
+    padding: 15px 20px;
     margin: 0 auto;
-    .result-text{
+    .result-text{ 
       margin: 10px 0;
       font-size: 1.2em;
       font-weight: 600;
     }
-    div{
-      margin: 5px 0;
-    } 
+    div{ margin: 5px 0; } 
   }
-  .link-btn{
-    margin-top: 30px auto 0;
+  .link-box{ //마켓으로 돌아가기 버튼
     width: fit-content;
-    padding: 2px 5px;
+    border: 1px solid rgb(138, 138, 138);
     border-radius: 5px;
-    border: 1px solid gray;
+    margin: 30px auto 0;
+    padding: 2px 5px;
+    font-family: 'SUITE-Regular' !important;
   }
 }

@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import "./Payment.scss";
 import "../.././Custom.scss";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { TOSS_SECRET_KEY as secretKey } from "../../config/key-config";
 import { API_BASE_URL } from "../../config/host-config";
 import { getLoginUserInfo } from "../util/login-utils";
@@ -97,7 +97,7 @@ export function PaymentSuccess() {
 
   return (
     <div className="container payment-result res-suc">
-      <h1>결제 성공</h1>
+      <h1 className="payment-title">결제 성공</h1>
       <div className="result-box">
         <div className="result-text">거래가 완료되었습니다.</div>
         <div>{`주문 아이디: ${orderId}`}</div>
@@ -106,7 +106,13 @@ export function PaymentSuccess() {
         <div>{`판매자: ${seller}`}</div>
         <div>{`거래 물품: ${paymentData.orderName}`}</div>
       </div>
-      <Link to="/market" className="link-btn" > 목록으로 돌아가기 </Link>
+      <div className="link-box"> 
+        <Link to="/market">
+          <Button className="market-link-btn" variant="success" style={{ fontFamily: 'SUITE-Regular',}}>
+            마켓장터로 돌아가기
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 }
